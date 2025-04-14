@@ -1,0 +1,27 @@
+<h2>Login</h2>
+<h2 class="mb-4">Iniciar sesión</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+  <div class="mb-3">
+    <label for="username" class="form-label">Nombre de usuario</label>
+    <input
+      type="text"
+      id="username"
+      formControlName="username"
+      class="form-control"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      class="form-control"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</form>
+

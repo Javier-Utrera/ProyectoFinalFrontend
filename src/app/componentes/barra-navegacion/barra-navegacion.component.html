@@ -1,0 +1,12 @@
+<nav>
+    <h1>BookRoom</h1>
+
+    <div>
+        @if (!estaAutenticado) {
+            <button class="btn btn-outline-primary" [routerLink]="['/login']">Iniciar sesión</button>
+            <button class="btn btn-outline-secondary" [routerLink]="['/registro']">Registrarse</button>
+        } @else {
+        <button (click)="cerrarSesion()">Cerrar sesión</button>
+        }
+    </div>
+</nav>
