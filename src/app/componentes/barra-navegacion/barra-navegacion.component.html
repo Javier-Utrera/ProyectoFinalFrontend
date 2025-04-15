@@ -4,9 +4,11 @@
     <div>
         @if (!estaAutenticado) {
             <button class="btn btn-outline-primary" [routerLink]="['/login']">Iniciar sesión</button>
-            <button class="btn btn-outline-secondary" [routerLink]="['/registro']">Registrarse</button>
+            <button class="btn btn-outline-secondary" [routerLink]="['/registro']">Registrarse</button>            
         } @else {
         <button (click)="cerrarSesion()">Cerrar sesión</button>
+        <button class="btn btn-outline-secondary" [routerLink]="['/perfil']">Perfil</button>
         }
+
     </div>
 </nav>

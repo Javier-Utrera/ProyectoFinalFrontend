@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AutenticacionService } from '../../servicios/autenticacion.service';
-import { MensajeService } from '../../servicios/mensaje.service';
+import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
+import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   
       this.authService.loginUsuario(this.formulario.value).subscribe({
         next: (res) => {
-          console.log('✅ RESPUESTA:', res)
+          console.log('RESPUESTA:', res)
           const username = res.user.username;
           this.mensajeService.mostrar(`¡Bienvenido, ${username}!`);
           this.router.navigate(['/']);

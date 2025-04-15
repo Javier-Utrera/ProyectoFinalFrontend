@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AutenticacionService } from '../../servicios/autenticacion.service';
+import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { RouterModule } from '@angular/router';
-import { MensajeService } from '../../servicios/mensaje.service';
+import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
 
 
 @Component({
