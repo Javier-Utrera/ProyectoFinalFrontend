@@ -1,0 +1,16 @@
+<h2>Relato</h2>
+
+@if (cargando) {
+  <p>Cargando relato...</p>
+} @else if (!relato) {
+  <p>No se pudo cargar el relato.</p>
+} @else {
+  <div class="card p-4">
+    <h3>{{ relato.titulo }}</h3>
+    <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
+    <p><strong>Estado:</strong> {{ relato.estado }}</p>
+    <p><strong>Autores:</strong> {{ relato.autores.join(', ') }}</p>
+    <hr>
+    <div [innerHTML]="relato.contenido"></div>
+  </div>
+}

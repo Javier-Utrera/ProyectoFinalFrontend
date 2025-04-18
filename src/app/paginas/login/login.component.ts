@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
 
@@ -14,7 +14,7 @@ import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.serv
 export class LoginComponent implements OnInit {
   formulario!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AutenticacionService,private mensajeService: MensajeService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AutenticacionService, private mensajeService: MensajeService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
@@ -26,13 +26,14 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.formulario.valid) {
       const username = this.formulario.value.username;
-  
+
       this.authService.loginUsuario(this.formulario.value).subscribe({
         next: (res) => {
           console.log('RESPUESTA:', res)
           const username = res.user.username;
           this.mensajeService.mostrar(`¡Bienvenido, ${username}!`);
-          this.router.navigate(['/']);
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnTo');
+          this.router.navigate([returnUrl || '/']);
         },
         error: (err) => {
           console.error('Error en el login:', err);

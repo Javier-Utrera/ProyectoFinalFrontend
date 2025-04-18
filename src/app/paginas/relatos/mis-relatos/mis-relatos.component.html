@@ -1,0 +1,26 @@
+<h2>Mis relatos</h2>
+
+@if (cargando) {
+  <p>Cargando...</p>
+} @else if (relatos.length === 0) {
+  <p>No has creado ni participado en ningún relato todavía.</p>
+} @else {
+  <div class="list-group">
+    @for (relato of relatos; track relato.id) {
+      <div class="list-group-item d-flex justify-content-between align-items-start flex-column flex-md-row">
+        <div class="me-md-3">
+          <h5 class="mb-1">{{ relato.titulo }}</h5>
+          <p class="mb-1"><strong>Idioma:</strong> {{ relato.idioma }}</p>
+          <p class="mb-1"><strong>Estado:</strong> {{ relato.estado }}</p>
+          <p class="mb-1 text-muted">Creado el {{ relato.fecha_creacion | date:'mediumDate' }}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+          <button class="btn btn-sm btn-outline-primary" (click)="verRelato(relato.id)">Ver</button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="editarRelato(relato.id)">Editar</button>
+          <button class="btn btn-sm btn-outline-success" (click)="marcarListo(relato.id)">Listo para publicar</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="eliminarRelato(relato.id)">Eliminar</button>
+        </div>
+      </div>
+    }
+  </div>
+}

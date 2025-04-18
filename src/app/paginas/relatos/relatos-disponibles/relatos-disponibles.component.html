@@ -1,0 +1,22 @@
+<h2>Relatos buscando escritores</h2>
+
+@if (cargando) {
+  <p>Cargando relatos disponibles...</p>
+} @else if (relatos.length === 0) {
+  <p>No hay relatos disponibles en este momento.</p>
+} @else {
+  <div class="list-group">
+    @for (relato of relatos; track relato.id) {
+      <div class="list-group-item">
+        <h5>{{ relato.titulo }}</h5>
+        <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
+        <p><strong>Descripción:</strong> {{ relato.descripcion }}</p>
+        <p><strong>Autores:</strong> {{ relato.autores.length }} / {{ relato.num_escritores }}</p>
+
+        <button class="btn btn-outline-success mt-2" (click)="unirse(relato.id)">
+          Unirse al relato
+        </button>
+      </div>
+    }
+  </div>
+}

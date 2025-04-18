@@ -1,14 +1,21 @@
-<nav>
-    <h1>BookRoom</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+  <h1 class="navbar-brand mb-0">BookRoom</h1>
 
-    <div>
-        @if (!estaAutenticado) {
-            <button class="btn btn-outline-primary" [routerLink]="['/login']">Iniciar sesión</button>
-            <button class="btn btn-outline-secondary" [routerLink]="['/registro']">Registrarse</button>            
-        } @else {
-        <button (click)="cerrarSesion()">Cerrar sesión</button>
-        <button class="btn btn-outline-secondary" [routerLink]="['/perfil']">Perfil</button>
-        }
+  <div class="d-flex align-items-center gap-2 ms-auto">
+    <!-- Siempre visible -->
+    <button class="btn btn-outline-dark" [routerLink]="['/relatos-publicados']">Relatos publicados</button>
+    <button class="btn btn-outline-info" [routerLink]="['/relatos-disponibles']">
+      Reunión de escritores
+    </button>
 
-    </div>
+    @if (estaAutenticado) {
+    <button class="btn btn-outline-primary" [routerLink]="['/mis-relatos']">Mis relatos</button>
+    <button class="btn btn-outline-success" [routerLink]="['/crear-relato']">Crear relato</button>
+    <button class="btn btn-outline-secondary" [routerLink]="['/perfil']">Perfil</button>
+    <button class="btn btn-outline-danger" (click)="cerrarSesion()">Cerrar sesión</button>
+    } @else {
+    <button class="btn btn-outline-primary" [routerLink]="['/login']">Iniciar sesión</button>
+    <button class="btn btn-outline-secondary" [routerLink]="['/registro']">Registrarse</button>
+    }
+  </div>
 </nav>

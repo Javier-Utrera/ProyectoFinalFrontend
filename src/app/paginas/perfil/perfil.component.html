@@ -6,12 +6,25 @@
   @if (!modoEdicion) {
     <div class="card p-4">
       <h4>{{ datosUsuario.username }}</h4>
-      <p>Email: {{ datosUsuario.email }}</p>
-      <p><strong>Biografía:</strong> {{ datosUsuario.perfil.biografia }}</p>
-      <p><strong>Nacimiento:</strong> {{ datosUsuario.perfil.fecha_nacimiento }}</p>
-      <p><strong>País:</strong> {{ datosUsuario.perfil.pais }}</p>
-      <p><strong>Ciudad:</strong> {{ datosUsuario.perfil.ciudad }}</p>
-      <p><strong>Géneros favoritos:</strong> {{ datosUsuario.perfil.generos_favoritos }}</p>
+      <p><strong>Email:</strong> {{ datosUsuario.email }}</p>
+    
+      @if (datosUsuario.avatar) {
+        <img [src]="datosUsuario.avatar" alt="Avatar" class="img-thumbnail my-3" style="max-width: 150px;">
+      }
+    
+      <p><strong>Biografía:</strong> {{ datosUsuario.biografia || 'Sin definir' }}</p>
+      <p><strong>Fecha de nacimiento:</strong> {{ datosUsuario.fecha_nacimiento || 'Sin definir' }}</p>
+      <p><strong>País:</strong> {{ datosUsuario.pais || 'Sin definir' }}</p>
+      <p><strong>Ciudad:</strong> {{ datosUsuario.ciudad || 'Sin definir' }}</p>
+      <p><strong>Géneros favoritos:</strong> {{ datosUsuario.generos_favoritos || 'Sin definir' }}</p>
+    
+      <hr>
+    
+      <p><strong>Total relatos publicados:</strong> {{ datosUsuario.total_relatos_publicados }}</p>
+      <p><strong>Total votos recibidos:</strong> {{ datosUsuario.total_votos_recibidos }}</p>
+      <p><strong>Total palabras escritas:</strong> {{ datosUsuario.total_palabras_escritas }}</p>
+      <p><strong>Total tiempo de escritura:</strong> {{ datosUsuario.total_tiempo_escritura }} minutos</p>
+    
       <button class="btn btn-outline-primary mt-3" (click)="activarEdicion()">Editar perfil</button>
     </div>
   } @else {
@@ -30,9 +43,6 @@
       <div class="mb-3">
         <label class="form-label">Fecha de nacimiento</label>
         <input type="date" class="form-control" formControlName="fecha_nacimiento" />
-        @if (formulario.get('fecha_nacimiento')?.errors?.['required'] && formulario.get('fecha_nacimiento')?.touched) {
-          <div class="text-danger">Este campo es obligatorio.</div>
-        }
         @if (formulario.get('fecha_nacimiento')?.errors?.['fechaFutura']) {
           <div class="text-danger">La fecha no puede ser posterior a hoy.</div>
         }

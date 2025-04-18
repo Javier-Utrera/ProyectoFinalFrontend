@@ -1,0 +1,22 @@
+<h2>Relatos publicados</h2>
+
+@if (cargando) {
+<p>Cargando relatos...</p>
+} @else if (relatos.length === 0) {
+<p>No hay relatos publicados todavía.</p>
+} @else {
+<div class="list-group">
+  @for (relato of relatos; track relato.id) {
+  <div class="list-group-item">
+    <h5 class="mb-1">{{ relato.titulo }}</h5>
+    <p class="mb-1"><strong>Idioma:</strong> {{ relato.idioma }}</p>
+    <p class="mb-1"><strong>Descripción:</strong> {{ relato.descripcion }}</p>
+    <p class="mb-1 text-muted">Publicado el {{ relato.fecha_creacion | date:'mediumDate' }}</p>
+    <button class="btn btn-sm btn-outline-primary mt-2" [routerLink]="['/relato', relato.id]"
+      [queryParams]="{ origen: 'publicado' }">
+      Leer relato
+    </button>
+  </div>
+  }
+</div>
+}

@@ -48,17 +48,17 @@ export class PerfilComponent implements OnInit {
     const hoy = new Date();
 
     this.formulario = this.fb.group({
-      biografia: [this.datosUsuario.perfil.biografia || '', [Validators.maxLength(500)]],
+      biografia: [this.datosUsuario.biografia || '', [Validators.maxLength(500)]],
       fecha_nacimiento: [
-        this.datosUsuario.perfil.fecha_nacimiento || '',
-        [Validators.required, this.fechaNoFuturaValidator()]
+        this.datosUsuario.fecha_nacimiento || '',
+        [this.fechaNoFuturaValidator()]
       ],
       pais: [
-        this.datosUsuario.perfil.pais || '',
+        this.datosUsuario.pais || '',
         [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
       ],
       ciudad: [
-        this.datosUsuario.perfil.ciudad || '',
+        this.datosUsuario.ciudad || '',
         [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
       ],
       generos_favoritos: [this.generosIniciales()]
@@ -66,7 +66,7 @@ export class PerfilComponent implements OnInit {
   }
 
   generosIniciales(): string[] {
-    const valor = this.datosUsuario.perfil.generos_favoritos;
+    const valor = this.datosUsuario.generos_favoritos;
     return valor ? valor.split(',').map((g: string) => g.trim()) : [];
   }
 
@@ -95,6 +95,13 @@ export class PerfilComponent implements OnInit {
     }
 
     const datos = { ...this.formulario.value };
+
+    // Eliminar campos vacíos
+    if (datos.fecha_nacimiento === '') {
+      delete datos.fecha_nacimiento;
+    }
+    console.log(datos.fecha_nacimiento)
+    // Convertir géneros a string
     datos.generos_favoritos = datos.generos_favoritos.join(', ');
 
     this.apiService.actualizarPerfil(datos).subscribe({
