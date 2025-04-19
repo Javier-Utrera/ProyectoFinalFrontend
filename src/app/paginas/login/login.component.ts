@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
-import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
+import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
+import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MensajeAlertaComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   formulario!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AutenticacionService, private mensajeService: MensajeService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private authService: AutenticacionService, private router: Router, private route: ActivatedRoute,public mensajeGlobal: MensajeGlobalService) { }
 
   ngOnInit(): void {
+    this.mensajeGlobal.limpiar();
     this.formulario = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -31,13 +32,12 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           console.log('RESPUESTA:', res)
           const username = res.user.username;
-          this.mensajeService.mostrar(`¡Bienvenido, ${username}!`);
           const returnUrl = this.route.snapshot.queryParamMap.get('returnTo');
           this.router.navigate([returnUrl || '/']);
         },
         error: (err) => {
           console.error('Error en el login:', err);
-          this.mensajeService.mostrar('Error al iniciar sesión');
+          this.mensajeGlobal.mostrar(err.error?.error || 'Error al aceptar la solicitud', 'danger');
         }
       });
     }

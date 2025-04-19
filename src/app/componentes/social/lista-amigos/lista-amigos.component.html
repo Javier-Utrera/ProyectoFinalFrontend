@@ -1,0 +1,24 @@
+@if (cargando) {
+<p>Cargando amigos...</p>
+} @else if (amigos.length === 0) {
+<p>No tienes amigos todavía.</p>
+} @else {
+<div class="list-group">
+    @for (amigo of amigos; track amigo.id) {
+    <div class="list-group-item d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            @if (amigo.avatar) {
+            <img [src]="amigo.avatar" alt="avatar" class="rounded-circle" width="50" height="50" />
+            }
+            <div>
+                <strong>{{ amigo.username }}</strong><br />
+                <small class="text-muted">{{ amigo.ciudad }}, {{ amigo.pais }}</small>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-outline-danger" (click)="eliminarAmigo(amigo.id)">
+            Eliminar
+        </button>
+    </div>
+    }
+</div>
+}

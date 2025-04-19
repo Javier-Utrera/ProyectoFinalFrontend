@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 
 @Component({
   selector: 'app-ver-relato',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './ver-relato.component.html',
   styleUrl: './ver-relato.component.css'
 })

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 
 @Component({
   selector: 'app-relatos-disponibles',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './relatos-disponibles.component.html',
   styleUrl: './relatos-disponibles.component.css'
 })

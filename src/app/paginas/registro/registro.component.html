@@ -1,4 +1,5 @@
 <h2>Registro</h2>
+<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"/>
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
   <div class="mb-3">
     <label for="username" class="form-label">Nombre de usuario</label>

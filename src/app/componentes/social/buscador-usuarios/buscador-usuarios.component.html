@@ -1,0 +1,52 @@
+<form [formGroup]="formulario" (ngSubmit)="buscar()" class="card p-4 shadow-sm">
+    <h5 class="mb-3">Buscar usuarios</h5>
+
+    <!-- Campo de búsqueda -->
+    <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="termino" />
+    </div>
+
+    <!-- Errores del campo -->
+    @if (termino?.invalid && termino?.touched) {
+        @if (termino?.errors?.['required'] && termino?.touched) {
+        <div class="text-danger">Este campo es obligatorio.</div>
+        }
+        @if (termino?.errors?.['minlength'] && termino?.touched) {
+        <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+        }
+        @if (termino?.errors?.['pattern'] && termino?.touched) {
+        <div class="text-danger">Solo letras, números y los caracteres . &#64; + - _ están permitidos.</div>
+        }
+    }
+
+    <!-- Botón buscar -->
+    <div class="mb-3 text-end">
+        <button class="btn btn-primary" type="submit" [disabled]="formulario.invalid">
+            Buscar
+        </button>
+    </div>
+
+    <!-- Estado de búsqueda -->
+    @if (buscando) {
+    <p class="text-muted">Buscando usuarios...</p>
+    } @else if (mensaje) {
+    <p class="text-muted">{{ mensaje }}</p>
+    }
+
+    <!-- Resultados -->
+    @if (resultados.length > 0) {
+    <div class="list-group mt-3">
+        @for (usuario of resultados; track usuario.id) {
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ usuario.username }}</strong><br />
+                <small>{{ usuario.pais }} — {{ usuario.ciudad }}</small>
+            </div>
+            <button class="btn btn-sm btn-success" (click)="enviarSolicitud(usuario.id)">
+                Enviar solicitud
+            </button>
+        </div>
+        }
+    </div>
+    }
+</form>

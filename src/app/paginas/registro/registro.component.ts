@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
-import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
+import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
+import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-registro',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MensajeAlertaComponent],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
@@ -18,11 +18,12 @@ export class RegistroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AutenticacionService,
-    private mensajeService: MensajeService,
-    private router: Router
+    private router: Router,
+    public mensajeGlobal: MensajeGlobalService
   ) {}
 
   ngOnInit(): void {
+    this.mensajeGlobal.limpiar();
     this.formulario = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -39,7 +40,6 @@ export class RegistroComponent implements OnInit {
       next: (res) => {
         console.log('RESPUESTA:', res)
         const username = res.user.username;
-        this.mensajeService.mostrar(`¡Bienvenido, ${username}!`);
         this.router.navigate(['/']);
       },
       error: (err) => {
@@ -49,7 +49,9 @@ export class RegistroComponent implements OnInit {
             this.erroresBack[campo] = Array.isArray(mensajes) ? mensajes[0] : mensajes;
           });
         } else {
-          this.mensajeService.mostrar('Error inesperado al registrarse.');
+          //Error en la API
+          console.error('Error en el servidor:', err);
+          this.mensajeGlobal.mostrar(err.error?.error || 'Error en el servidor', 'danger');
         }
       }
     });

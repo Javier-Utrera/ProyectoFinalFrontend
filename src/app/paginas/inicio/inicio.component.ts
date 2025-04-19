@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 
 @Component({
   selector: 'app-inicio',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 
 @Component({
   selector: 'app-crear-relato',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './crear-relato.component.html',
   styleUrl: './crear-relato.component.css'
 })

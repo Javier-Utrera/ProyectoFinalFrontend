@@ -1,94 +1,90 @@
 <h2 class="mb-4">Mi perfil</h2>
-
+<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"/>
 @if (cargando) {
-  <p>Cargando perfil...</p>
+<p>Cargando perfil...</p>
 } @else {
-  @if (!modoEdicion) {
-    <div class="card p-4">
-      <h4>{{ datosUsuario.username }}</h4>
-      <p><strong>Email:</strong> {{ datosUsuario.email }}</p>
-    
-      @if (datosUsuario.avatar) {
-        <img [src]="datosUsuario.avatar" alt="Avatar" class="img-thumbnail my-3" style="max-width: 150px;">
-      }
-    
-      <p><strong>Biografía:</strong> {{ datosUsuario.biografia || 'Sin definir' }}</p>
-      <p><strong>Fecha de nacimiento:</strong> {{ datosUsuario.fecha_nacimiento || 'Sin definir' }}</p>
-      <p><strong>País:</strong> {{ datosUsuario.pais || 'Sin definir' }}</p>
-      <p><strong>Ciudad:</strong> {{ datosUsuario.ciudad || 'Sin definir' }}</p>
-      <p><strong>Géneros favoritos:</strong> {{ datosUsuario.generos_favoritos || 'Sin definir' }}</p>
-    
-      <hr>
-    
-      <p><strong>Total relatos publicados:</strong> {{ datosUsuario.total_relatos_publicados }}</p>
-      <p><strong>Total votos recibidos:</strong> {{ datosUsuario.total_votos_recibidos }}</p>
-      <p><strong>Total palabras escritas:</strong> {{ datosUsuario.total_palabras_escritas }}</p>
-      <p><strong>Total tiempo de escritura:</strong> {{ datosUsuario.total_tiempo_escritura }} minutos</p>
-    
-      <button class="btn btn-outline-primary mt-3" (click)="activarEdicion()">Editar perfil</button>
-    </div>
-  } @else {
-    <form [formGroup]="formulario" (ngSubmit)="guardarCambios()" class="card p-4 mt-3">
+@if (!modoEdicion) {
+<hr>
+<h3 class="mt-4">Amigos</h3>
+<!-- Tabs para gestionar amigos -->
+<app-gestor-amistades></app-gestor-amistades>
 
-      <!-- Biografía -->
-      <div class="mb-3">
-        <label class="form-label">Biografía</label>
-        <textarea class="form-control" formControlName="biografia" rows="3"></textarea>
-        @if (formulario.get('biografia')?.invalid && formulario.get('biografia')?.touched) {
-          <div class="text-danger">Máximo 500 caracteres.</div>
-        }
-      </div>
-    
-      <!-- Fecha de nacimiento -->
-      <div class="mb-3">
-        <label class="form-label">Fecha de nacimiento</label>
-        <input type="date" class="form-control" formControlName="fecha_nacimiento" />
-        @if (formulario.get('fecha_nacimiento')?.errors?.['fechaFutura']) {
-          <div class="text-danger">La fecha no puede ser posterior a hoy.</div>
-        }
-      </div>
-    
-      <!-- País -->
-      <div class="mb-3">
-        <label class="form-label">País</label>
-        <input type="text" class="form-control" formControlName="pais" />
-        @if (formulario.get('pais')?.errors?.['pattern'] && formulario.get('pais')?.touched) {
-          <div class="text-danger">Solo letras y espacios.</div>
-        }
-      </div>
-    
-      <!-- Ciudad -->
-      <div class="mb-3">
-        <label class="form-label">Ciudad</label>
-        <input type="text" class="form-control" formControlName="ciudad" />
-        @if (formulario.get('ciudad')?.errors?.['pattern'] && formulario.get('ciudad')?.touched) {
-          <div class="text-danger">Solo letras y espacios.</div>
-        }
-      </div>
-    
-      <!-- Géneros favoritos (ng-select) -->
-      <div class="mb-4 position-relative">
-        <label for="generos" class="form-label">Géneros favoritos</label>
-        <ng-select
-          [items]="generosDisponibles"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          [searchable]="true"
-          formControlName="generos_favoritos"
-          placeholder="Selecciona géneros"
-          class="w-100 border rounded shadow-sm bg-white"
-          id="generos"
-          [dropdownPosition]="'auto'"
-          [appendTo]="'body'"
-        >
-        </ng-select>
-      </div>
-    
-      <!-- Botones -->
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success me-2" [disabled]="formulario.invalid">Guardar</button>
-        <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
-      </div>
-    </form>
+<div class="card p-4">
+  <h4>{{ datosUsuario.username }}</h4>
+  <p><strong>Email:</strong> {{ datosUsuario.email }}</p>
+  
+  @if (datosUsuario.avatar) {
+  <img [src]="datosUsuario.avatar" alt="Avatar" class="img-thumbnail my-3" style="max-width: 150px;">
   }
+
+  <p><strong>Biografía:</strong> {{ datosUsuario.biografia || 'Sin definir' }}</p>
+  <p><strong>Fecha de nacimiento:</strong> {{ datosUsuario.fecha_nacimiento || 'Sin definir' }}</p>
+  <p><strong>País:</strong> {{ datosUsuario.pais || 'Sin definir' }}</p>
+  <p><strong>Ciudad:</strong> {{ datosUsuario.ciudad || 'Sin definir' }}</p>
+  <p><strong>Géneros favoritos:</strong> {{ datosUsuario.generos_favoritos || 'Sin definir' }}</p>
+
+  <hr>
+
+  <p><strong>Total relatos publicados:</strong> {{ datosUsuario.total_relatos_publicados }}</p>
+  <p><strong>Total votos recibidos:</strong> {{ datosUsuario.total_votos_recibidos }}</p>
+  <p><strong>Total palabras escritas:</strong> {{ datosUsuario.total_palabras_escritas }}</p>
+  <p><strong>Total tiempo de escritura:</strong> {{ datosUsuario.total_tiempo_escritura }} minutos</p>
+
+  <button class="btn btn-outline-primary mt-3" (click)="activarEdicion()">Editar perfil</button>
+</div>
+} @else {
+<form [formGroup]="formulario" (ngSubmit)="guardarCambios()" class="card p-4 mt-3">
+
+  <!-- Biografía -->
+  <div class="mb-3">
+    <label class="form-label">Biografía</label>
+    <textarea class="form-control" formControlName="biografia" rows="3"></textarea>
+    @if (formulario.get('biografia')?.invalid && formulario.get('biografia')?.touched) {
+    <div class="text-danger">Máximo 500 caracteres.</div>
+    }
+  </div>
+
+  <!-- Fecha de nacimiento -->
+  <div class="mb-3">
+    <label class="form-label">Fecha de nacimiento</label>
+    <input type="date" class="form-control" formControlName="fecha_nacimiento" />
+    @if (formulario.get('fecha_nacimiento')?.errors?.['fechaFutura']) {
+    <div class="text-danger">La fecha no puede ser posterior a hoy.</div>
+    }
+  </div>
+
+  <!-- País -->
+  <div class="mb-3">
+    <label class="form-label">País</label>
+    <input type="text" class="form-control" formControlName="pais" />
+    @if (formulario.get('pais')?.errors?.['pattern'] && formulario.get('pais')?.touched) {
+    <div class="text-danger">Solo letras y espacios.</div>
+    }
+  </div>
+
+  <!-- Ciudad -->
+  <div class="mb-3">
+    <label class="form-label">Ciudad</label>
+    <input type="text" class="form-control" formControlName="ciudad" />
+    @if (formulario.get('ciudad')?.errors?.['pattern'] && formulario.get('ciudad')?.touched) {
+    <div class="text-danger">Solo letras y espacios.</div>
+    }
+  </div>
+
+  <!-- Géneros favoritos (ng-select) -->
+  <div class="mb-4 position-relative">
+    <label for="generos" class="form-label">Géneros favoritos</label>
+    <ng-select [items]="generosDisponibles" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+      formControlName="generos_favoritos" placeholder="Selecciona géneros"
+      class="w-100 border rounded shadow-sm bg-white" id="generos" [dropdownPosition]="'auto'" [appendTo]="'body'">
+    </ng-select>
+  </div>
+
+  <!-- Botones -->
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-success me-2" [disabled]="formulario.invalid">Guardar</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+  </div>
+</form>
+}
 }

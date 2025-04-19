@@ -10,8 +10,16 @@ src/
  app/
     componentes/
         barra-navegacion
-        modal-mensaje
+        comunes/
+            mensaje-alerta            
         pie-pagina
+        social/
+            buscador-usuarios
+            gestor-amistades(Gestiona los demas componentes de social)
+            lista-amigos
+            solicitudes-enviadas
+            solicitudes-recibidas
+            usuarios-bloqueados
     paginas/
         inicio       
         perfil      
@@ -26,7 +34,7 @@ src/
     servicios/
         api-autenticacion
         api-servicios
-        mensajes-emergentes
+        mensaje-global
 
 ---
 
@@ -51,6 +59,19 @@ Contiene métodos para comunicarse con el backend. Añade automáticamente el to
 - `getRelatosAbiertos()` – `GET /api/relatos/abiertos/`
 - `unirseARelato(id)` – `POST /api/relatos/<id>/unirse/`
 
+#### Social
+- `getAmigos()` – `GET /api/amigos/`
+- `getSolicitudesRecibidas()` – `GET /api/amigos/recibidas/`
+- `getSolicitudesEnviadas()` – `GET /api/amigos/enviadas/`
+- `enviarSolicitudAmistad(usuarioId)` – `POST /api/amigos/enviar/`
+- `aceptarSolicitudAmistad(solicitudId)` – `POST /api/amigos/aceptar/<id>/`
+- `bloquearSolicitudAmistad(solicitudId)` – `POST /api/amigos/bloquear/<id>/`
+- `getUsuariosBloqueados()` – `GET /api/amigos/bloqueados/`
+- `desbloquearUsuario(usuarioId)` – `DELETE /api/amigos/desbloquear/<id>/`
+- `eliminarAmigo(usuarioId)` – `DELETE /api/amigos/eliminar/<id>/`
+
+#### Usuarios
+- `buscarUsuarios(termino)` – `GET /api/usuarios/buscar/?q=<termino>`
 ---
 
 ### `autenticacion.service.ts` – Servicio de sesión y autenticación
@@ -66,12 +87,11 @@ Gestiona el login, logout, registro y estado de sesión del usuario.
 
 ---
 
-### `mensaje.service.ts` – Servicio de mensajes emergentes
+### `mensaje.global.service.ts` – Servicio de mensajes emergentes
 
 Permite mostrar mensajes temporales (modal de boostrap) a través de un observable.
 
-- `mostrar(mensaje: string)` – Muestra un mensaje durante 1.5 segundos
-- `mensaje$` – Observable al que se pueden suscribir componentes
+- `mostrar(mensaje: string,tipo string)` – Muestra un mensaje durante 1.5 segundos
 
 ---
 
@@ -81,11 +101,37 @@ Permite mostrar mensajes temporales (modal de boostrap) a través de un observab
 - Menú de navegación principal
 - Muestra botones diferentes según el estado de sesión
 
-### `modal-mensaje`
+### `mensaje-alerta`
 - Modal genérico reutilizable para mostrar mensajes (éxito, error, info)
 
 ### `pie-pagina`
 - Pie de página de la aplicación
+
+### Componentes sociales (`/componentes/social/`)
+
+#### `gestor-amistades`
+- Componente principal de gestión social
+- Contiene las pestañas para acceder a amigos, solicitudes y bloqueos
+
+#### `buscador-usuarios`
+- Permite buscar usuarios por nombre
+- Ofrece botón para enviar solicitud de amistad
+
+#### `lista-amigos`
+- Muestra la lista de amigos actuales del usuario
+- Incluye opción para eliminar amistad
+
+#### `solicitudes-enviadas`
+- Lista de solicitudes enviadas por el usuario
+- Muestra estado y permite cancelar o bloquear
+
+#### `solicitudes-recibidas`
+- Lista de solicitudes pendientes recibidas
+- Permite aceptar o bloquear al usuario
+
+#### `usuarios-bloqueados`
+- Lista de usuarios bloqueados
+- Incluye opción para desbloquearlos
 
 ---
 
@@ -112,6 +158,7 @@ Permite mostrar mensajes temporales (modal de boostrap) a través de un observab
 ### `perfil`
 - Muestra datos del usuario autenticado
 - Permite editar: biografía, ciudad, país, fecha de nacimiento, géneros favoritos y avatar
+- Gestiona todo lo referente al apartado social de la aplicacion
 
 ### `crear-relato`
 - Crea un nuevo relato colaborativo

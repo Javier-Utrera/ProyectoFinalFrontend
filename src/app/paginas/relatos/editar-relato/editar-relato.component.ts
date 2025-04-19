@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 
 @Component({
   selector: 'app-editar-relato',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './editar-relato.component.html',
   styleUrl: './editar-relato.component.css'
 })

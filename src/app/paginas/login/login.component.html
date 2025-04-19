@@ -1,4 +1,5 @@
 <h2>Login</h2>
+<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"/>
 <h2 class="mb-4">Iniciar sesión</h2>
 
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>

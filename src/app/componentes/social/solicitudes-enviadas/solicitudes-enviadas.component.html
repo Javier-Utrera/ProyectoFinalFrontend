@@ -1,0 +1,19 @@
+@if (cargando) {
+    <p>Cargando solicitudes enviadas...</p>
+  } @else if (solicitudes.length === 0) {
+    <p>No has enviado solicitudes de amistad recientemente.</p>
+  } @else {
+    <div class="list-group">
+      @for (solicitud of solicitudes; track solicitud.id) {
+        <div class="list-group-item d-flex align-items-center gap-3">
+          @if (solicitud.a_usuario.avatar) {
+            <img [src]="solicitud.a_usuario.avatar" alt="avatar" class="rounded-circle" width="50" height="50" />
+          }
+          <div>
+            <strong>{{ solicitud.a_usuario.username }}</strong><br />
+            <small class="text-muted">{{ solicitud.a_usuario.ciudad }}, {{ solicitud.a_usuario.pais }}</small>
+          </div>
+        </div>
+      }
+    </div>
+  }

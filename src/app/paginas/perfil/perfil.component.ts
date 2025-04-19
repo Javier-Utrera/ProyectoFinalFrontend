@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MensajeService } from '../../servicios/mensajes-emergentes/mensaje.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { GestorAmistadesComponent } from "../../componentes/social/gestor-amistades/gestor-amistades.component";
+import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
+import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
 
 @Component({
   selector: 'app-perfil',
-  imports: [CommonModule,ReactiveFormsModule,NgSelectModule],
+  imports: [ReactiveFormsModule, NgSelectModule, GestorAmistadesComponent,MensajeAlertaComponent],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
@@ -26,10 +27,11 @@ export class PerfilComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private fb: FormBuilder,
-    private mensajeService: MensajeService
+    public mensajeGlobal: MensajeGlobalService
   ) {}
 
   ngOnInit(): void {
+    this.mensajeGlobal.limpiar();
     this.apiService.obtenerPerfil().subscribe({
       next: (res) => {
         this.datosUsuario = res;
@@ -105,14 +107,14 @@ export class PerfilComponent implements OnInit {
     datos.generos_favoritos = datos.generos_favoritos.join(', ');
 
     this.apiService.actualizarPerfil(datos).subscribe({
-      next: () => {
-        this.mensajeService.mostrar('Perfil actualizado correctamente');
+      next: (res) => {
         this.modoEdicion = false;
         this.ngOnInit();
+        this.mensajeGlobal.mostrar(res.mensaje ||'Perfil actualizado.', 'success');
       },
       error: (err) => {
         console.error('Error al actualizar perfil:', err);
-        this.mensajeService.mostrar('Error al actualizar el perfil');
+        this.mensajeGlobal.mostrar(err.error?.error || 'Error al actualizar perfil', 'danger');
       }
     });
   }

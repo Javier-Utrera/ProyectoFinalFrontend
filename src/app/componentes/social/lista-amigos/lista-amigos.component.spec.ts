@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalMensajeComponent } from './modal-mensaje.component';
+import { ListaAmigosComponent } from './lista-amigos.component';
 
-describe('ModalMensajeComponent', () => {
-  let component: ModalMensajeComponent;
-  let fixture: ComponentFixture<ModalMensajeComponent>;
+describe('ListaAmigosComponent', () => {
+  let component: ListaAmigosComponent;
+  let fixture: ComponentFixture<ListaAmigosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalMensajeComponent]
+      imports: [ListaAmigosComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalMensajeComponent);
+    fixture = TestBed.createComponent(ListaAmigosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
