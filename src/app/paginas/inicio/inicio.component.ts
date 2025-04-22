@@ -8,7 +8,7 @@ import { ApiService } from '../../servicios/api-servicios/api.service';
   styleUrl: './inicio.component.css'
 })
 export class InicioComponent {
-  bienvenida: string = 'Bienvenido a BookRoom 🪶';
+  bienvenida: string = 'Bienvenido a BookRoom Script 🪶';
 
   constructor(private apiService: ApiService) {}
 

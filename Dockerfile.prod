@@ -1,0 +1,24 @@
+# ===== FASE 1: COMPILACIÓN =====
+FROM node:20 AS build
+
+WORKDIR /app
+
+# Copiar package.json e instalar dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copiar el resto del código y compilar Angular
+COPY . .
+RUN npm run build -- --configuration production
+
+# ===== FASE 2: SERVIDOR CON NGINX =====
+FROM nginx:alpine
+
+# Eliminar la página por defecto de nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copiar el resultado compilado a la carpeta de nginx
+COPY --from=build /app/dist/bookroom-front/browser/ /usr/share/nginx/html/
+
+# Exponer el puerto 80
+EXPOSE 80
