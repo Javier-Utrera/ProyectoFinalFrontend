@@ -106,6 +106,38 @@ export class ApiService {
     });
   }
 
+  // Obtiene mi fragmento en un relato
+  getMiFragmento(relatoId: number): Observable<{
+    id: number;
+    relato: number;
+    orden: number;
+    contenido_fragmento: string;
+    listo_para_publicar: boolean;
+  }> {
+    return this.http.get<any>(
+      `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // Actualiza mi fragmento (contenido_fragmento)
+  updateMiFragmento(relatoId: number, html: string): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/`,
+      { contenido_fragmento: html },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // Marca mi fragmento como listo
+  markFragmentReady(relatoId: number): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/ready/`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
   // =====================================================================
   // AMIGOS
   // =====================================================================

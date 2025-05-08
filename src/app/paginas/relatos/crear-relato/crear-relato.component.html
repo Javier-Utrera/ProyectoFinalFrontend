@@ -22,8 +22,9 @@
   <!-- Contenido -->
   <div class="mb-3">
     <label class="form-label">Contenido (opcional)</label>
-    <textarea class="form-control" formControlName="contenido" rows="6"></textarea>
+    <app-editor [(model)]="contenidoHtml"></app-editor>
   </div>
+  
 
   <!-- Idioma -->
   <div class="mb-3">

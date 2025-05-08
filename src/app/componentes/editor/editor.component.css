@@ -1,0 +1,46 @@
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.editor-menubar {
+  padding: 8px 12px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+}
+
+.editor-toolbar {
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  z-index: 1;
+}
+
+.editor-content {
+  padding: 12px;
+  min-height: 200px;
+  background: white;
+}
+
+.ck-editor__editable_inline {
+  min-height: 200px;
+  line-height: 1.6;
+  font-size: 1rem;
+  padding: 12px;
+  border: none;
+  outline: none;
+  color: #333;
+  background: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .editor-content {
+    padding: 8px;
+  }
+}

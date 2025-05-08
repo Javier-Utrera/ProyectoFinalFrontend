@@ -1,0 +1,32 @@
+@if (cargando) {
+    <div class="text-center p-4">
+      <p>Cargando fragmento...</p>
+    </div>
+  } @else {
+    <h3>Fragmento (orden {{ orden }})</h3>
+    <app-editor [(model)]="contenidoHtml"></app-editor>
+  
+    <div class="mt-3">
+      <button
+        class="btn btn-secondary me-2"
+        (click)="guardarBorrador()"
+        [disabled]="listo">
+        Guardar borrador
+      </button>
+  
+      <button
+        class="btn btn-success"
+        (click)="marcarListo()"
+        [disabled]="listo">
+        Marcar como listo
+      </button>
+  
+      @if (listo) {
+        <span class="text-success ms-3">
+          ✔ Listo para publicar
+        </span>
+      }
+      
+    </div>
+  }
+  

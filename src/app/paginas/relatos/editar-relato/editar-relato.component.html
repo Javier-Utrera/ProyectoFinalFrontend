@@ -1,9 +1,9 @@
-<h2>Editar relato</h2>
+<h2>Editar Metadatos del Relato</h2>
 
 @if (cargando) {
   <p>Cargando relato...</p>
 } @else {
-  <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 mt-3">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 mb-4">
     <!-- Título -->
     <div class="mb-3">
       <label class="form-label">Título</label>
@@ -22,12 +22,6 @@
       }
     </div>
 
-    <!-- Contenido -->
-    <div class="mb-3">
-      <label class="form-label">Contenido (opcional)</label>
-      <textarea class="form-control" formControlName="contenido" rows="6"></textarea>
-    </div>
-
     <!-- Idioma -->
     <div class="mb-3">
       <label class="form-label">Idioma</label>
@@ -37,10 +31,22 @@
       }
     </div>
 
-    <!-- Botones -->
-    <div class="d-flex justify-content-end gap-2">
-      <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">Guardar</button>
-      <button type="button" class="btn btn-success" (click)="marcarListo()">Listo para publicar</button>
+    <!-- Botón guardar metadatos -->
+    <div class="d-flex justify-content-end">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!esCreador || formulario.invalid">
+        Guardar Metadatos
+      </button>
     </div>
   </form>
+
+  <hr />
+
+  <h2>Escribir mi Fragmento</h2>
+  <app-editor-fragmento
+    [relatoId]="relatoId"
+    (fragmentoListo)="onFragmentoListo()">
+  </app-editor-fragmento>
 }

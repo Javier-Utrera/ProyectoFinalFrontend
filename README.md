@@ -11,7 +11,8 @@ src/
     componentes/
         barra-navegacion
         comunes/
-            mensaje-alerta            
+            mensaje-alerta
+        editor           
         pie-pagina
         social/
             buscador-usuarios
@@ -185,7 +186,7 @@ Permite mostrar mensajes temporales (modal de boostrap) a través de un observab
 
 ## Comunicación con el backend
 
-- Todos los endpoints están documentados en el backend: [BookRoom API REST](https://github.com/tu-usuario/ProyectoFinalBackend)
+- Todos los endpoints están documentados en el backend: [BookRoom API REST](https://github.com/Javier-Utrera/ProyectoFinalBackend)
 - Las peticiones autenticadas usan el token Bearer (Oauth2)
 
 ---
