@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
+import { ComentariosComponent } from "../../../componentes/comentarios/comentarios.component";
+import { PuntuacionComponent } from "../../../componentes/puntuacion/puntuacion.component";
+import { MensajeAlertaComponent } from "../../../componentes/comunes/mensaje-alerta/mensaje-alerta.component";
+import { MensajeGlobalService } from '../../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-ver-relato',
-  imports: [],
+  imports: [ComentariosComponent, PuntuacionComponent, MensajeAlertaComponent],
   templateUrl: './ver-relato.component.html',
   styleUrl: './ver-relato.component.css'
 })
@@ -17,7 +21,8 @@ export class VerRelatoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    public mensajeGlobal: MensajeGlobalService
   ) {}
 
   ngOnInit(): void {

@@ -2,45 +2,39 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-@Injectable({
-  providedIn: 'root'
-})
+import { Comentario, Estadistica, Voto } from './api.models';
+
+@Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  // =====================================================================
+  // ===========================================================================
   // PERFIL
-  // =====================================================================
+  // ===========================================================================
 
   obtenerPerfil(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/perfil/`, {
+    return this.http.get<any>(`${this.baseUrl}/perfil/`, {
       headers: this.getHeaders()
     });
   }
 
   actualizarPerfil(datos: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    return this.http.patch(`${this.baseUrl}/perfil/`, datos, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    return this.http.patch<any>(`${this.baseUrl}/perfil/`, datos, {
+      headers: this.getHeaders()
     });
   }
 
-  // =====================================================================
+  // ===========================================================================
   // RELATOS
-  // =====================================================================
+  // ===========================================================================
 
-  //Obtener
   getRelatosPublicados(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/relatos/publicados/`);
   }
@@ -51,62 +45,54 @@ export class ApiService {
     });
   }
 
-  //Devuelve los datos completos del relato si el usuario es uno de los autores
   getRelatoPorId(relatoId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/relatos/${relatoId}/`, {
       headers: this.getHeaders()
     });
   }
 
-  //Devuelve los datos completos del relato si el usuario no es uno de los autores y ademas el estado del relato es PUBLICADO
   getRelatoPorIdPublico(relatoId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/relatos/publicados/${relatoId}/`)
+    return this.http.get<any>(`${this.baseUrl}/relatos/publicados/${relatoId}/`);
   }
-  //Devuelve los relatos en estado CREACION con sito libre
+
   getRelatosAbiertos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/relatos/abiertos/`);
   }
 
-  //Crear
-  //datos debe incluir: titulo, descripcion, contenido, idioma, num_escritores
   crearRelato(datos: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/relatos/crear/`, datos, {
+    return this.http.post<any>(`${this.baseUrl}/relatos/crear/`, datos, {
       headers: this.getHeaders()
     });
   }
 
-  //Editar
-  //Se puede enviar uno o varios de estos campos: titulo, descripcion, contenido, idioma, estado
   editarRelato(relatoId: number, datos: any): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/relatos/${relatoId}/editar/`, datos, {
+    return this.http.patch<any>(`${this.baseUrl}/relatos/${relatoId}/editar/`, datos, {
       headers: this.getHeaders()
     });
   }
 
-  //Eliminar
-  //Solo se puede eliminar si el usuario es autor y no hay mas colaboradores
   eliminarRelato(relatoId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/relatos/${relatoId}/eliminar/`, {
+    return this.http.delete<any>(`${this.baseUrl}/relatos/${relatoId}/eliminar/`, {
       headers: this.getHeaders()
     });
   }
 
-  //Acciones
-  //Me esta dando dolor de cabeza esto, miro si el escritor esta registrado en el relato, si ya le ha dado o no al boton de listo, y entonces compruebo si todo el mundo le ha dado al boton de listo para publicar el relato
   marcarRelatoListo(relatoId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/relatos/${relatoId}/marcar-listo/`, {}, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/relatos/${relatoId}/marcar-listo/`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
 
-  //Devuelve mensaje si el usuario se ha unido con exito o ya participaba
   unirseARelato(relatoId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/relatos/${relatoId}/unirse/`, {}, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/relatos/${relatoId}/unirse/`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
 
-  // Obtiene mi fragmento en un relato
   getMiFragmento(relatoId: number): Observable<{
     id: number;
     relato: number;
@@ -120,88 +106,91 @@ export class ApiService {
     );
   }
 
-  // Actualiza mi fragmento (contenido_fragmento)
   updateMiFragmento(relatoId: number, html: string): Observable<any> {
-    return this.http.put(
+    return this.http.put<any>(
       `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/`,
       { contenido_fragmento: html },
       { headers: this.getHeaders() }
     );
   }
 
-  // Marca mi fragmento como listo
   markFragmentReady(relatoId: number): Observable<any> {
-    return this.http.post(
+    return this.http.post<any>(
       `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/ready/`,
       {},
       { headers: this.getHeaders() }
     );
   }
 
-  // =====================================================================
+  // ===========================================================================
   // AMIGOS
-  // =====================================================================
+  // ===========================================================================
 
-  //Devuelve los amigos del usuario
   getAmigos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/amigos/`, {
       headers: this.getHeaders()
     });
   }
 
-  //Devuelve las solicitudes de amistad recibidas 
   getSolicitudesRecibidas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/amigos/recibidas/`, {
       headers: this.getHeaders()
     });
   }
-  //Devuelve las solicitudes de amistad enviadas
+
   getSolicitudesEnviadas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/amigos/enviadas/`, {
       headers: this.getHeaders()
     });
   }
-  //Envia una solicitud de amistad a un usuario usando como parametro su id
+
   enviarSolicitudAmistad(usuarioId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/amigos/enviar/`, {
-      a_usuario: usuarioId
-    }, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/amigos/enviar/`,
+      { a_usuario: usuarioId },
+      { headers: this.getHeaders() }
+    );
   }
-  //Acepta una solicitud de amistad usando como parametro su id
+
   aceptarSolicitudAmistad(solicitudId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/amigos/aceptar/${solicitudId}/`, {}, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/amigos/aceptar/${solicitudId}/`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
-  //Rechaza una solicitud de amistad usando como parametro su id
+
   bloquearSolicitudAmistad(solicitudId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/amigos/bloquear/${solicitudId}/`, {}, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/amigos/bloquear/${solicitudId}/`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
-  // Obtener lista de usuarios bloqueados
+
   getUsuariosBloqueados(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/amigos/bloqueados/`, {
       headers: this.getHeaders()
     });
   }
-  // Desbloquear usuario
+
   desbloquearUsuario(usuarioId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/amigos/desbloquear/${usuarioId}/`, {
-      headers: this.getHeaders()
-    });
+    return this.http.delete<any>(
+      `${this.baseUrl}/amigos/desbloquear/${usuarioId}/`,
+      { headers: this.getHeaders() }
+    );
   }
-  //Elimina una solicitud de amistad usando como parametro su id
+
   eliminarAmigo(usuarioId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/amigos/eliminar/${usuarioId}/`, {
-      headers: this.getHeaders()
-    });
+    return this.http.delete<any>(
+      `${this.baseUrl}/amigos/eliminar/${usuarioId}/`,
+      { headers: this.getHeaders() }
+    );
   }
-  // =====================================================================
+
+  // ===========================================================================
   // BUSCADOR USUARIOS
-  // =====================================================================
+  // ===========================================================================
 
   buscarUsuarios(termino: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/usuarios/buscar/`, {
@@ -209,4 +198,78 @@ export class ApiService {
       params: { q: termino }
     });
   }
+
+  // ===========================================================================
+  // COMENTARIOS
+  // ===========================================================================
+
+  getComentarios(relatoId: number): Observable<Comentario[]> {
+    return this.http.get<Comentario[]>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/`
+    );
+  }
+
+  crearComentario(relatoId: number, texto: string): Observable<Comentario> {
+    return this.http.post<Comentario>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/crear/`,
+      { texto },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  editarComentario(
+    relatoId: number,
+    comentarioId: number,
+    texto: string
+  ): Observable<Comentario> {
+    return this.http.patch<Comentario>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/editar/`,
+      { texto },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  borrarComentario(relatoId: number, comentarioId: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/borrar/`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // ===========================================================================
+  // VOTOS
+  // ===========================================================================
+
+  getMiVoto(relatoId: number): Observable<Voto> {
+    return this.http.get<Voto>(
+      `${this.baseUrl}/relatos/${relatoId}/mi-voto/`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  votarRelato(relatoId: number, puntuacion: number): Observable<Voto> {
+    return this.http.post<Voto>(
+      `${this.baseUrl}/relatos/${relatoId}/votar/`,
+      { puntuacion },
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // =====================================================================
+  // ESTADÍSTICAS
+  // =====================================================================
+
+  getEstadisticasRelato(relatoId: number): Observable<Estadistica> {
+    return this.http.get<Estadistica>(
+      `${this.baseUrl}/relatos/${relatoId}/estadisticas/`
+    );
+  }
+
+  getListadoEstadisticas(): Observable<Estadistica[]> {
+    return this.http.get<Estadistica[]>(
+      `${this.baseUrl}/estadisticas/`
+    );
+  }
+
+
 }

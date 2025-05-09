@@ -1,0 +1,85 @@
+<div class="container py-3">
+    <h3 class="mb-4">Comentarios</h3>
+  
+    <!-- Formulario de nuevo comentario -->
+    @if (!cargando && !hasComentado) {
+      <form [formGroup]="comentarioForm" (ngSubmit)="enviarComentario()" class="mb-4">
+        <div class="mb-3">
+          <label for="texto" class="form-label">Tu comentario</label>
+          <textarea
+            id="texto"
+            formControlName="texto"
+            class="form-control"
+            rows="3"
+            placeholder="Escribe tu comentario...">
+          </textarea>
+          @if (comentarioForm.get('texto')?.touched && comentarioForm.get('texto')?.invalid) {
+            <div class="text-danger small mt-1">
+              @if (comentarioForm.get('texto')?.errors?.['required']) {
+                <div>El comentario es obligatorio.</div>
+              }
+              @if (comentarioForm.get('texto')?.errors?.['maxlength']) {
+                <div>Máximo 1000 caracteres.</div>
+              }
+            </div>
+          }
+          @if (comentarioForm.errors?.['empty']) {
+            <div class="text-danger small mt-1">El comentario no puede estar vacío.</div>
+          }
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    } @else {
+      <p class="text-muted mb-4">Ya has comentado este relato.</p>
+    }
+  
+    <hr>
+  
+    <!-- Estado de carga -->
+    @if (cargando) {
+      <div class="text-center py-4">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    } @else if (comentarios.length === 0) {
+      <p class="text-center text-muted">No hay comentarios todavía. ¡Sé el primero!</p>
+    } @else {
+      <!-- Lista de comentarios -->
+      <div class="list-group">
+        @for (c of comentarios; track c.id) {
+          <div class="list-group-item mb-2">
+            <div class="d-flex align-items-center mb-2">
+              @if (c.usuario.avatar) {
+                <img
+                  [src]="c.usuario.avatar"
+                  alt="Avatar"
+                  class="rounded-circle me-3"
+                  width="40"
+                  height="40">
+              }
+              <div>
+                <strong>{{ c.usuario.username }}</strong><br>
+                <small class="text-muted">{{ c.fecha | date:'short' }}</small>
+              </div>
+            </div>
+  
+            @if (editingId === c.id) {
+              <textarea
+                class="form-control mb-2"
+                [value]="editText"
+                (input)="editText = $any($event.target).value">
+              </textarea>
+              <button class="btn btn-sm btn-primary me-2" (click)="guardarEdicion(c)">Guardar</button>
+              <button class="btn btn-sm btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+            } @else {
+              <p class="mb-2">{{ c.texto }}</p>
+              <div>
+                <button class="btn btn-sm btn-link me-2" (click)="iniciarEdicion(c)">Editar</button>
+                <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">Borrar</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+  

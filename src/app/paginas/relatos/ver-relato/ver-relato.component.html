@@ -1,16 +1,25 @@
 <h2>Relato</h2>
 
 @if (cargando) {
-  <p>Cargando relato...</p>
+<p>Cargando relato...</p>
 } @else if (!relato) {
-  <p>No se pudo cargar el relato.</p>
+<p>No se pudo cargar el relato.</p>
 } @else {
-  <div class="card p-4">
-    <h3>{{ relato.titulo }}</h3>
-    <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
-    <p><strong>Estado:</strong> {{ relato.estado }}</p>
-    <p><strong>Autores:</strong> {{ relato.autores.join(', ') }}</p>
-    <hr>
-    <div [innerHTML]="relato.contenido"></div>
-  </div>
+<div class="card p-4">
+  <h3>{{ relato.titulo }}</h3>
+  <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
+  <p><strong>Estado:</strong> {{ relato.estado }}</p>
+  <p><strong>Autores:</strong> {{ relato.autores.join(', ') }}</p>
+  <hr>
+  <div [innerHTML]="relato.contenido"></div>
+</div>
+
+<!-- Componente de mensajes -->
+<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"></app-mensaje-alerta>
+
+<!-- Componente de voto -->
+<app-puntuacion [relatoId]="relato.id"></app-puntuacion>
+
+<!-- Aquí integramos los comentarios -->
+<app-comentarios [relatoId]="relato.id"></app-comentarios>
 }

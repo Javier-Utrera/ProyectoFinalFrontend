@@ -191,6 +191,26 @@ Permite mostrar mensajes temporales (modal de boostrap) a través de un observab
 
 ---
 
+
+## Nuevos componentes: Comentarios y Valoración
+
+- ### ComentariosComponent
+  - Uso: `<app-comentarios [relatoId]="relato.id"></app-comentarios>`
+  - Gestiona carga y creación de comentarios vía API.
+  - Usando la bandera hasComentado, controlo si el usuario ya ha votado en el relato, en ese caso le desabilito la opcion de poder crear un comentario nuevo y en su lugar le indico que ya 
+    ha comentado. Dejandole solo la opcion de editar su comentario o barrarlo.
+
+- ### PuntuacionComponent
+  - Uso: `<app-puntuacion [relatoId]="relato.id"></app-puntuacion>`
+  - Hover interactivo y modificación de voto (update_or_create).
+
+- #### Integración en VerRelatoComponent:
+  imports: [ComentariosComponent, PuntuacionComponent]
+
+#### Mensajes globales con `MensajeGlobalService` en el componente padre para alertas.
+
+---
+
 # Generado por angular
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
