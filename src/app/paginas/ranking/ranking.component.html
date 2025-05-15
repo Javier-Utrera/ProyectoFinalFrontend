@@ -1,0 +1,42 @@
+<section class="ranking-relatos py-5">
+  <div class="container">
+    <h2 class="page-title mb-4">Ranking de Relatos</h2>
+
+    @if (cargando) {
+    <div class="status-message" role="status">
+      <div class="spinner-border" role="status"></div>
+      <span class="visually-hidden">Cargando ranking…</span>
+    </div>
+    } @else if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+    } @else if (estadisticas.length === 0) {
+    <div class="status-message" role="alert">
+      <p>No hay datos de ranking disponibles.</p>
+    </div>
+    } @else {
+    <div class="cards-grid">
+      @for (stat of estadisticas; track stat.relato) {
+      <div class="rank-card">
+        <h5 class="rank-title">{{ stat.titulo }}</h5>
+
+        <div class="rank-metric">
+          <span class="label">Media votos:</span>
+          <span class="badge">{{ stat.promedio_votos | number:'1.1-1' }}</span>
+        </div>
+        <div class="rank-metric">
+          <span class="label">Comentarios:</span> {{ stat.num_comentarios }}
+        </div>
+        <div class="rank-metric mb-4">
+          <span class="label">Colaboradores:</span> {{ stat.num_colaboradores }}
+        </div>
+
+        <a [routerLink]="['/relato', stat.relato]" [queryParams]="{ origen: 'publicado' }"
+          class="btn btn-sm btn-outline-primary mt-auto">
+          Ver relato
+        </a>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</section>

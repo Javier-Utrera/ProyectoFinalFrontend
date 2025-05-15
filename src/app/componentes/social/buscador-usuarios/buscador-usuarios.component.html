@@ -1,52 +1,63 @@
-<form [formGroup]="formulario" (ngSubmit)="buscar()" class="card p-4 shadow-sm">
-    <h5 class="mb-3">Buscar usuarios</h5>
+<section class="buscador-usuarios py-5">
+    <div class="container">
+        <!-- Título -->
+        <h3 class="section-subtitle mb-4">Buscar usuarios</h3>
 
-    <!-- Campo de búsqueda -->
-    <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="termino" />
-    </div>
+        <!-- Formulario de búsqueda -->
+        <form [formGroup]="formulario" (ngSubmit)="buscar()" class="card form-card p-4 shadow-sm mb-4" novalidate>
+            <div class="mb-3">
+                <label for="termino" class="form-label">Nombre de usuario</label>
+                <input id="termino" type="text" formControlName="termino" class="form-control"
+                    placeholder="Introduce un nombre" aria-describedby="terminoHelp" />
+                <!-- Errores de validación -->
+                @if (termino?.invalid && termino?.touched) {
+                @if (termino?.errors?.['required'] && termino?.touched) {
+                <div class="text-danger">Este campo es obligatorio.</div>
+                }
+                @if (termino?.errors?.['minlength'] && termino?.touched) {
+                <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+                }
+                @if (termino?.errors?.['pattern'] && termino?.touched) {
+                <div class="text-danger">Solo letras, números y los caracteres . &#64; + - _ están permitidos.</div>
+                }
+                }
 
-    <!-- Errores del campo -->
-    @if (termino?.invalid && termino?.touched) {
-        @if (termino?.errors?.['required'] && termino?.touched) {
-        <div class="text-danger">Este campo es obligatorio.</div>
-        }
-        @if (termino?.errors?.['minlength'] && termino?.touched) {
-        <div class="text-danger">Debe tener al menos 3 caracteres.</div>
-        }
-        @if (termino?.errors?.['pattern'] && termino?.touched) {
-        <div class="text-danger">Solo letras, números y los caracteres . &#64; + - _ están permitidos.</div>
-        }
-    }
-
-    <!-- Botón buscar -->
-    <div class="mb-3 text-end">
-        <button class="btn btn-primary" type="submit" [disabled]="formulario.invalid">
-            Buscar
-        </button>
-    </div>
-
-    <!-- Estado de búsqueda -->
-    @if (buscando) {
-    <p class="text-muted">Buscando usuarios...</p>
-    } @else if (mensaje) {
-    <p class="text-muted">{{ mensaje }}</p>
-    }
-
-    <!-- Resultados -->
-    @if (resultados.length > 0) {
-    <div class="list-group mt-3">
-        @for (usuario of resultados; track usuario.id) {
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <strong>{{ usuario.username }}</strong><br />
-                <small>{{ usuario.pais }} — {{ usuario.ciudad }}</small>
             </div>
-            <button class="btn btn-sm btn-success" (click)="enviarSolicitud(usuario.id)">
-                Enviar solicitud
-            </button>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">
+                    Buscar
+                </button>
+            </div>
+        </form>
+
+        <!-- Estado de búsqueda -->
+        @if (buscando) {
+        <div class="status-message text-center mb-4" role="status">
+            <div class="spinner-border" role="status"></div>
+            <span class="visually-hidden">Buscando usuarios…</span>
         </div>
+        } @else if (mensaje) {
+        <p class="text-center text-muted mb-4">{{ mensaje }}</p>
+        }
+
+        <!-- Resultados -->
+        @if (resultados.length > 0) {
+        <ul class="list-group">
+            @for (usuario of resultados; track usuario.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="user-info">
+                    <strong>{{ usuario.username }}</strong><br />
+                    <small class="text-muted">
+                        {{ usuario.pais }} — {{ usuario.ciudad }}
+                    </small>
+                </div>
+                <button type="button" class="btn btn-success btn-sm" (click)="enviarSolicitud(usuario.id)">
+                    Enviar solicitud
+                </button>
+            </li>
+            }
+        </ul>
         }
     </div>
-    }
-</form>
+</section>

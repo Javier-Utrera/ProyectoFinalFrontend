@@ -1,39 +1,95 @@
-<h2>Registro</h2>
-<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"/>
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
-  <div class="mb-3">
-    <label for="username" class="form-label">Nombre de usuario</label>
-    <input type="text" id="username" formControlName="username" class="form-control" />
-    @if (erroresBack['username']) {
-      <div class="text-danger mt-1">{{ erroresBack['username'] }}</div>
-    }
-  </div>
+<section class="registro-page py-5">
+  <div class="container">
+    <h2 class="page-title mb-4">Registro</h2>
 
-  <div class="mb-3">
-    <label for="email" class="form-label">Correo electrónico</label>
-    <input type="email" id="email" formControlName="email" class="form-control" />
-    @if (erroresBack['email']) {
-      <div class="text-danger mt-1">{{ erroresBack['email'] }}</div>
-    }
-  </div>
+    <app-mensaje-alerta
+      [mensaje]="mensajeGlobal.mensaje"
+      [tipo]="mensajeGlobal.tipo"
+      class="mb-4"
+    ></app-mensaje-alerta>
 
-  <div class="mb-3">
-    <label for="password1" class="form-label">Contraseña</label>
-    <input type="password" id="password1" formControlName="password1" class="form-control" />
-    @if (erroresBack['password1'] || erroresBack['password']) {
-      <div class="text-danger mt-1">
-        {{ erroresBack['password1'] || erroresBack['password'] }}
-      </div>
-    }
+    <div class="form-card mx-auto">
+      <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Nombre de usuario -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de usuario</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-control"
+          />
+          @if (formulario.get('username')?.invalid && formulario.get('username')?.touched) {
+            <div class="text-danger mt-1">El nombre de usuario es obligatorio</div>
+          }
+          @if (erroresBack['username']) {
+            <div class="text-danger mt-1">{{ erroresBack['username'] }}</div>
+          }
+        </div>
+      
+        <!-- Correo electrónico -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+          />
+          @if (formulario.get('email')?.invalid && formulario.get('email')?.touched) {
+            <div class="text-danger mt-1">
+              @if (formulario.get('email')?.errors?.['required']) {
+                El correo es obligatorio
+              } @else if (formulario.get('email')?.errors?.['email']) {
+                El correo no tiene un formato válido
+              }
+            </div>
+          }
+          @if (erroresBack['email']) {
+            <div class="text-danger mt-1">{{ erroresBack['email'] }}</div>
+          }
+        </div>
+      
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <label for="password1" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="password1"
+            formControlName="password1"
+            class="form-control"
+          />
+          @if (formulario.get('password1')?.invalid && formulario.get('password1')?.touched) {
+            <div class="text-danger mt-1">La contraseña es obligatoria</div>
+          }
+          @if (erroresBack['password1'] || erroresBack['password']) {
+            <div class="text-danger mt-1">
+              {{ erroresBack['password1'] || erroresBack['password'] }}
+            </div>
+          }
+        </div>
+      
+        <!-- Confirmar contraseña -->
+        <div class="mb-3">
+          <label for="password2" class="form-label">Confirmar contraseña</label>
+          <input
+            type="password"
+            id="password2"
+            formControlName="password2"
+            class="form-control"
+          />
+          @if (formulario.get('password2')?.invalid && formulario.get('password2')?.touched) {
+            <div class="text-danger mt-1">Debes confirmar la contraseña</div>
+          }
+          @if (erroresBack['password2']) {
+            <div class="text-danger mt-1">{{ erroresBack['password2'] }}</div>
+          }
+        </div>
+      
+        <button type="submit" class="btn btn-submit w-100">
+          Registrarse
+        </button>
+      </form>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <label for="password2" class="form-label">Confirmar contraseña</label>
-    <input type="password" id="password2" formControlName="password2" class="form-control" />
-    @if (erroresBack['password2']) {
-      <div class="text-danger mt-1">{{ erroresBack['password2'] }}</div>
-    }
-  </div>
-
-  <button type="submit" class="btn btn-primary">Registrarse</button>
-</form>
+</section>

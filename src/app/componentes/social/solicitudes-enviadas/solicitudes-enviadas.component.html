@@ -1,19 +1,41 @@
-@if (cargando) {
-    <p>Cargando solicitudes enviadas...</p>
-  } @else if (solicitudes.length === 0) {
-    <p>No has enviado solicitudes de amistad recientemente.</p>
-  } @else {
-    <div class="list-group">
-      @for (solicitud of solicitudes; track solicitud.id) {
-        <div class="list-group-item d-flex align-items-center gap-3">
-          @if (solicitud.a_usuario.avatar) {
-            <img [src]="solicitud.a_usuario.avatar" alt="avatar" class="rounded-circle" width="50" height="50" />
-          }
-          <div>
-            <strong>{{ solicitud.a_usuario.username }}</strong><br />
-            <small class="text-muted">{{ solicitud.a_usuario.ciudad }}, {{ solicitud.a_usuario.pais }}</small>
-          </div>
-        </div>
-      }
-    </div>
-  }
+<section class="solicitudes-enviadas py-5">
+  <div class="container">
+    <h3 class="section-subtitle mb-4">Solicitudes enviadas</h3>
+
+    <!-- Estado de carga -->
+    @if (cargando) {
+      <div class="status-message text-center mb-4" role="status">
+        <div class="spinner-border" role="status"></div>
+        <span class="visually-hidden">Cargando solicitudes enviadas…</span>
+      </div>
+    } 
+    <!-- Estado vacío -->
+    @else if (solicitudes.length === 0) {
+      <div class="status-message text-center mb-4" role="alert">
+        <p>No has enviado solicitudes de amistad recientemente.</p>
+      </div>
+    } 
+    <!-- Lista de solicitudes -->
+    @else {
+      <ul class="list-group" role="list">
+        @for (solicitud of solicitudes; track solicitud.id) {
+          <li class="list-group-item sent-request-item d-flex align-items-center gap-3" role="listitem">
+            @if (solicitud.a_usuario.avatar) {
+              <img
+                [src]="solicitud.a_usuario.avatar"
+                alt="Avatar de {{ solicitud.a_usuario.username }}"
+                class="request-avatar rounded-circle"
+              />
+            }
+            <div class="user-details">
+              <strong class="username">{{ solicitud.a_usuario.username }}</strong><br />
+              <small class="location text-muted">
+                {{ solicitud.a_usuario.ciudad }}, {{ solicitud.a_usuario.pais }}
+              </small>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</section>

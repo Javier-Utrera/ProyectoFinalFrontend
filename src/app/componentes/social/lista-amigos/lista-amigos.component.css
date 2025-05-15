@@ -1,0 +1,88 @@
+/* Estado de carga y mensaje vacío */
+.app-lista-amigos p {
+    text-align: center;
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+    margin: var(--sp-4) 0;
+}
+
+/* Lista de amigos */
+.app-lista-amigos .list-group {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Item de amigo */
+.app-lista-amigos .list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-3) var(--sp-4);
+    margin-bottom: var(--sp-2);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.app-lista-amigos .list-group-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Contenedor de avatar y texto */
+.app-lista-amigos .d-flex.align-items-center.gap-3 {
+    gap: var(--sp-3);
+}
+
+/* Avatar redondo */
+.app-lista-amigos img.rounded-circle {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid var(--salvia);
+}
+
+/* Nombre de usuario */
+.app-lista-amigos strong {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+}
+
+/* Ciudad, país */
+.app-lista-amigos small.text-muted {
+    font-size: var(--fs-6);
+    color: var(--gristopo);
+}
+
+/* Botón eliminar */
+.app-lista-amigos .btn-outline-danger {
+    border-color: var(--terracota);
+    color: var(--terracota);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.app-lista-amigos .btn-outline-danger:hover {
+    background-color: var(--terracota-hover);
+    color: var(--marfil);
+}
+
+.app-lista-amigos .btn-outline-danger:active {
+    background-color: var(--terracota-active);
+    color: var(--marfil);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .app-lista-amigos .list-group-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .app-lista-amigos .btn-outline-danger {
+        margin-top: var(--sp-2);
+        align-self: flex-end;
+    }
+}

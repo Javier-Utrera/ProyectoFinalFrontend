@@ -1,39 +1,61 @@
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item">
-    <button class="nav-link" [class.active]="tab === 'buscar'" (click)="tab = 'buscar'">Buscar usuarios</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" [class.active]="tab === 'amigos'" (click)="tab = 'amigos'">Amigos</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" [class.active]="tab === 'recibidas'" (click)="tab = 'recibidas'">Solicitudes
-      recibidas</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" [class.active]="tab === 'enviadas'" (click)="tab = 'enviadas'">Solicitudes
-      enviadas</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" [class.active]="tab === 'bloqueados'" (click)="tab = 'bloqueados'">Bloqueados</button>
-  </li>
-</ul>
+<div class="app-gestor-amistades">
+  <!-- Pestañas de navegación -->
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'buscar'" (click)="tab = 'buscar'">
+        Buscar usuarios
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'amigos'" (click)="tab = 'amigos'">
+        Amigos
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'recibidas'" (click)="tab = 'recibidas'">
+        Solicitudes recibidas
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'enviadas'" (click)="tab = 'enviadas'">
+        Solicitudes enviadas
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" [class.active]="tab === 'bloqueados'" (click)="tab = 'bloqueados'">
+        Bloqueados
+      </button>
+    </li>
+  </ul>
 
-<div>
-  @switch (tab) {
-  @case ('buscar') {
-  <app-buscador-usuarios />
-  }
-  @case ('amigos') {
-  <app-lista-amigos />
-  }
-  @case ('recibidas') {
-  <app-solicitudes-recibidas />
-  }
-  @case ('enviadas') {
-  <app-solicitudes-enviadas />
-  }
-  @case ('bloqueados') {
-    <app-usuarios-bloqueados />
-  }
-  }
+  <!-- Contenido de la pestaña activa -->
+  <div class="tab-content">
+    @switch (tab) {
+    @case ('buscar') {
+    <div class="tab-pane">
+      <app-buscador-usuarios></app-buscador-usuarios>
+    </div>
+    }
+    @case ('amigos') {
+    <div class="tab-pane">
+      <app-lista-amigos></app-lista-amigos>
+    </div>
+    }
+    @case ('recibidas') {
+    <div class="tab-pane">
+      <app-solicitudes-recibidas></app-solicitudes-recibidas>
+    </div>
+    }
+    @case ('enviadas') {
+    <div class="tab-pane">
+      <app-solicitudes-enviadas></app-solicitudes-enviadas>
+    </div>
+    }
+    @case ('bloqueados') {
+    <div class="tab-pane">
+      <app-usuarios-bloqueados></app-usuarios-bloqueados>
+    </div>
+    }
+    }
+  </div>
 </div>

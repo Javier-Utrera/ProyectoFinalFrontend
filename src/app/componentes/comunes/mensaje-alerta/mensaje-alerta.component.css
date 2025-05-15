@@ -1,0 +1,53 @@
+/* Contenedor de alerta */
+.alert {
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--fs-5);
+    padding: var(--sp-3) var(--sp-4);
+    position: relative;
+  }
+  
+  /* Botón de cierre */
+  .alert .btn-close {
+    filter: brightness(0.5);
+    transition: filter 0.2s;
+  }
+  .alert .btn-close:hover {
+    filter: brightness(0.8);
+  }
+  
+  /* Alertas según tipo */
+  .alert-success {
+    background-color: var(--salvia);
+    color: var(--marfil);
+    border: 1px solid darken(var(--salvia), 10%);
+  }
+  
+  .alert-danger {
+    background-color: var(--terracota);
+    color: var(--marfil);
+    border: 1px solid darken(var(--terracota), 10%);
+  }
+  
+  .alert-warning {
+    background-color: var(--beige);
+    color: var(--cafe);
+    border: 1px solid var(--gristopo);
+  }
+  
+  .alert-info {
+    background-color: var(--marfil);
+    color: var(--cafe);
+    border: 1px solid var(--gristopo);
+  }
+  
+  /* Fade/show animaciones más suaves */
+  .fade {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+  }
+  .fade.show {
+    opacity: 1;
+  }
+  

@@ -1,0 +1,105 @@
+.hero {
+    background-color: var(--beige);
+    padding: var(--sp-5) 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-0);
+    color: var(--cafe);
+    margin-bottom: var(--sp-3);
+}
+
+.hero-subtitle {
+    font-size: var(--fs-4);
+    color: var(--gristopo);
+    max-width: 700px;
+    margin: 0 auto var(--sp-4);
+}
+
+.btn-cta {
+    background-color: var(--salvia);
+    border-color: var(--salvia);
+    color: var(--marfil);
+    padding: var(--sp-3) var(--sp-5);
+    font-size: var(--fs-5);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-cta:hover {
+    background-color: var(--salvia-hover);
+    transform: translateY(-2px);
+}
+
+.btn-cta:active {
+    background-color: var(--salvia-active);
+}
+
+.featured {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-2);
+    color: var(--cafe);
+    text-align: center;
+    margin-bottom: var(--sp-4);
+}
+
+/* Estado de carga / vacío */
+.status-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+    margin: var(--sp-4) 0;
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+}
+
+.status-message .spinner-border {
+    color: var(--salvia);
+    width: 3rem;
+    height: 3rem;
+}
+
+.relatos-publicados {
+    padding: var(--sp-4) 0;
+}
+
+.relatos-publicados .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-2);
+    color: var(--cafe);
+    text-align: center;
+    margin-bottom: var(--sp-4);
+}
+
+/* Grid reutilizando el mismo estilo de cards */
+.relatos-publicados .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--sp-4);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: var(--fs-1);
+    }
+
+    .hero-subtitle {
+        font-size: var(--fs-5);
+        padding: 0 var(--sp-2);
+    }
+
+    .btn-cta {
+        width: 100%;
+    }
+
+    .cards-grid {
+        gap: var(--sp-3);
+    }
+}

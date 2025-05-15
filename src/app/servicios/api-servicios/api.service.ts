@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Comentario, Estadistica, Voto } from './api.models';
+import { Comentario, Estadistica, PaginatedResponse, Relato, Voto } from './api.models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -35,48 +35,72 @@ export class ApiService {
   // RELATOS
   // ===========================================================================
 
-  getRelatosPublicados(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/relatos/publicados/`);
+  /** Relatos publicados (público). */
+  getRelatosPublicados(params?: any): Observable<PaginatedResponse<Relato>> {
+    return this.http.get<PaginatedResponse<Relato>>(
+      `${this.baseUrl}/relatos/publicados/`,
+      { params }
+    );
   }
 
-  getMisRelatos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/relatos/`, {
-      headers: this.getHeaders()
-    });
+  /** Relatos disponibles (autenticado). */
+  getRelatosDisponibles(params?: any): Observable<PaginatedResponse<Relato>> {
+    return this.http.get<PaginatedResponse<Relato>>(
+      `${this.baseUrl}/relatos/disponibles/`,
+      { params, headers: this.getHeaders() }
+    );
   }
 
+  /** Mis relatos (autenticado). */
+  getMisRelatos(params?: any): Observable<PaginatedResponse<Relato>> {
+    return this.http.get<PaginatedResponse<Relato>>(
+      `${this.baseUrl}/relatos/mis-relatos/`,
+      { params, headers: this.getHeaders() }
+    );
+  }
+
+  /** Detalle de relato propio (autenticado). */
   getRelatoPorId(relatoId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/relatos/${relatoId}/`, {
-      headers: this.getHeaders()
-    });
+    return this.http.get<any>(
+      `${this.baseUrl}/relatos/${relatoId}/`,
+      { headers: this.getHeaders() }
+    );
   }
 
+  /** Detalle de relato público. */
   getRelatoPorIdPublico(relatoId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/relatos/publicados/${relatoId}/`);
+    return this.http.get<any>(
+      `${this.baseUrl}/relatos/publicados/${relatoId}/`
+    );
   }
 
-  getRelatosAbiertos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/relatos/abiertos/`);
-  }
-
+  /** Crear relato. */
   crearRelato(datos: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/relatos/crear/`, datos, {
-      headers: this.getHeaders()
-    });
+    return this.http.post<any>(
+      `${this.baseUrl}/relatos/crear/`,
+      datos,
+      { headers: this.getHeaders() }
+    );
   }
 
+  /** Editar relato. */
   editarRelato(relatoId: number, datos: any): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/relatos/${relatoId}/editar/`, datos, {
-      headers: this.getHeaders()
-    });
+    return this.http.patch<any>(
+      `${this.baseUrl}/relatos/${relatoId}/editar/`,
+      datos,
+      { headers: this.getHeaders() }
+    );
   }
 
+  /** Eliminar relato. */
   eliminarRelato(relatoId: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/relatos/${relatoId}/eliminar/`, {
-      headers: this.getHeaders()
-    });
+    return this.http.delete<any>(
+      `${this.baseUrl}/relatos/${relatoId}/eliminar/`,
+      { headers: this.getHeaders() }
+    );
   }
 
+  /** Marcar relato listo. */
   marcarRelatoListo(relatoId: number): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/relatos/${relatoId}/marcar-listo/`,
@@ -85,6 +109,7 @@ export class ApiService {
     );
   }
 
+  /** Unirse a relato. */
   unirseARelato(relatoId: number): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/relatos/${relatoId}/unirse/`,
@@ -93,19 +118,15 @@ export class ApiService {
     );
   }
 
-  getMiFragmento(relatoId: number): Observable<{
-    id: number;
-    relato: number;
-    orden: number;
-    contenido_fragmento: string;
-    listo_para_publicar: boolean;
-  }> {
+  /** Obtener mi fragmento. */
+  getMiFragmento(relatoId: number): Observable<any> {
     return this.http.get<any>(
       `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/`,
       { headers: this.getHeaders() }
     );
   }
 
+  /** Actualizar mi fragmento. */
   updateMiFragmento(relatoId: number, html: string): Observable<any> {
     return this.http.put<any>(
       `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/`,
@@ -114,6 +135,7 @@ export class ApiService {
     );
   }
 
+  /** Marcar fragmento como listo. */
   markFragmentReady(relatoId: number): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/relatos/${relatoId}/mi-fragmento/ready/`,
@@ -261,7 +283,7 @@ export class ApiService {
 
   getEstadisticasRelato(relatoId: number): Observable<Estadistica> {
     return this.http.get<Estadistica>(
-      `${this.baseUrl}/relatos/${relatoId}/estadisticas/`
+      `${this.baseUrl}/estadisticas/relatos/${relatoId}/`
     );
   }
 

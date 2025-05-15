@@ -34,23 +34,22 @@ export class RegistroComponent implements OnInit {
 
   onSubmit(): void {
     this.erroresBack = {};
-    if (!this.formulario.valid) return;
-
+    if (!this.formulario.valid) {
+      this.formulario.markAllAsTouched();
+      return;
+    }
+  
     this.authService.registrarUsuario(this.formulario.value).subscribe({
       next: (res) => {
-        console.log('RESPUESTA:', res)
         const username = res.user.username;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        //Error en el servidor
         if (err.status === 400) {
           Object.entries(err.error).forEach(([campo, mensajes]) => {
             this.erroresBack[campo] = Array.isArray(mensajes) ? mensajes[0] : mensajes;
           });
         } else {
-          //Error en la API
-          console.error('Error en el servidor:', err);
           this.mensajeGlobal.mostrar(err.error?.error || 'Error en el servidor', 'danger');
         }
       }

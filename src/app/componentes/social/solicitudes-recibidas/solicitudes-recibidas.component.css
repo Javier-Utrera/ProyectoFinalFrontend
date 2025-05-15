@@ -1,0 +1,110 @@
+.solicitudes-recibidas {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+}
+
+.solicitudes-recibidas .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 var(--sp-3);
+}
+
+/* Subtítulo */
+.solicitudes-recibidas .section-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-3);
+    color: var(--cafe);
+    text-align: center;
+}
+
+/* Estado (cargando/vacío) */
+.solicitudes-recibidas .status-message {
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+}
+
+.solicitudes-recibidas .status-message .spinner-border {
+    color: var(--salvia);
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Lista de solicitudes */
+.solicitudes-recibidas .list-group {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Ítem individual */
+.solicitudes-recibidas .received-request-item {
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-3) var(--sp-4);
+    margin-bottom: var(--sp-3);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.solicitudes-recibidas .received-request-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Avatar */
+.solicitudes-recibidas .request-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid var(--salvia);
+}
+
+/* Detalles de usuario */
+.solicitudes-recibidas .user-details .username {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+}
+
+.solicitudes-recibidas .user-details .location {
+    font-size: var(--fs-6);
+}
+
+/* Grupo de acciones */
+.solicitudes-recibidas .actions-group .btn-sm {
+    font-size: var(--fs-6);
+    padding: var(--sp-1) var(--sp-3);
+}
+
+/* Botón Aceptar */
+.solicitudes-recibidas .btn-success {
+    background-color: var(--salvia);
+    border-color: var(--salvia);
+    color: var(--marfil);
+}
+
+.solicitudes-recibidas .btn-success:hover {
+    background-color: var(--salvia-hover);
+}
+
+/* Botón Bloquear */
+.solicitudes-recibidas .btn-outline-danger {
+    border-color: var(--terracota);
+    color: var(--terracota);
+}
+
+.solicitudes-recibidas .btn-outline-danger:hover {
+    background-color: var(--terracota-hover);
+    color: var(--marfil);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .solicitudes-recibidas .received-request-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .solicitudes-recibidas .actions-group {
+        margin-top: var(--sp-2);
+    }
+}

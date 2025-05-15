@@ -1,0 +1,47 @@
+/* Sección principal */
+.relatos-publicados {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+  }
+  
+  /* Contenedor centrado */
+  .relatos-publicados .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 var(--sp-3);
+  }
+  
+  /* Título de la página */
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-1);
+    color: var(--cafe);
+    text-align: center;
+    margin-bottom: var(--sp-5);
+  }
+  
+  /* Mensajes de estado (carga, vacío) */
+  .status-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+    margin: var(--sp-4) 0;
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+  }
+  
+  /* Grid responsivo de tarjetas */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--sp-4);
+  }
+  
+  /* Ajuste para spinner */
+  .status-message .spinner-border {
+    color: var(--salvia);
+    width: 3rem;
+    height: 3rem;
+  }
+  

@@ -14,7 +14,7 @@ import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-glo
 export class LoginComponent implements OnInit {
   formulario!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AutenticacionService, private router: Router, private route: ActivatedRoute,public mensajeGlobal: MensajeGlobalService) { }
+  constructor(private fb: FormBuilder, private authService: AutenticacionService, public router: Router, private route: ActivatedRoute,public mensajeGlobal: MensajeGlobalService) { }
 
   ngOnInit(): void {
     this.mensajeGlobal.limpiar();
@@ -25,6 +25,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.mensajeGlobal.limpiar();
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      return;
+    }
     if (this.formulario.valid) {
       const username = this.formulario.value.username;
 
@@ -32,8 +37,8 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           console.log('RESPUESTA:', res)
           const username = res.user.username;
-          const returnUrl = this.route.snapshot.queryParamMap.get('returnTo');
-          this.router.navigate([returnUrl || '/']);
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+          this.router.navigateByUrl(returnUrl || '/');
         },
         error: (err) => {
           console.error('Error en el login:', err);

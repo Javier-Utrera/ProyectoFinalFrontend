@@ -1,46 +1,138 @@
+/* Contenedor principal */
 .editor-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
+  background-color: #fff;
+  /* Blanco puro */
+  border: 1px solid var(--gristopo);
+  /* Contorno suave */
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Sombra más marcada */
   overflow: hidden;
+  margin: var(--sp-4) 0;
+  /* Separación vertical */
 }
 
+/* Menú superior (menubar) */
 .editor-menubar {
-  padding: 8px 12px;
-  background-color: #f7f7f7;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--salvia);
+  /* Salvia para resaltar */
+  color: var(--marfil);
+  padding: var(--sp-2) var(--sp-3);
 }
 
+/* Barra de herramientas */
 .editor-toolbar {
-  padding: 4px 8px;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ccc;
-  z-index: 1;
+  background-color: var(--beige);
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--gristopo);
 }
 
+/* Ajuste a los botones de la toolbar */
+.editor-toolbar .ck-button {
+  background: transparent;
+  border: none;
+  color: var(--cafe);
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: var(--radius-sm);
+  margin: var(--sp-1) var(--sp-1) 0 0;
+}
+
+.editor-toolbar .ck-button:hover {
+  background-color: var(--gristopo-hover);
+  color: var(--salvia);
+}
+
+.editor-toolbar .ck-button.ck-on {
+  background-color: var(--salvia);
+  color: var(--marfil);
+}
+
+/* Área de contenido */
 .editor-content {
-  padding: 12px;
-  min-height: 200px;
-  background: white;
+  background: #fff;
+  /* Blanco puro */
+  padding: var(--sp-4);
+  min-height: 350px;
 }
 
+/* Editor inline CKEditor */
 .ck-editor__editable_inline {
-  min-height: 200px;
-  line-height: 1.6;
-  font-size: 1rem;
-  padding: 12px;
+  background: #fff;
+  padding: var(--sp-4);
+  min-height: 350px;
+  line-height: 1.8;
+  font-size: var(--fs-4);
   border: none;
   outline: none;
-  color: #333;
-  background: white;
 }
 
-/* Responsive */
+/* Imágenes insertadas */
+
+/* Tablas insertadas */
+.editor-content table,
+.ck-editor__editable_inline table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+}
+
+.editor-content th,
+.ck-editor__editable_inline th,
+.editor-content td,
+.ck-editor__editable_inline td {
+  border: 1px solid var(--gristopo);
+  padding: var(--sp-2);
+}
+
+/* Citas blockquote */
+.editor-content blockquote,
+.ck-editor__editable_inline blockquote {
+  margin: var(--sp-4) 0;
+  padding: var(--sp-3) var(--sp-4);
+  background-color: var(--beige);
+  border-left: 4px solid var(--salvia);
+  font-style: italic;
+}
+
+/* Enlaces */
+.editor-content a,
+.ck-editor__editable_inline a {
+  color: var(--salvia);
+  text-decoration: underline;
+}
+
+.editor-content a:hover,
+.ck-editor__editable_inline a:hover {
+  color: var(--cafe);
+}
+
+.editor-content:focus-within {
+  outline: 2px solid var(--salvia);
+}
+
+/* Asegura que los botones de toolbar destaquen */
+.editor-toolbar .ck-button {
+  color: var(--cafe);
+}
+
+.editor-toolbar .ck-button:hover {
+  background-color: var(--salvia-hover);
+}
+
+.editor-toolbar .ck-button.ck-on {
+  background-color: var(--salvia);
+  color: var(--marfil);
+}
+
+/* Responsive: reduce márgenes y padding */
 @media (max-width: 768px) {
-  .editor-content {
-    padding: 8px;
+  .editor-wrapper {
+    margin: var(--sp-3) 0;
+  }
+
+  .editor-content,
+  .ck-editor__editable_inline {
+    padding: var(--sp-3);
+    min-height: 250px;
   }
 }

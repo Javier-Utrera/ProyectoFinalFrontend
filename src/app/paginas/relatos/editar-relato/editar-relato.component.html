@@ -1,52 +1,111 @@
-<h2>Editar Metadatos del Relato</h2>
+<section class="editar-relato py-5">
+  <div class="container">
+    <!-- Título de sección -->
+    <h2 class="page-title mb-4">Datos del Relato</h2>
 
-@if (cargando) {
-  <p>Cargando relato...</p>
-} @else {
-  <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 mb-4">
-    <!-- Título -->
-    <div class="mb-3">
-      <label class="form-label">Título</label>
-      <input type="text" class="form-control" formControlName="titulo" />
-      @if (formulario.get('titulo')?.invalid && enviado) {
-        <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+    <!-- Estado de carga -->
+    @if (cargando) {
+      <p class="status-text text-center mb-4">Cargando relato…</p>
+    } @else {
+      <!-- Si es el creador, muestra el formulario -->
+      @if (esCreador) {
+        <form
+          [formGroup]="formulario"
+          (ngSubmit)="onSubmit()"
+          class="card form-card mb-4"
+          novalidate
+        >
+          <!-- Título -->
+          <div class="mb-3">
+            <label class="form-label">Título</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="titulo"
+              placeholder="Nuevo título"
+            />
+            @if (formulario.get('titulo')?.invalid && enviado) {
+              <div class="text-danger mt-1">
+                Debe tener al menos 3 caracteres.
+              </div>
+            }
+          </div>
+
+          <!-- Descripción -->
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea
+              class="form-control"
+              formControlName="descripcion"
+              rows="3"
+              placeholder="Nueva descripción"
+            ></textarea>
+            @if (formulario.get('descripcion')?.invalid && enviado) {
+              <div class="text-danger mt-1">
+                Debe tener al menos 10 caracteres.
+              </div>
+            }
+          </div>
+
+          <!-- Idioma -->
+          <div class="mb-3">
+            <label class="form-label">Idioma</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="idioma"
+              placeholder="Idioma del relato"
+            />
+            @if (formulario.get('idioma')?.invalid && enviado) {
+              <div class="text-danger mt-1">
+                Este campo es obligatorio.
+              </div>
+            }
+          </div>
+
+          <!-- Botón guardar metadatos -->
+          <div class="text-end">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="formulario.invalid"
+            >
+              Guardar información
+            </button>
+          </div>
+        </form>
+      } @else {
+        <!-- Modo solo lectura -->
+        <section class="card read-only-card mb-4">
+          <dl class="row mb-0">
+            <dt class="col-sm-3">Título</dt>
+            <dd class="col-sm-9">{{ relato.titulo }}</dd>
+
+            <dt class="col-sm-3">Descripción</dt>
+            <dd class="col-sm-9">{{ relato.descripcion }}</dd>
+
+            <dt class="col-sm-3">Idioma</dt>
+            <dd class="col-sm-9">{{ relato.idioma }}</dd>
+          </dl>
+        </section>
       }
+
+      <hr class="my-5" />
+    }
+  </div>
+
+  <!-- Editor a pantalla completa -->
+  <h2 class="section-title text-center mb-4">Escribir mi Fragmento</h2>
+  <div class="fragment-section container-fluid px-0">
+    <div class="row gx-0">
+      <div class="col-12">
+        <div class="fragment-editor-wrapper mb-5">
+          <app-editor-fragmento
+            [relatoId]="relatoId"
+            (fragmentoListo)="onFragmentoListo()"
+          ></app-editor-fragmento>
+        </div>
+      </div>
     </div>
-
-    <!-- Descripción -->
-    <div class="mb-3">
-      <label class="form-label">Descripción</label>
-      <textarea class="form-control" formControlName="descripcion" rows="3"></textarea>
-      @if (formulario.get('descripcion')?.invalid && enviado) {
-        <div class="text-danger">Debe tener al menos 10 caracteres.</div>
-      }
-    </div>
-
-    <!-- Idioma -->
-    <div class="mb-3">
-      <label class="form-label">Idioma</label>
-      <input type="text" class="form-control" formControlName="idioma" />
-      @if (formulario.get('idioma')?.invalid && enviado) {
-        <div class="text-danger">Este campo es obligatorio.</div>
-      }
-    </div>
-
-    <!-- Botón guardar metadatos -->
-    <div class="d-flex justify-content-end">
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="!esCreador || formulario.invalid">
-        Guardar Metadatos
-      </button>
-    </div>
-  </form>
-
-  <hr />
-
-  <h2>Escribir mi Fragmento</h2>
-  <app-editor-fragmento
-    [relatoId]="relatoId"
-    (fragmentoListo)="onFragmentoListo()">
-  </app-editor-fragmento>
-}
+  </div>
+</section>

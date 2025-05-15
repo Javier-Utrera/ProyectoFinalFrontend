@@ -1,0 +1,57 @@
+.votacion-container {
+    padding: var(--sp-3);
+  }
+  
+  .votacion-container h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--cafe);
+  }
+  
+  /* Wrapper para centrar y espacio */
+  .estrella-wrapper {
+    gap: var(--sp-2);
+  }
+  
+  /* Botones de estrella */
+  .estrella-btn {
+    background: transparent;
+    border: none;
+    padding: var(--sp-1);
+    cursor: pointer;
+    transition: transform 0.15s ease-out;
+  }
+  
+  .estrella-btn i {
+    font-size: 1.5rem;
+    color: var(--gristopo);
+    transition: color 0.2s, transform 0.2s;
+  }
+  
+  /* Hover global: escala el botón */
+  .estrella-btn:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Cambio de color al rellenar */
+  .estrella-btn .bi-star-fill {
+    color: var(--salvia);
+  }
+  
+  /* Animación de rebote al hacer click */
+  .estrella-btn:active i {
+    animation: estrella-bounce 0.4s ease;
+  }
+  
+  /* Keyframes rebote */
+  @keyframes estrella-bounce {
+    0%   { transform: scale(1.2); }
+    50%  { transform: scale(0.9); }
+    100% { transform: scale(1.1); }
+  }
+  
+  /* Texto de puntuación */
+  .votacion-container small {
+    font-size: var(--fs-6);
+    color: var(--gristopo);
+  }
+  

@@ -1,24 +1,53 @@
-@if (cargando) {
-<p>Cargando amigos...</p>
-} @else if (amigos.length === 0) {
-<p>No tienes amigos todavía.</p>
-} @else {
-<div class="list-group">
-    @for (amigo of amigos; track amigo.id) {
-    <div class="list-group-item d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            @if (amigo.avatar) {
-            <img [src]="amigo.avatar" alt="avatar" class="rounded-circle" width="50" height="50" />
-            }
-            <div>
-                <strong>{{ amigo.username }}</strong><br />
-                <small class="text-muted">{{ amigo.ciudad }}, {{ amigo.pais }}</small>
-            </div>
+<section class="lista-amigos py-5">
+    <div class="container">
+      <h3 class="section-subtitle mb-4">Amigos</h3>
+  
+      <!-- Estado de carga / vacío -->
+      @if (cargando) {
+        <div class="status-message" role="status">
+          <div class="spinner-border" role="status"></div>
+          <span class="visually-hidden">Cargando amigos…</span>
         </div>
-        <button class="btn btn-sm btn-outline-danger" (click)="eliminarAmigo(amigo.id)">
-            Eliminar
-        </button>
+      } @else if (amigos.length === 0) {
+        <div class="status-message" role="alert">
+          <p>No tienes amigos todavía.</p>
+        </div>
+      } @else {
+        <!-- Lista de amigos -->
+        <ul class="list-group" role="list">
+          @for (amigo of amigos; track amigo.id) {
+            <li
+              class="list-group-item d-flex align-items-center justify-content-between"
+              role="listitem"
+            >
+              <div class="d-flex align-items-center gap-3">
+                @if (amigo.avatar) {
+                  <img
+                    [src]="amigo.avatar"
+                    alt="Avatar de {{ amigo.username }}"
+                    class="rounded-circle"
+                    width="50"
+                    height="50"
+                  />
+                }
+                <div class="user-details">
+                  <strong class="username">{{ amigo.username }}</strong><br />
+                  <small class="text-muted">
+                    {{ amigo.ciudad }}, {{ amigo.pais }}
+                  </small>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="eliminarAmigo(amigo.id)"
+              >
+                Eliminar
+              </button>
+            </li>
+          }
+        </ul>
+      }
     </div>
-    }
-</div>
-}
+  </section>
+  

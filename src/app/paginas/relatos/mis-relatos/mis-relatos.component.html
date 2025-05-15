@@ -1,26 +1,54 @@
-<h2>Mis relatos</h2>
+<section class="mis-relatos">
+  <div class="container">
+    <h2 class="page-title">Mis relatos</h2>
 
-@if (cargando) {
-  <p>Cargando...</p>
-} @else if (relatos.length === 0) {
-  <p>No has creado ni participado en ningún relato todavía.</p>
-} @else {
-  <div class="list-group">
-    @for (relato of relatos; track relato.id) {
-      <div class="list-group-item d-flex justify-content-between align-items-start flex-column flex-md-row">
-        <div class="me-md-3">
-          <h5 class="mb-1">{{ relato.titulo }}</h5>
-          <p class="mb-1"><strong>Idioma:</strong> {{ relato.idioma }}</p>
-          <p class="mb-1"><strong>Estado:</strong> {{ relato.estado }}</p>
-          <p class="mb-1 text-muted">Creado el {{ relato.fecha_creacion | date:'mediumDate' }}</p>
-        </div>
-        <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
-          <button class="btn btn-sm btn-outline-primary" (click)="verRelato(relato.id)">Ver</button>
-          <button class="btn btn-sm btn-outline-secondary" (click)="editarRelato(relato.id)">Editar</button>
-          <button class="btn btn-sm btn-outline-success" (click)="marcarListo(relato.id)">Listo para publicar</button>
-          <button class="btn btn-sm btn-outline-danger" (click)="eliminarRelato(relato.id)">Eliminar</button>
-        </div>
+    @if (cargando) {
+      <div class="status-message" role="status">
+        <div class="spinner-border" role="status"></div>
+        <span class="visually-hidden">Cargando…</span>
+      </div>
+    } @else if (relatos.length === 0) {
+      <div class="status-message" role="alert">
+        <p>No has creado ni participado en ningún relato todavía.</p>
+      </div>
+    } @else {
+      <div class="cards-grid">
+        @for (relato of relatos; track relato.id) {
+          <div class="card-wrapper">
+            <app-relatocard
+              [relato]="relato"
+              origen="mis-relatos"
+            ></app-relatocard>
+
+            <div class="actions-group mt-3">
+              <button
+                class="btn btn-sm btn-view"
+                (click)="verRelato(relato.id)"
+              >
+                Ver
+              </button>
+              <button
+                class="btn btn-sm btn-edit"
+                (click)="editarRelato(relato.id)"
+              >
+                Editar
+              </button>
+              <button
+                class="btn btn-sm btn-ready"
+                (click)="marcarListo(relato.id)"
+              >
+                Listo para publicar
+              </button>
+              <button
+                class="btn btn-sm btn-delete"
+                (click)="eliminarRelato(relato.id)"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        }
       </div>
     }
   </div>
-}
+</section>

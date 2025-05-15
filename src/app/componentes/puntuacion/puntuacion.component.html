@@ -1,29 +1,28 @@
-<div class="votacion-container">
-    <h4>Tu valoración</h4>
-  
-    <div class="d-inline-flex">
-      @for (estrella of [1,2,3,4,5]; track estrella) {
-        <button
-          type="button"
-          class="btn p-0 mx-1 estrella-btn"
-          (mouseenter)="hover = estrella"
-          (mouseleave)="hover = 0"
-          (click)="votar(estrella)"
-          [attr.aria-label]="'Votar ' + estrella + ' estrellas'"
-        >
-          <i
-            class="bi"
-            [class.bi-star-fill]="(hover || miPuntuacion) >= estrella"
-            [class.bi-star]="(hover || miPuntuacion) <  estrella"
-          ></i>
-        </button>
-      }
-    </div>
-  
-    @if (miPuntuacion > 0) {
-      <small class="d-block mt-2 text-muted">
-        Has votado {{ miPuntuacion }} de 5
-      </small>
+<div class="votacion-container text-center">
+  <h4 class="mb-3">Tu valoración</h4>
+
+  <div class="estrella-wrapper d-inline-flex">
+    @for (estrella of [1,2,3,4,5]; track estrella) {
+      <button
+        type="button"
+        class="estrella-btn"
+        (mouseenter)="hover = estrella"
+        (mouseleave)="hover = 0"
+        (click)="votar(estrella)"
+        [attr.aria-label]="'Votar ' + estrella + ' estrellas'"
+      >
+        <i
+          class="bi"
+          [class.bi-star-fill]="(hover || miPuntuacion) >= estrella"
+          [class.bi-star]="(hover || miPuntuacion) <  estrella"
+        ></i>
+      </button>
     }
+  </div>
+
+  @if (miPuntuacion > 0) {
+    <small class="d-block mt-2 text-muted">
+      Has votado {{ miPuntuacion }} de 5
+    </small>
+  }
 </div>
-  

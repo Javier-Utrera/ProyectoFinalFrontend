@@ -1,0 +1,175 @@
+/* ==========================
+   PERFIL COMPONENTE CSS
+   ========================== */
+
+/* Variables globales ya definidas:
+   --marfil, --beige, --cafe, --salvia, --gristopo, --terracota,
+   --fs-*, --sp-*, --radius-*, --shadow-sm */
+
+   .profile-page {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+  }
+  
+  .profile-page .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--sp-3);
+  }
+  
+  /* Título */
+  .profile-page h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-1);
+    color: var(--cafe);
+    text-align: center;
+    margin-bottom: var(--sp-4);
+  }
+  
+  /* Mensaje global */
+  profile-page app-mensaje-alerta {
+    margin-bottom: var(--sp-4);
+  }
+  
+  /* Estado de carga */
+  .profile-page p {
+    text-align: center;
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+    margin: var(--sp-4) 0;
+  }
+  
+  /* Contenedor de datos */
+  .profile-card {
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--sp-4);
+    margin-bottom: var(--sp-5);
+  }
+  
+  /* Encabezado de sección de amigos */
+  .profile-page h3 {
+    font-family: 'Rubik', sans-serif;
+    font-size: var(--fs-3);
+    color: var(--cafe);
+    margin-top: var(--sp-4);
+    margin-bottom: var(--sp-3);
+  }
+  
+  /* Avatar */
+  .profile-card img.img-thumbnail {
+    display: block;
+    margin: var(--sp-3) auto;
+    max-width: 150px;
+    border-radius: 50%;
+    border: 2px solid var(--salvia);
+  }
+  
+  /* Campos de texto */
+  .profile-card p {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+    margin-bottom: var(--sp-2);
+  }
+  .profile-card p strong {
+    color: var(--cafe);
+  }
+  
+  /* Botón editar */
+  .btn-edit-profile {
+    display: block;
+    margin: var(--sp-3) auto 0;
+    background-color: var(--salvia);
+    border-color: var(--salvia);
+    color: var(--marfil);
+    padding: var(--sp-2) var(--sp-4);
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  .btn-edit-profile:hover {
+    background-color: var(--salvia-hover);
+    transform: translateY(-1px);
+  }
+  .btn-edit-profile:active {
+    background-color: var(--salvia-active);
+  }
+  
+  /* ==========================
+     MODO EDICIÓN
+     ========================== */
+  
+  /* Formulario como tarjeta */
+  .edit-form-card {
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--sp-4);
+    margin-top: var(--sp-4);
+    margin-bottom: var(--sp-5);
+  }
+  
+  /* Inputs y textarea */
+  .edit-form-card .form-control,
+  .edit-form-card ng-select {
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-3);
+  }
+  
+  /* Labels */
+  .edit-form-card .form-label {
+    font-weight: 600;
+    color: var(--cafe);
+  }
+  
+  /* Mensajes de error inline */
+  .edit-form-card .text-danger {
+    font-size: var(--fs-6);
+    margin-top: var(--sp-1);
+  }
+  
+  /* Botones de acción */
+  .edit-form-card .btn-success {
+    background-color: var(--salvia);
+    border-color: var(--salvia);
+    color: var(--marfil);
+    margin-right: var(--sp-2);
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  .edit-form-card .btn-success:hover {
+    background-color: var(--salvia-hover);
+    transform: translateY(-1px);
+  }
+  .edit-form-card .btn-secondary {
+    background-color: var(--gristopo);
+    border-color: var(--gristopo);
+    color: var(--marfil);
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  .edit-form-card .btn-secondary:hover {
+    background-color: var(--gristopo-hover);
+    transform: translateY(-1px);
+  }
+  
+  /* Botones agrupados a la derecha */
+  .edit-form-card .d-flex.justify-content-end {
+    margin-top: var(--sp-3);
+  }
+  
+  /* Responsive */
+  @media (max-width: 767px) {
+    .profile-card,
+    .edit-form-card {
+      padding: var(--sp-3);
+    }
+    .btn-edit-profile {
+      width: 100%;
+    }
+    .edit-form-card .d-flex.justify-content-end {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: var(--sp-2);
+    }
+  }
+  

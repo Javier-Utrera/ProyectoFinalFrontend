@@ -1,0 +1,31 @@
+<div class="relato-card">
+  <h5>{{ relato.titulo }}</h5>
+
+  <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
+  <p><strong>Descripción:</strong> {{ relato.descripcion }}</p>
+
+  <div class="meta-row">
+    <small class="text-muted">
+      {{ origen === 'publicado' ? 'Publicado el' : 'Fecha:' }}
+      {{ relato.fecha_creacion | date:'mediumDate' }}
+    </small>
+    <small class="text-muted">
+      Colaboradores: {{ relato.colaboradores || 1 }}
+    </small>
+  </div>
+
+  <app-estadisticas-relato [relatoId]="relato.id"></app-estadisticas-relato>
+
+  <button
+    class="btn btn-sm mt-2"
+    [ngClass]="{
+      'btn-outline-primary': origen === 'publicado',
+      'btn-outline-success': origen === 'disponible',
+      'btn-outline-secondary': origen === 'mis-relatos'
+    }"
+    [routerLink]="['/relato', relato.id]"
+    [queryParams]="{ origen }"
+  >
+    Leer relato
+  </button>
+</div>

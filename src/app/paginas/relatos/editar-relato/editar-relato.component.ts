@@ -22,6 +22,9 @@ export class EditarRelatoComponent implements OnInit {
   enviado = false;
   esCreador = false;
 
+  // Guardamos el relato para mostrarlo en modo solo lectura
+  relato: any = null;
+
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -30,21 +33,18 @@ export class EditarRelatoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener el ID de la ruta
     this.relatoId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Cargar metadatos del relato
     this.apiService.getRelatoPorId(this.relatoId).subscribe({
       next: relato => {
-        // Determinar si el usuario es el creador (primer autor)
+        this.relato = relato;
         const userId = Number(localStorage.getItem('userId'));
         this.esCreador = relato.autores[0] === userId;
 
-        // Inicializar formulario de metadatos
         this.formulario = this.fb.group({
-          titulo:    [relato.titulo,     [Validators.required, Validators.minLength(3)]],
+          titulo:      [relato.titulo,      [Validators.required, Validators.minLength(3)]],
           descripcion: [relato.descripcion, [Validators.required, Validators.minLength(10)]],
-          idioma:    [relato.idioma,     [Validators.required]]
+          idioma:      [relato.idioma,      [Validators.required]]
         });
 
         this.cargando = false;
@@ -61,8 +61,6 @@ export class EditarRelatoComponent implements OnInit {
     if (!this.esCreador || this.formulario.invalid) {
       return;
     }
-
-    // Guardar metadatos
     this.apiService.editarRelato(this.relatoId, this.formulario.value).subscribe({
       next: () => {
         alert('Metadatos guardados correctamente');
@@ -71,7 +69,6 @@ export class EditarRelatoComponent implements OnInit {
     });
   }
 
-  /** Se invoca cuando el componente hijo emite que el fragmento quedó listo */
   onFragmentoListo(): void {
     this.router.navigate(['/mis-relatos']);
   }

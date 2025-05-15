@@ -1,28 +1,51 @@
-<h2>Login</h2>
-<app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"/>
-<h2 class="mb-4">Iniciar sesión</h2>
+<section class="login-page py-5">
+  <div class="container">
+    <h2 class="page-title mb-4">Iniciar sesión</h2>
 
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
-  <div class="mb-3">
-    <label for="username" class="form-label">Nombre de usuario</label>
-    <input
-      type="text"
-      id="username"
-      formControlName="username"
-      class="form-control"
-    />
+    <!-- Mensaje global -->
+    <app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo" class="mb-4"></app-mensaje-alerta>
+
+    <!-- Formulario -->
+    <div class="form-card mx-auto">
+      <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de usuario</label>
+          <input type="text" id="username" formControlName="username" class="form-control" />
+          <!-- Error cliente -->
+          @if (
+          formulario.get('username')?.invalid &&
+          formulario.get('username')?.touched
+          ) {
+          <div class="text-danger mt-1">El nombre de usuario es obligatorio</div>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" id="password" formControlName="password" class="form-control" />
+          <!-- Error cliente -->
+          @if (
+          formulario.get('password')?.invalid &&
+          formulario.get('password')?.touched
+          ) {
+          <div class="text-danger mt-1">La contraseña es obligatoria</div>
+          }
+        </div>
+
+        <!-- Botón iniciar sesión -->
+        <button type="submit" class="btn btn-submit w-100">
+          Iniciar sesión
+        </button>
+      </form>
+
+      <!-- Botón registrarse -->
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary w-100" (click)="router.navigate(['/registro'])">
+          ¿No tienes cuenta? Regístrate
+        </button>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <label for="password" class="form-label">Contraseña</label>
-    <input
-      type="password"
-      id="password"
-      formControlName="password"
-      class="form-control"
-    />
-  </div>
-
-  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-</form>
-
+</section>

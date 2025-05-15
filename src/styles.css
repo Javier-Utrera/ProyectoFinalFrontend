@@ -1,3 +1,195 @@
-/* You can add global styles to this file, and also import other style files */
-@import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+/*───────────────────────────────────────────────────────────*/
+/* 1) VARIABLES GLOBALES                                    */
+/*───────────────────────────────────────────────────────────*/
+:root {
+  /* Paleta principal */
+  --marfil:           #FAF3E0;
+  --beige:            #F5E4C3;
+  --gristopo:         #D9C6B9;
+  --cafe:             #8C6A55;
+  --terracota:        #D7816A;
+  --salvia:           #A3B18A;
+
+  /* Variantes hover/active */
+  --gristopo-hover:   #eae4e0;
+  --gristopo-active:  #f2ede9;
+  --terracota-hover:  #eec8bf;
+  --terracota-active:#f2b9a6;
+  --salvia-hover:     #cfd8ce;
+  --salvia-active:    #b8c7b8;
+
+  /* Border radius y sombras */
+  --radius-sm:        0.25rem;
+  --radius-md:        0.5rem;
+  --shadow-sm:        0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md:        0 2px 6px rgba(0, 0, 0, 0.05);
+
+  /* Typography scale */
+  --fs-1: 2.25rem;
+  --fs-2: 1.75rem;
+  --fs-3: 1.5rem;
+  --fs-4: 1.25rem;
+  --fs-5: 1rem;
+  --fs-6: 0.875rem;
+
+  /* Spacing scale */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 3rem;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 2) RESET / BOX-SIZING                                     */
+/*───────────────────────────────────────────────────────────*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rubik', sans-serif;
+  font-size: var(--fs-5);
+  line-height: 1.6;
+  color: var(--cafe);
+  background-color: var(--marfil);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 3) TYPOGRAPHY                                             */
+/*───────────────────────────────────────────────────────────*/
+h1 { font-size: var(--fs-1); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-3); }
+h2 { font-size: var(--fs-2); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-3); }
+h3 { font-size: var(--fs-3); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-2); }
+h4 { font-size: var(--fs-4); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-2); }
+h5 { font-size: var(--fs-5); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-2); }
+h6 { font-size: var(--fs-6); font-family: 'Playfair Display', serif; margin-bottom: var(--sp-2); }
+p { margin-bottom: var(--sp-3); }
+
+/*───────────────────────────────────────────────────────────*/
+/* 4) UTILITY CLASSES                                        */
+/*───────────────────────────────────────────────────────────*/
+/* Spacing */
+.m-0 { margin: 0 }
+.mt-1 { margin-top: var(--sp-1) }
+.mt-2 { margin-top: var(--sp-2)}
+
+/* Flex */
+.d-flex      { display: flex  }
+.justify-between { justify-content: space-between }
+.items-center   { align-items: center}
+
+/* Text */
+.text-center { text-align: center }
+.text-muted  { color: var(--gristopo) }
+
+/*───────────────────────────────────────────────────────────*/
+/* 5) COMPONENTES BASE                                       */
+/*───────────────────────────────────────────────────────────*/
+/* Botones */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-6);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-primary {
+  background-color: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil);
+}
+.btn-primary:hover { background-color: var(--salvia-hover); }
+.btn-primary:active{ background-color: var(--salvia-active); }
+.btn-secondary {
+  background-color: var(--gristopo);
+  border-color: var(--gristopo);
+  color: var(--marfil);
+}
+.btn-secondary:hover { background-color: var(--gristopo-hover); }
+.btn-secondary:active{ background-color: var(--gristopo-active); }
+.btn-danger {
+  background-color: var(--terracota);
+  border-color: var(--terracota);
+  color: var(--marfil);
+}
+.btn-danger:hover { background-color: var(--terracota-hover); }
+.btn-danger:active{ background-color: var(--terracota-active); }
+
+/* Tarjetas */
+.card {
+  background-color: var(--beige);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+/* Formularios */
+.form-control {
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-6);
+  border: 1px solid var(--gristopo);
+  border-radius: var(--radius-sm);
+  background-color: #fff;
+  color: var(--cafe);
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  border-color: var(--salvia);
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(163, 177, 138, 0.25);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 6) NAVBAR POR DEFECTO                                      */
+/*───────────────────────────────────────────────────────────*/
+.navbar {
+  background-color: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gristopo);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 7) CONTENEDOR FLUIDO Y GRID                               */
+/*───────────────────────────────────────────────────────────*/
+.container {
+  width: 100%;
+  padding-right: var(--sp-3);
+  padding-left: var(--sp-3);
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 576px) { .container { max-width: 540px; } }
+@media (min-width: 768px) { .container { max-width: 720px; } }
+@media (min-width: 992px) { .container { max-width: 960px; } }
+@media (min-width: 1200px){ .container { max-width: 1140px; } }
+
+/*───────────────────────────────────────────────────────────*/
+/* 8) TEXTURAS Y FONDOS SUTILES                              */
+/*───────────────────────────────────────────────────────────*/
+.bg-paper {
+  background-image: url('/assets/papel.jpg');
+  background-size: cover;
+  opacity: 0.03;
+}

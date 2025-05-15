@@ -5,7 +5,6 @@ import {
 
 @Component({
   selector: 'app-editor',
-  standalone: true,
   imports: [],
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css'],
@@ -64,5 +63,5 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

@@ -1,0 +1,78 @@
+.solicitudes-enviadas {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+}
+
+.solicitudes-enviadas .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 var(--sp-3);
+}
+
+/* Subtítulo */
+.solicitudes-enviadas .section-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-3);
+    color: var(--cafe);
+    text-align: center;
+}
+
+/* Estado (cargando/vacío) */
+.solicitudes-enviadas .status-message {
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+}
+
+.solicitudes-enviadas .status-message .spinner-border {
+    color: var(--salvia);
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Lista de solicitudes */
+.solicitudes-enviadas .list-group {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Ítem individual */
+.solicitudes-enviadas .sent-request-item {
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-3) var(--sp-4);
+    margin-bottom: var(--sp-3);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.solicitudes-enviadas .sent-request-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Avatar */
+.solicitudes-enviadas .request-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid var(--salvia);
+}
+
+/* Detalles de usuario */
+.solicitudes-enviadas .user-details .username {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+}
+
+.solicitudes-enviadas .user-details .location {
+    font-size: var(--fs-6);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .solicitudes-enviadas .sent-request-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

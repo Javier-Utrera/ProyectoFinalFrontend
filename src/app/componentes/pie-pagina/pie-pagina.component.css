@@ -1,0 +1,41 @@
+.custom-footer {
+    background-color: var(--beige);
+    color: var(--cafe);
+    padding: var(--sp-4) 0;
+    font-size: var(--fs-6);
+  }
+  
+  .custom-footer h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-4);
+    margin-bottom: var(--sp-2);
+    color: var(--cafe);
+  }
+  
+  .custom-footer p,
+  .custom-footer li {
+    margin-bottom: var(--sp-1);
+  }
+  
+  .custom-footer a {
+    color: var(--salvia);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .custom-footer a:hover {
+    color: var(--cafe);
+  }
+  
+  .custom-footer .map-wrapper {
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid var(--gristopo);
+    padding-top: var(--sp-2);
+  }
+  

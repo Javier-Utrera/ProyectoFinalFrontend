@@ -1,0 +1,94 @@
+.usuarios-bloqueados {
+    background-color: var(--marfil);
+    padding: var(--sp-5) 0;
+}
+
+.usuarios-bloqueados .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 var(--sp-3);
+}
+
+/* Subtítulo */
+.usuarios-bloqueados .section-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-3);
+    color: var(--cafe);
+    text-align: center;
+    margin-bottom: var(--sp-4);
+}
+
+/* Estado (cargando/vacío) */
+.usuarios-bloqueados .status-message {
+    color: var(--gristopo);
+    font-size: var(--fs-5);
+}
+
+.usuarios-bloqueados .status-message .spinner-border {
+    color: var(--salvia);
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Lista de bloqueados */
+.usuarios-bloqueados .list-group {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Ítem individual */
+.usuarios-bloqueados .blocked-user-item {
+    background-color: #fff;
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-3) var(--sp-4);
+    margin-bottom: var(--sp-3);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.usuarios-bloqueados .blocked-user-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Información de usuario */
+.usuarios-bloqueados .user-info .username {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+    display: block;
+}
+
+.usuarios-bloqueados .user-info .email {
+    font-size: var(--fs-6);
+}
+
+/* Botón Desbloquear */
+.usuarios-bloqueados .btn-outline-danger {
+    border-color: var(--terracota);
+    color: var(--terracota);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.usuarios-bloqueados .btn-outline-danger:hover {
+    background-color: var(--terracota-hover);
+    color: var(--marfil);
+}
+
+.usuarios-bloqueados .btn-outline-danger:active {
+    background-color: var(--terracota-active);
+    color: var(--marfil);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .usuarios-bloqueados .blocked-user-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .usuarios-bloqueados .btn-outline-danger {
+        margin-top: var(--sp-2);
+        align-self: flex-end;
+    }
+}

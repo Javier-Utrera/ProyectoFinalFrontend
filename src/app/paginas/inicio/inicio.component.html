@@ -1,6 +1,42 @@
-<p>inicio works!</p>
-<h1>{{ bienvenida }}</h1>
+<!-- Hero -->
+<section class="hero text-center py-5">
+  <div class="container">
+    <h1 class="display-5 fw-bold hero-title">Bienvenido a The Book Room</h1>
+    <p class="lead hero-subtitle mb-4">
+      Tu rincón de paz para crear, compartir y descubrir relatos junto a otros escritores.
+    </p>
+    <a class="btn btn-cta btn-lg" [routerLink]="['/crear-relato']">
+      <i class="bi bi-pencil-fill me-2"></i>Comienza a escribir
+    </a>
+  </div>
+</section>
 
-<section>
+<!-- Relatos destacados -->
+<section class="featured py-5">
+  <div class="container">
+    <h2 class="section-title mb-4 text-center">Relatos destacados</h2>
 
+    @if (cargando) {
+      <div class="status-message">
+        <div class="spinner-border" role="status"></div>
+        <span class="visually-hidden">Cargando…</span>
+      </div>
+    } @else if (relatos.length === 0) {
+      <p class="text-center text-muted">No hay relatos publicados todavía.</p>
+    } @else {
+      <section class="relatos-publicados">
+        <div class="container">
+          <h2 class="page-title">Relatos publicados</h2>
+          <div class="cards-grid">
+            @for (relato of relatos; track relato.id) {
+              <app-relatocard
+                [relato]="relato"
+                origen="publicado"
+              ></app-relatocard>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </div>
 </section>
