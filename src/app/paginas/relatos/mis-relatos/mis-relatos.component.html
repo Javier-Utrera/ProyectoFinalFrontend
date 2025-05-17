@@ -2,53 +2,56 @@
   <div class="container">
     <h2 class="page-title">Mis relatos</h2>
 
-    @if (cargando) {
-      <div class="status-message" role="status">
-        <div class="spinner-border" role="status"></div>
-        <span class="visually-hidden">Cargando…</span>
-      </div>
-    } @else if (relatos.length === 0) {
-      <div class="status-message" role="alert">
-        <p>No has creado ni participado en ningún relato todavía.</p>
-      </div>
-    } @else {
-      <div class="cards-grid">
-        @for (relato of relatos; track relato.id) {
-          <div class="card-wrapper">
-            <app-relatocard
-              [relato]="relato"
-              origen="mis-relatos"
-            ></app-relatocard>
+    <app-buscador [idiomas]="['es','en','fr']" [numEscritoresOpts]="[1,2,3,4,5]" [initialFilters]="filtrosActivo"
+      (paramsChange)="onBuscar($event)"></app-buscador>
 
-            <div class="actions-group mt-3">
-              <button
-                class="btn btn-sm btn-view"
-                (click)="verRelato(relato.id)"
-              >
-                Ver
-              </button>
-              <button
-                class="btn btn-sm btn-edit"
-                (click)="editarRelato(relato.id)"
-              >
-                Editar
-              </button>
-              <button
-                class="btn btn-sm btn-ready"
-                (click)="marcarListo(relato.id)"
-              >
-                Listo para publicar
-              </button>
-              <button
-                class="btn btn-sm btn-delete"
-                (click)="eliminarRelato(relato.id)"
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        }
+    @if (loading) {
+    <div class="spinner-border" role="status"></div>
+    }
+    @else if (relatos.length === 0) {
+    <p>No tienes relatos aún.</p>
+    }
+    @else {
+    <div class="cards-grid">
+      @for (relato of relatos; track relato.id) {
+      <div class="relato-item d-flex flex-column">
+        <app-relatocard [relato]="relato" origen="mis-relatos"></app-relatocard>
+
+        <div class="btn-group mt-3" role="group">
+          <button class="btn btn-sm btn-outline-primary" (click)="verRelato(relato.id)">
+            Leer
+          </button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="editarRelato(relato.id)">
+            Escribir
+          </button>
+          <button class="btn btn-sm btn-outline-success" (click)="marcarListo(relato.id)">
+            Marcar listo
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="eliminarRelato(relato.id)">
+            Eliminar relato
+          </button>
+        </div>
       </div>
+      }
+    </div>
+
+    <!-- Paginación -->
+    <div class="d-flex justify-content-between align-items-center my-4">
+      @if (page > 1) {
+      <button class="btn btn-outline-primary" (click)="prevPage()">« Anterior</button>
+      }
+      @else {
+      <button class="btn btn-outline-primary" disabled>« Anterior</button>
+      }
+
+      <span>Página {{ page }} de {{ totalPages }}</span>
+
+      @if (page < totalPages) { <button class="btn btn-outline-primary" (click)="nextPage()">Siguiente »</button>
+        }
+        @else {
+        <button class="btn btn-outline-primary" disabled>Siguiente »</button>
+        }
+    </div>
     }
   </div>
 </section>

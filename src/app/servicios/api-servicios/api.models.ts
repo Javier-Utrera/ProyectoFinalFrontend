@@ -1,4 +1,4 @@
-
+// Comentario individual
 export interface Comentario {
   id: number;
   usuario: {
@@ -9,9 +9,33 @@ export interface Comentario {
   texto: string;
   fecha: string;
   relato: number;
+  votos: number;
+  mi_voto: number;
 }
 
+// Al listar desde el servidor separas en dos bloques
+export interface ComentariosPorSecciones {
+  amigos: Comentario[];
+  otros: Comentario[];
+}
 
+// Usuario para perfil / listados
+export interface Usuario {
+  id: number;
+  username: string;
+  email?: string;
+  avatar?: string;
+  biografia?: string;
+  fecha_nacimiento?: string;
+  pais?: string;
+  ciudad?: string;
+  generos_favoritos?: string;
+  total_relatos_publicados?: number; 
+  total_votos_recibidos?: number;
+  total_palabras_escritas?: number;
+}
+
+// Mi voto sobre relato
 export interface Voto {
   id: number;
   usuario: {
@@ -23,10 +47,11 @@ export interface Voto {
   relato: number;
 }
 
+// Estadísticas generales de un relato
 export interface Estadistica {
-  titulo: string;
   id: number;
-  relato: Object;
+  titulo: string;
+  relato: object;
   num_colaboradores: number;
   num_comentarios: number;
   promedio_votos: number;
@@ -34,6 +59,16 @@ export interface Estadistica {
   tiempo_total?: number;
 }
 
+export interface UsuarioRanking {
+  id: number;
+  username: string;
+  avatar_url: string;
+  total_relatos_publicados: number;
+  total_votos_recibidos: number;
+  total_palabras_escritas: number;
+}
+
+// Modelo principal de un relato
 export interface Relato {
   id: number;
   titulo: string;
@@ -46,9 +81,10 @@ export interface Relato {
   autores: number[];
 }
 
+// Paginación genérica
 export interface PaginatedResponse<T> {
   count: number;
-  next:   string | null;
+  next: string | null;
   previous: string | null;
   results: T[];
 }

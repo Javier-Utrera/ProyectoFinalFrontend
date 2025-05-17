@@ -25,20 +25,16 @@ export class RelatosPublicadosComponent implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(queryParams => {
-      // Página actual (por defecto 1)
-      const page = queryParams['page'] ? + queryParams['page'] : 1;
-      this.currentPage = page;
-  
-      // Extraemos todos los filtros menos la página
-      const { page: _, ...filters } = queryParams;
-      this.filters = filters; 
-  
-      // Cargamos los relatos sin actualizar la URL
-      this.cargarRelatos(filters, false);
+      // 1) Guardamos page y todos los filtros completos
+      this.currentPage = queryParams['page'] ? +queryParams['page'] : 1;
+      this.filters = { ...queryParams };
+
+      // 2) Llamamos con TODO el objeto (incluye page)
+      this.cargarRelatos(queryParams, false);
     });
   }
 
@@ -46,41 +42,29 @@ export class RelatosPublicadosComponent implements OnInit {
     return Math.max(1, Math.ceil(this.total / this.pageSize));
   }
 
-  /**
-   * @param params fltros  
-   * @param pushUrl controla si actualizamos la URL
-   */
-  cargarRelatos(filters: any = {}, pushUrl = true): void {
+  cargarRelatos(params: any = {}, pushUrl = true): void {
     this.cargando = true;
-  
-    // 1) Calcula la página a cargar 
-    const pageToLoad = filters.page != null ? +filters.page : 1;
+
+    const pageToLoad = params.page ? +params.page : 1;
     this.currentPage = pageToLoad;
-  
-    // 2) Separa 'page' de los filtros para no duplicar
-    const { page, ...searchFilters } = filters;
-  
-    // 3) Actualiza la URL (reemplazando TODOS los params)
+
+    const { page, ...searchFilters } = params;
+
+    // 3) Solo navegamos cuando pushUrl=true
     if (pushUrl) {
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {
-          ...searchFilters,
-          page: this.currentPage
-        }
+        queryParams: { ...searchFilters, page: this.currentPage }
       });
     }
-  
-    // 4) Llama al API con la página que querems
+
+    // 4) Petición al API con el page
     this.apiService
-      .getRelatosPublicados({
-        ...searchFilters,
-        page: this.currentPage
-      })
+      .getRelatosPublicados({ ...searchFilters, page: this.currentPage })
       .subscribe({
         next: (res: PaginatedResponse<Relato>) => {
           this.relatos = res.results;
-          this.total   = res.count;
+          this.total = res.count;
           this.cargando = false;
         },
         error: err => {
@@ -92,15 +76,14 @@ export class RelatosPublicadosComponent implements OnInit {
 
   prevPage() {
     if (this.currentPage > 1) {
-      this.currentPage--;
-      this.cargarRelatos({ ...this.filters, page: this.currentPage });
+      this.cargarRelatos({ ...this.filters, page: this.currentPage - 1 });
     }
   }
+
   nextPage() {
     if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.cargarRelatos({ ...this.filters, page: this.currentPage });
+      this.cargarRelatos({ ...this.filters, page: this.currentPage + 1 });
     }
   }
-  
+
 }

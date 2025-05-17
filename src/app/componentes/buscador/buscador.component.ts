@@ -18,13 +18,14 @@ export class BuscadorComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      titulo:         [''],
-      descripcion:    [''],
-      idioma:         [''],
+      autor: [''],
+      titulo: [''],
+      descripcion: [''],
+      idioma: [''],
       num_escritores: [''],
-      desde:          [''],
-      hasta:          [''],
-      ordering:       ['-fecha_creacion']
+      desde: [''],
+      hasta: [''],
+      ordering: ['-fecha_creacion']
     });
   }
 
@@ -40,13 +41,14 @@ export class BuscadorComponent implements OnInit, OnChanges {
 
   private patchForm(filters: any) {
     this.form.patchValue({
-      titulo:         filters['titulo__icontains']      || '',
-      descripcion:    filters['descripcion__icontains'] || '',
-      idioma:         filters['idioma']                 || '',
-      num_escritores: filters['num_escritores']         || '',
-      desde:          filters['fecha_creacion__gte']    || '',
-      hasta:          filters['fecha_creacion__lte']    || '',
-      ordering:       filters['ordering']               || '-fecha_creacion'
+      autor: filters['autor'] || '',
+      titulo: filters['titulo__icontains'] || '',
+      descripcion: filters['descripcion__icontains'] || '',
+      idioma: filters['idioma'] || '',
+      num_escritores: filters['num_escritores'] || '',
+      desde: filters['fecha_creacion__gte'] || '',
+      hasta: filters['fecha_creacion__lte'] || '',
+      ordering: filters['ordering'] || '-fecha_creacion'
     });
   }
 
@@ -55,15 +57,16 @@ export class BuscadorComponent implements OnInit, OnChanges {
     const vals = this.form.value;
     const p: any = {};
 
-    if (vals.titulo?.trim())        p['titulo__icontains']      = vals.titulo.trim();
-    if (vals.descripcion?.trim())   p['descripcion__icontains'] = vals.descripcion.trim();
-    if (vals.idioma)                p['idioma']                 = vals.idioma;
-    if (vals.num_escritores)        p['num_escritores']         = vals.num_escritores;
-    if (vals.desde)                 p['fecha_creacion__gte']    = vals.desde;
-    if (vals.hasta)                 p['fecha_creacion__lte']    = vals.hasta;
+    if (vals.autor?.trim()) p['autor'] = vals.autor.trim();
+    if (vals.titulo?.trim()) p['titulo__icontains'] = vals.titulo.trim();
+    if (vals.descripcion?.trim()) p['descripcion__icontains'] = vals.descripcion.trim();
+    if (vals.idioma) p['idioma'] = vals.idioma;
+    if (vals.num_escritores) p['num_escritores'] = vals.num_escritores;
+    if (vals.desde) p['fecha_creacion__gte'] = vals.desde;
+    if (vals.hasta) p['fecha_creacion__lte'] = vals.hasta;
 
     p['ordering'] = vals.ordering;
-    p['page']     = 1;
+    p['page'] = 1;
 
     this.paramsChange.next(p);
   }

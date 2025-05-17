@@ -1,89 +1,75 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row gy-2 gx-3 align-items-end mb-4">
-    <!-- Título -->
-    <div class="col-md">
-      <label for="titulo" class="form-label">Título</label>
-      <input
-        type="text"
-        id="titulo"
-        formControlName="titulo"
-        class="form-control"
-        placeholder="Buscar por título…"
-      />
-    </div>
-  
-    <!-- Descripción -->
-    <div class="col-md">
-      <label for="descripcion" class="form-label">Descripción</label>
-      <input
-        type="text"
-        id="descripcion"
-        formControlName="descripcion"
-        class="form-control"
-        placeholder="Buscar por descripción…"
-      />
-    </div>
-  
-    <!-- Idioma -->
-    <div class="col-auto">
-      <label for="idioma" class="form-label">Idioma</label>
-      <select id="idioma" formControlName="idioma" class="form-select">
-        <option value="">Todos los idiomas</option>
-        @for (idioma of idiomas; track idioma) {
-          <option [value]="idioma">{{ idioma }}</option>
-        }
-      </select>
-    </div>
-  
-    <!-- Nº colaboradores -->
-    <div class="col-auto">
-      <label for="num_escritores" class="form-label">Colaboradores</label>
-      <select id="num_escritores" formControlName="num_escritores" class="form-select">
-        <option value="">Cualquiera</option>
-        @for (n of numEscritoresOpts; track n) {
-          <option [value]="n">{{ n }}</option>
-        }
-      </select>
-    </div>
-  
-    <!-- Fecha desde -->
-    <div class="col-auto">
-      <label for="desde" class="form-label">Desde</label>
-      <input
-        type="date"
-        id="desde"
-        formControlName="desde"
-        class="form-control"
-      />
-    </div>
-  
-    <!-- Fecha hasta -->
-    <div class="col-auto">
-      <label for="hasta" class="form-label">Hasta</label>
-      <input
-        type="date"
-        id="hasta"
-        formControlName="hasta"
-        class="form-control"
-      />
-    </div>
-  
-    <!-- Ordenación -->
-    <div class="col-auto">
-      <label for="ordering" class="form-label">Ordenar</label>
-      <select id="ordering" formControlName="ordering" class="form-select">
-        <option value="-fecha_creacion">Más recientes</option>
-        <option value="fecha_creacion">Más antiguos</option>
-        <option value="-titulo">Título Z→A</option>
-        <option value="titulo">Título A→Z</option>
-        <option value="-num_escritores">+ Colaboradores</option>
-        <option value="num_escritores">− Colaboradores</option>
-      </select>
-    </div>
-  
-    <!-- Botón de búsqueda -->
-    <div class="col-auto">
-      <button type="submit" class="btn btn-primary">
-        Buscar
-      </button>
-    </div>
-  </form>
+
+  <!-- Autor -->
+  <div class="col-md">
+    <label for="autor" class="form-label">Autor</label>
+    <input type="text" id="autor" formControlName="autor" class="form-control" placeholder="Buscar por autor…" />
+  </div>
+
+  <!-- Título -->
+  <div class="col-md">
+    <label for="titulo" class="form-label">Título</label>
+    <input type="text" id="titulo" formControlName="titulo" class="form-control" placeholder="Buscar por título…" />
+  </div>
+
+  <!-- Descripción -->
+  <div class="col-md">
+    <label for="descripcion" class="form-label">Descripción</label>
+    <input type="text" id="descripcion" formControlName="descripcion" class="form-control"
+      placeholder="Buscar por descripción…" />
+  </div>
+
+  <!-- Idioma -->
+  <div class="col-auto">
+    <label for="idioma" class="form-label">Idioma</label>
+    <select id="idioma" formControlName="idioma" class="form-select">
+      <option value="">Todos los idiomas</option>
+      @for (idioma of idiomas; track idioma) {
+      <option [value]="idioma">{{ idioma }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Nº colaboradores -->
+  <div class="col-auto">
+    <label for="num_escritores" class="form-label">Colaboradores</label>
+    <select id="num_escritores" formControlName="num_escritores" class="form-select">
+      <option value="">Cualquiera</option>
+      @for (n of numEscritoresOpts; track n) {
+      <option [value]="n">{{ n }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Fecha desde -->
+  <div class="col-auto">
+    <label for="desde" class="form-label">Desde</label>
+    <input type="date" id="desde" formControlName="desde" class="form-control" />
+  </div>
+
+  <!-- Fecha hasta -->
+  <div class="col-auto">
+    <label for="hasta" class="form-label">Hasta</label>
+    <input type="date" id="hasta" formControlName="hasta" class="form-control" />
+  </div>
+
+  <!-- Ordenación -->
+  <div class="col-auto">
+    <label for="ordering" class="form-label">Ordenar</label>
+    <select id="ordering" formControlName="ordering" class="form-select">
+      <option value="-fecha_creacion">Más recientes</option>
+      <option value="fecha_creacion">Más antiguos</option>
+      <option value="-titulo">Título Z→A</option>
+      <option value="titulo">Título A→Z</option>
+      <option value="-num_escritores">+ Colaboradores</option>
+      <option value="num_escritores">− Colaboradores</option>
+    </select>
+  </div>
+
+  <!-- Botón de búsqueda -->
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary">
+      Buscar
+    </button>
+  </div>
+</form>

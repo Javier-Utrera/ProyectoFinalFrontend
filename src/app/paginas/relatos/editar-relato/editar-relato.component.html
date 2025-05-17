@@ -5,92 +5,69 @@
 
     <!-- Estado de carga -->
     @if (cargando) {
-      <p class="status-text text-center mb-4">Cargando relato…</p>
+    <p class="status-text text-center mb-4">Cargando relato…</p>
     } @else {
-      <!-- Si es el creador, muestra el formulario -->
-      @if (esCreador) {
-        <form
-          [formGroup]="formulario"
-          (ngSubmit)="onSubmit()"
-          class="card form-card mb-4"
-          novalidate
-        >
-          <!-- Título -->
-          <div class="mb-3">
-            <label class="form-label">Título</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="titulo"
-              placeholder="Nuevo título"
-            />
-            @if (formulario.get('titulo')?.invalid && enviado) {
-              <div class="text-danger mt-1">
-                Debe tener al menos 3 caracteres.
-              </div>
-            }
-          </div>
+    <!-- Si es el creador, muestra el formulario -->
+    @if (esCreador) {
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card form-card mb-4" novalidate>
+      <!-- Título -->
+      <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input type="text" class="form-control" formControlName="titulo" placeholder="Nuevo título" />
+        @if (formulario.get('titulo')?.invalid && enviado) {
+        <div class="text-danger mt-1">
+          Debe tener al menos 3 caracteres.
+        </div>
+        }
+      </div>
 
-          <!-- Descripción -->
-          <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea
-              class="form-control"
-              formControlName="descripcion"
-              rows="3"
-              placeholder="Nueva descripción"
-            ></textarea>
-            @if (formulario.get('descripcion')?.invalid && enviado) {
-              <div class="text-danger mt-1">
-                Debe tener al menos 10 caracteres.
-              </div>
-            }
-          </div>
+      <!-- Descripción -->
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" formControlName="descripcion" rows="3"
+          placeholder="Nueva descripción"></textarea>
+        @if (formulario.get('descripcion')?.invalid && enviado) {
+        <div class="text-danger mt-1">
+          Debe tener al menos 10 caracteres.
+        </div>
+        }
+      </div>
 
-          <!-- Idioma -->
-          <div class="mb-3">
-            <label class="form-label">Idioma</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="idioma"
-              placeholder="Idioma del relato"
-            />
-            @if (formulario.get('idioma')?.invalid && enviado) {
-              <div class="text-danger mt-1">
-                Este campo es obligatorio.
-              </div>
-            }
-          </div>
+      <!-- Idioma -->
+      <div class="mb-3">
+        <label class="form-label">Idioma</label>
+        <input type="text" class="form-control" formControlName="idioma" placeholder="Idioma del relato" />
+        @if (formulario.get('idioma')?.invalid && enviado) {
+        <div class="text-danger mt-1">
+          Este campo es obligatorio.
+        </div>
+        }
+      </div>
 
-          <!-- Botón guardar metadatos -->
-          <div class="text-end">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="formulario.invalid"
-            >
-              Guardar información
-            </button>
-          </div>
-        </form>
-      } @else {
-        <!-- Modo solo lectura -->
-        <section class="card read-only-card mb-4">
-          <dl class="row mb-0">
-            <dt class="col-sm-3">Título</dt>
-            <dd class="col-sm-9">{{ relato.titulo }}</dd>
+      <!-- Botón guardar metadatos -->
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">
+          Guardar información
+        </button>
+      </div>
+    </form>
+    } @else {
+    <!-- Modo solo lectura -->
+    <section class="card read-only-card mb-4">
+      <dl class="row mb-0">
+        <dt class="col-sm-3">Título</dt>
+        <dd class="col-sm-9">{{ relato.titulo }}</dd>
 
-            <dt class="col-sm-3">Descripción</dt>
-            <dd class="col-sm-9">{{ relato.descripcion }}</dd>
+        <dt class="col-sm-3">Descripción</dt>
+        <dd class="col-sm-9">{{ relato.descripcion }}</dd>
 
-            <dt class="col-sm-3">Idioma</dt>
-            <dd class="col-sm-9">{{ relato.idioma }}</dd>
-          </dl>
-        </section>
-      }
+        <dt class="col-sm-3">Idioma</dt>
+        <dd class="col-sm-9">{{ relato.idioma }}</dd>
+      </dl>
+    </section>
+    }
 
-      <hr class="my-5" />
+    <hr class="my-5" />
     }
   </div>
 
@@ -100,10 +77,7 @@
     <div class="row gx-0">
       <div class="col-12">
         <div class="fragment-editor-wrapper mb-5">
-          <app-editor-fragmento
-            [relatoId]="relatoId"
-            (fragmentoListo)="onFragmentoListo()"
-          ></app-editor-fragmento>
+          <app-editor-fragmento [relatoId]="relatoId" (fragmentoListo)="onFragmentoListo()"></app-editor-fragmento>
         </div>
       </div>
     </div>

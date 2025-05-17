@@ -2,59 +2,80 @@
   <div class="container">
 
     <!-- Título -->
-    <h2 class="page-title mb-4">Mi perfil</h2>
+
 
     <!-- Mensaje global -->
-    <app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo" class="mb-4"></app-mensaje-alerta>
+    <app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo" class="mb-4">
+    </app-mensaje-alerta>
 
-    <!-- Estado de carga -->
+    <!-- Cargando -->
     @if (cargando) {
     <div class="status-message" role="status">
-      <div class="spinner-border" role="status"></div>
+      <div class="spinner-border"></div>
       <span class="visually-hidden">Cargando perfil…</span>
     </div>
     } @else {
 
-    <!-- Modo visualización -->
+    <h2 class="page-title mb-4">Perfil de {{ usuario.username }}</h2>
+
+    <!-- Modo vista -->
     @if (!modoEdicion) {
     <article class="profile-card mb-5">
-      <!-- Gestor de amistades -->
-      <h3 class="section-subtitle">Amigos</h3>
-      <app-gestor-amistades class="mb-4"></app-gestor-amistades>
-
-      <!-- Datos de usuario -->
+      <!-- Datos -->
       <div class="user-data">
-        <h4 class="username">{{ datosUsuario.username }}</h4>
+        @if (usuario.avatar) {
+        <img [src]="usuario.avatar" alt="Avatar de {{ usuario.username }}" class="avatar img-thumbnail mb-3" />
+        }
+        <p><strong>Usuario:</strong> {{ usuario.username }}</p>
 
-        <p><strong>Email:</strong> {{ datosUsuario.email }}</p>
-
-        @if (datosUsuario.avatar) {
-        <img [src]="datosUsuario.avatar" alt="Avatar de {{ datosUsuario.username }}"
-          class="avatar img-thumbnail mb-3" />
+        <!-- Email solo para el propietario -->
+        @if (isOwner) {
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
         }
 
-        <p><strong>Biografía:</strong> {{ datosUsuario.biografia || 'Sin definir' }}</p>
-        <p><strong>Fecha de nacimiento:</strong> {{ datosUsuario.fecha_nacimiento || 'Sin definir' }}</p>
-        <p><strong>País:</strong> {{ datosUsuario.pais || 'Sin definir' }}</p>
-        <p><strong>Ciudad:</strong> {{ datosUsuario.ciudad || 'Sin definir' }}</p>
-        <p><strong>Géneros favoritos:</strong> {{ datosUsuario.generos_favoritos || 'Sin definir' }}</p>
+        <p><strong>Biografía:</strong>
+          {{ usuario.biografia || 'Sin definir' }}
+        </p>
+        <p><strong>Nacimiento:</strong>
+          {{ usuario.fecha_nacimiento || 'Sin definir' }}
+        </p>
+        <p><strong>País:</strong>
+          {{ usuario.pais || 'Sin definir' }}
+        </p>
+        <p><strong>Ciudad:</strong>
+          {{ usuario.ciudad || 'Sin definir' }}
+        </p>
+        <p><strong>Géneros favoritos:</strong>
+          {{ usuario.generos_favoritos || 'Sin definir' }}
+        </p>
 
         <hr />
 
-        <p><strong>Total relatos publicados:</strong> {{ datosUsuario.total_relatos_publicados }}</p>
-        <p><strong>Total votos recibidos:</strong> {{ datosUsuario.total_votos_recibidos }}</p>
-        <p><strong>Total palabras escritas:</strong> {{ datosUsuario.total_palabras_escritas }}</p>
-        <p><strong>Total tiempo de escritura:</strong> {{ datosUsuario.total_tiempo_escritura }} minutos</p>
+        <!-- Estadísticas (puedes decidir mostrarlas o no a terceros) -->
+        <p><strong>Relatos publicados:</strong>
+          {{ usuario.total_relatos_publicados }}
+        </p>
+        <p><strong>Votos recibidos:</strong>
+          {{ usuario.total_votos_recibidos }}
+        </p>
+        <p><strong>Palabras escritas:</strong>
+          {{ usuario.total_palabras_escritas }}
+        </p>
 
-        <button type="button" class="btn btn-edit-profile mt-4" (click)="activarEdicion()">
+        <!-- Botón editar solo para el propietario -->
+        @if (isOwner) {
+        <button class="btn btn-edit-profile mt-4" (click)="activarEdicion()">
           Editar perfil
         </button>
+        }
       </div>
     </article>
     } @else {
-    <!-- Modo edición -->
+    <!-- Modo edición (solo propietario) -->
     <form [formGroup]="formulario" (ngSubmit)="guardarCambios()" class="edit-form-card mb-5" novalidate>
-      <h3 class="section-subtitle mb-4">Editar perfil</h3>
+      <h3 class="section-subtitle mb-4">
+        Editar perfil
+      </h3>
 
       <!-- Avatar -->
       <div class="mb-3">
@@ -64,10 +85,17 @@
 
       <!-- Biografía -->
       <div class="mb-3">
-        <label for="biografia" class="form-label">Biografía</label>
+        <label for="biografia" class="form-label">
+          Biografía
+        </label>
         <textarea id="biografia" class="form-control" formControlName="biografia" rows="3"></textarea>
-        @if (formulario.get('biografia')?.invalid && formulario.get('biografia')?.touched) {
-        <div class="text-danger">Máximo 500 caracteres.</div>
+        @if (
+        formulario.get('biografia')?.invalid &&
+        formulario.get('biografia')?.touched
+        ) {
+        <div class="text-danger">
+          Máximo 500 caracteres.
+        </div>
         }
       </div>
 
@@ -75,8 +103,13 @@
       <div class="mb-3">
         <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
         <input id="fecha_nacimiento" type="date" class="form-control" formControlName="fecha_nacimiento" />
-        @if (formulario.get('fecha_nacimiento')?.errors?.['fechaFutura']) {
-        <div class="text-danger">La fecha no puede ser posterior a hoy.</div>
+        @if (
+        formulario.get('fecha_nacimiento')?.errors
+        ?.['fechaFutura']
+        ) {
+        <div class="text-danger">
+          La fecha no puede ser futura.
+        </div>
         }
       </div>
 
@@ -84,8 +117,13 @@
       <div class="mb-3">
         <label for="pais" class="form-label">País</label>
         <input id="pais" type="text" class="form-control" formControlName="pais" />
-        @if (formulario.get('pais')?.errors?.['pattern'] && formulario.get('pais')?.touched) {
-        <div class="text-danger">Solo letras y espacios.</div>
+        @if (
+        formulario.get('pais')?.errors?.['pattern'] &&
+        formulario.get('pais')?.touched
+        ) {
+        <div class="text-danger">
+          Solo letras y espacios.
+        </div>
         }
       </div>
 
@@ -93,8 +131,13 @@
       <div class="mb-3">
         <label for="ciudad" class="form-label">Ciudad</label>
         <input id="ciudad" type="text" class="form-control" formControlName="ciudad" />
-        @if (formulario.get('ciudad')?.errors?.['pattern'] && formulario.get('ciudad')?.touched) {
-        <div class="text-danger">Solo letras y espacios.</div>
+        @if (
+        formulario.get('ciudad')?.errors?.['pattern'] &&
+        formulario.get('ciudad')?.touched
+        ) {
+        <div class="text-danger">
+          Solo letras y espacios.
+        </div>
         }
       </div>
 

@@ -2,33 +2,46 @@
   <div class="container">
     <h2 class="page-title">Relatos buscando escritores</h2>
 
-    @if (cargando) {
-      <div class="status-message" role="status">
-        <div class="spinner-border" role="status"></div>
-        <span class="visually-hidden">Cargando…</span>
-      </div>
+    <!-- Buscador -->
+    <app-buscador [idiomas]="['es','en','fr']" [numEscritoresOpts]="[1,2,3,4,5]" [initialFilters]="filtrosActivo"
+      (paramsChange)="onBuscar($event)"></app-buscador>
+
+    <!-- Estados de carga -->
+    @if (loading) {
+    <div class="status-message" role="status">
+      <div class="spinner-border"></div>
+      <span class="visually-hidden">Cargando…</span>
+    </div>
     } @else if (relatos.length === 0) {
-      <div class="status-message" role="alert">
-        <p>No hay relatos disponibles en este momento.</p>
-      </div>
+    <div class="status-message" role="alert">
+      <p>No hay relatos disponibles en este momento.</p>
+    </div>
     } @else {
-      <div class="cards-grid">
-        @for (relato of relatos; track relato.id) {
-          <div class="card-wrapper">
-            <app-relatocard
-              [relato]="relato"
-              origen="disponible"
-            ></app-relatocard>
-            <button
-              class="btn btn-join mt-3"
-              (click)="unirse(relato.id)"
-            >
-              <i class="bi bi-people-fill me-1"></i>
-              Unirse al relato
-            </button>
-          </div>
-        }
+    <!-- Lista de tarjetas -->
+    <div class="cards-grid">
+      @for (relato of relatos; track relato.id) {
+      <div class="card-wrapper">
+        <app-relatocard [relato]="relato" origen="disponible"></app-relatocard>
+        <button class="btn btn-join mt-3" (click)="unirse(relato.id)">
+          <i class="bi bi-people-fill me-1"></i> Unirse al relato
+        </button>
       </div>
+      }
+    </div>
+
+    <!-- Paginación -->
+    <div class="d-flex justify-content-between align-items-center my-4">
+      @if (page > 1) {
+      <button class="btn btn-outline-primary" (click)="prevPage()">« Anterior</button>
+      } @else {
+      <button class="btn btn-outline-primary" disabled>« Anterior</button>
+      }
+      <span>Página {{ page }} de {{ totalPages }}</span>
+      @if (page < totalPages) { <button class="btn btn-outline-primary" (click)="nextPage()">Siguiente »</button>
+        } @else {
+        <button class="btn btn-outline-primary" disabled>Siguiente »</button>
+        }
+    </div>
     }
   </div>
 </section>

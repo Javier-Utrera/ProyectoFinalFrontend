@@ -3,106 +3,191 @@
 
   <!-- Formulario de nuevo comentario -->
   @if (!cargando && !hasComentado) {
-    <section class="card mb-5">
-      <div class="card-body">
-        <h5 class="card-title">Deja tu comentario</h5>
-        <form [formGroup]="comentarioForm" (ngSubmit)="enviarComentario()">
-          <div class="mb-3">
-            <label for="texto" class="form-label">Tu comentario</label>
-            <textarea
-              id="texto"
-              formControlName="texto"
-              class="form-control"
-              rows="3"
-              placeholder="Escribe tu comentario..."
-            ></textarea>
-            <!-- Errores de validación -->
-            @if (comentarioForm.get('texto')?.touched && comentarioForm.get('texto')?.invalid) {
-              <div class="invalid-feedback d-block">
-                @if (comentarioForm.get('texto')?.errors?.['required']) {
-                  <div>El comentario es obligatorio.</div>
-                }
-                @if (comentarioForm.get('texto')?.errors?.['maxlength']) {
-                  <div>Máximo 1000 caracteres.</div>
-                }
-              </div>
+  <section class="card mb-5">
+    <div class="card-body">
+      <h5 class="card-title">Deja tu comentario</h5>
+      <form [formGroup]="comentarioForm" (ngSubmit)="enviarComentario()">
+        <div class="mb-3">
+          <label for="texto" class="form-label">Tu comentario</label>
+          <textarea id="texto" formControlName="texto" class="form-control" rows="3"
+            placeholder="Escribe tu comentario..."></textarea>
+          <!-- Errores de validación -->
+          @if (comentarioForm.get('texto')?.touched && comentarioForm.get('texto')?.invalid) {
+          <div class="invalid-feedback d-block">
+            @if (comentarioForm.get('texto')?.errors?.['required']) {
+            <div>El comentario es obligatorio.</div>
             }
-            @if (comentarioForm.errors?.['empty']) {
-              <div class="invalid-feedback d-block">El comentario no puede estar vacío.</div>
+            @if (comentarioForm.get('texto')?.errors?.['maxlength']) {
+            <div>Máximo 1000 caracteres.</div>
             }
           </div>
-          <button type="submit" class="btn btn-primary">Enviar comentario</button>
-        </form>
-      </div>
-    </section>
+          }
+          @if (comentarioForm.errors?.['empty']) {
+          <div class="invalid-feedback d-block">El comentario no puede estar vacío.</div>
+          }
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+      </form>
+    </div>
+  </section>
   } @else {
-    <p class="text-center text-muted mb-5">Ya has comentado este relato.</p>
+  <p class="text-center text-muted mb-5">Ya has comentado este relato.</p>
   }
 
   <hr class="my-5">
 
+  <!-- Ordenación -->
+  <div class="d-flex flex-wrap gap-2 mb-3">
+    <button type="button" class="btn btn-sm"
+      [ngClass]="{'btn-primary': sortKey==='fechaDesc', 'btn-outline-primary': sortKey!=='fechaDesc'}"
+      (click)="setSort('fechaDesc')">
+      Más recientes
+    </button>
+    <button type="button" class="btn btn-sm"
+      [ngClass]="{'btn-primary': sortKey==='fechaAsc', 'btn-outline-primary': sortKey!=='fechaAsc'}"
+      (click)="setSort('fechaAsc')">
+      Más antiguos
+    </button>
+    <button type="button" class="btn btn-sm"
+      [ngClass]="{'btn-primary': sortKey==='votosDesc', 'btn-outline-primary': sortKey!=='votosDesc'}"
+      (click)="setSort('votosDesc')">
+      Votos positivos
+    </button>
+    <button type="button" class="btn btn-sm"
+      [ngClass]="{'btn-primary': sortKey==='votosAsc', 'btn-outline-primary': sortKey!=='votosAsc'}"
+      (click)="setSort('votosAsc')">
+      Votos negativo
+    </button>
+  </div>
+
   <!-- Estado de carga -->
   @if (cargando) {
-    <div class="text-center py-5">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Cargando...</span>
-      </div>
-    </div>
-  } @else if (comentarios.length === 0) {
-    <p class="text-center text-muted">No hay comentarios todavía. ¡Sé el primero!</p>
-  } @else {
-    <!-- Lista de comentarios -->
-    <section class="list-group">
-      @for (c of comentarios; track c.id) {
-        <article class="list-group-item list-group-item-action mb-3 p-4 comentario-item">
-          <div class="d-flex align-items-start mb-3">
-            @if (c.usuario.avatar) {
-              <img
-                [src]="c.usuario.avatar"
-                alt="{{ c.usuario.username }} avatar"
-                class="rounded-circle me-3"
-                width="48"
-                height="48"
-              >
-            } @else {
-              <div class="avatar-placeholder rounded-circle me-3"></div>
-            }
-            <div>
-              <strong>{{ c.usuario.username }}</strong><br>
-              <small class="text-muted">{{ c.fecha | date:'short' }}</small>
-            </div>
-          </div>
+  <div class="text-center py-5">
+    <div class="spinner-border" role="status"></div>
+    <span class="visually-hidden">Cargando...</span>
+  </div>
 
-          @if (editingId === c.id) {
-            <div class="mb-3">
-              <textarea
-                class="form-control"
-                [value]="editText"
-                (input)="editText = $any($event.target).value"
-                rows="3"
-              ></textarea>
-            </div>
-            <div class="d-flex">
-              <button class="btn btn-sm btn-primary me-2" (click)="guardarEdicion(c)">
-                Guardar
-              </button>
-              <button class="btn btn-sm btn-secondary" (click)="cancelarEdicion()">
-                Cancelar
-              </button>
-            </div>
-          } @else {
-            <p class="mb-3">{{ c.texto }}</p>
-            <div class="d-flex">
-              <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">
-                Editar
-              </button>
-              <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">
-                Borrar
-              </button>
-            </div>
-          }
-        </article>
+  <!-- Si no hay comentarios de ningún tipo -->
+  } @else if ((comentariosAmigos.length + comentariosOtros.length) === 0) {
+  <p class="text-center text-muted">No hay comentarios todavía. ¡Sé el primero!</p>
+
+  <!-- Mostrar primero comentarios de amigos -->
+  } @else {
+  @if (comentariosAmigos.length > 0) {
+  <h5 class="mb-3">Comentarios de tus amigos</h5>
+  <section class="list-group mb-5">
+    @for (c of comentariosAmigos; track c.id) {
+    <article class="list-group-item mb-3 p-4 comentario-item">
+      <div class="d-flex align-items-start mb-3">
+        @if (c.usuario.avatar) {
+        <img [src]="c.usuario.avatar" alt="{{ c.usuario.username }} avatar" class="rounded-circle me-3" width="48"
+          height="48">
+        } @else {
+        <div class="avatar-placeholder rounded-circle me-3"></div>
+        }
+        <div>
+          <app-user-link [user]="c.usuario" [linkClass]="'text-primary text-decoration-none'">
+            {{ c.usuario.username }}
+          </app-user-link>
+          <small class="text-muted">{{ c.fecha | date:'short' }}</small>
+        </div>
+      </div>
+
+      <!-- Votación -->
+      <div class="d-flex align-items-center mb-3">
+        <button type="button" class="btn btn-sm me-2" [ngClass]="{
+                  'btn-success':    c.mi_voto === 1,
+                  'btn-outline-success': c.mi_voto !== 1
+                }" (click)="votarComentario(c)">
+          <i class="bi bi-hand-thumbs-up"></i>
+        </button>
+        <span class="me-2">{{ c.votos }}</span>
+        <button type="button" class="btn btn-sm" [ngClass]="{
+                  'btn-danger':    c.mi_voto === -1,
+                  'btn-outline-danger': c.mi_voto !== -1
+                }" (click)="votarAbajoComentario(c)">
+          <i class="bi bi-hand-thumbs-down"></i>
+        </button>
+      </div>
+
+      <!-- Edición / Borrado -->
+      @if (editingId === c.id) {
+      <div class="mb-3">
+        <textarea class="form-control" [value]="editText" (input)="editText = $any($event.target).value"
+          rows="3"></textarea>
+      </div>
+      <div class="d-flex">
+        <button class="btn btn-sm btn-primary me-2" (click)="guardarEdicion(c)">Guardar</button>
+        <button class="btn btn-sm btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+      </div>
+      } @else {
+      <p class="mb-3">{{ c.texto }}</p>
+      <div class="d-flex">
+        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">Editar</button>
+        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">Borrar</button>
+      </div>
       }
-    </section>
+    </article>
+    }
+  </section>
+  }
+
+  <!-- Luego los demás comentarios -->
+  @if (comentariosOtros.length > 0) {
+  <h5 class="mb-3">Otros comentarios</h5>
+  <section class="list-group">
+    @for (c of comentariosOtros; track c.id) {
+    <article class="list-group-item mb-3 p-4 comentario-item">
+      <div class="d-flex align-items-start mb-3">
+        @if (c.usuario.avatar) {
+        <img [src]="c.usuario.avatar" alt="{{ c.usuario.username }} avatar" class="rounded-circle me-3" width="48"
+          height="48">
+        } @else {
+        <div class="avatar-placeholder rounded-circle me-3"></div>
+        }
+        <div>
+          <app-user-link [user]="c.usuario" [linkClass]="'text-primary text-decoration-none'">
+            {{ c.usuario.username }}
+          </app-user-link>
+          <small class="text-muted">{{ c.fecha | date:'short' }}</small>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center mb-3">
+        <button type="button" class="btn btn-sm me-2" [ngClass]="{
+                  'btn-success':    c.mi_voto === 1,
+                  'btn-outline-success': c.mi_voto !== 1
+                }" (click)="votarComentario(c)">
+          <i class="bi bi-hand-thumbs-up"></i>
+        </button>
+        <span class="me-2">{{ c.votos }}</span>
+        <button type="button" class="btn btn-sm" [ngClass]="{
+                  'btn-danger':    c.mi_voto === -1,
+                  'btn-outline-danger': c.mi_voto !== -1
+                }" (click)="votarAbajoComentario(c)">
+          <i class="bi bi-hand-thumbs-down"></i>
+        </button>
+      </div>
+
+      @if (editingId === c.id) {
+      <div class="mb-3">
+        <textarea class="form-control" [value]="editText" (input)="editText = $any($event.target).value"
+          rows="3"></textarea>
+      </div>
+      <div class="d-flex">
+        <button class="btn btn-sm btn-primary me-2" (click)="guardarEdicion(c)">Guardar</button>
+        <button class="btn btn-sm btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+      </div>
+      } @else {
+      <p class="mb-3">{{ c.texto }}</p>
+      <div class="d-flex">
+        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">Editar</button>
+        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">Borrar</button>
+      </div>
+      }
+    </article>
+    }
+  </section>
+  }
   }
 </div>

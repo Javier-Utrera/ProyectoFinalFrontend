@@ -1,0 +1,17 @@
+@if (!asButton) {
+  <a
+    (click)="onClick($event)"
+    [ngClass]="linkClass"
+    style="cursor: pointer;"
+  >
+    <ng-content>{{ label ?? user.username }}</ng-content>
+  </a>
+} @else {
+  <button
+    type="button"
+    [ngClass]="buttonClass"
+    (click)="onClick($event)"
+  >
+    {{ label ?? user.username }}
+  </button>
+}

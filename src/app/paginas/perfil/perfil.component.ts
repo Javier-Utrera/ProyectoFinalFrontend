@@ -1,20 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../servicios/api-servicios/api.service';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { GestorAmistadesComponent } from "../../componentes/social/gestor-amistades/gestor-amistades.component";
+import { CommonModule } from '@angular/common';
+
+import { ApiService } from '../../servicios/api-servicios/api.service';
+import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
+import { Usuario } from '../../servicios/api-servicios/api.models';
+
 import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
 
 @Component({
   selector: 'app-perfil',
-  imports: [ReactiveFormsModule, NgSelectModule, GestorAmistadesComponent, MensajeAlertaComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    MensajeAlertaComponent
+  ],
   templateUrl: './perfil.component.html',
-  styleUrl: './perfil.component.css'
+  styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-  datosUsuario: any = null;
+  usuario!: Usuario;
+  private currentUser?: Usuario;
+  isOwner = false;
+
+  error = '';
   cargando = true;
+
   modoEdicion = false;
   formulario!: FormGroup;
   selectedFile: File | null = null;
@@ -26,65 +46,95 @@ export class PerfilComponent implements OnInit {
   ];
 
   constructor(
-    private apiService: ApiService,
+    private api: ApiService,
+    private auth: AutenticacionService,
+    private route: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
     public mensajeGlobal: MensajeGlobalService
   ) { }
 
   ngOnInit(): void {
-    this.mensajeGlobal.limpiar();
-    this.apiService.obtenerPerfil().subscribe({
-      next: (res) => {
-        this.datosUsuario = res;
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const targetId = idParam ? +idParam : undefined;
+
+    if (this.auth.obtenerToken()) {
+      this.api.obtenerPerfil().subscribe({
+        next: me => {
+          this.currentUser = me;
+          this.isOwner = !targetId || me.id === targetId;
+          this.fetchTarget(targetId);
+        },
+        error: () => {
+          this.router.navigate(['/']);
+        }
+      });
+    } else {
+      this.fetchTarget(targetId);
+    }
+  }
+
+  private fetchTarget(userId?: number): void {
+    this.api.obtenerPerfil(userId).subscribe({
+      next: perfil => {
+        this.usuario = perfil;
         this.cargando = false;
-        this.inicializarFormulario();
       },
-      error: (err) => {
-        console.error('Error al obtener el perfil:', err);
+      error: err => {
+        this.error = err.error?.error || 'No se pudo cargar el perfil';
         this.cargando = false;
+        if (err.status === 403 || err.status === 404) {
+          this.router.navigate(['/']);
+        }
       }
     });
   }
 
-
-  inicializarFormulario(): void {
-    const hoy = new Date();
-
+  private inicializarFormulario(): void {
     this.formulario = this.fb.group({
-      biografia: [this.datosUsuario.biografia || '', [Validators.maxLength(500)]],
+      biografia: [
+        this.usuario.biografia || '',
+        [Validators.maxLength(500)]
+      ],
       fecha_nacimiento: [
-        this.datosUsuario.fecha_nacimiento || '',
+        this.usuario.fecha_nacimiento || '',
         [this.fechaNoFuturaValidator()]
       ],
       pais: [
-        this.datosUsuario.pais || '',
+        this.usuario.pais || '',
         [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
       ],
       ciudad: [
-        this.datosUsuario.ciudad || '',
+        this.usuario.ciudad || '',
         [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
       ],
-      generos_favoritos: [this.generosIniciales()],
+      generos_favoritos: [
+        this.generosIniciales()
+      ],
       avatar: [null]
     });
   }
 
-  // Lectura del fichero cuando el usuario lo selecciona
-  onFileChange(event: Event) {
+  onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
+    if (!input.files?.length) {
+      return;
+    }
     this.selectedFile = input.files[0];
     const reader = new FileReader();
-    reader.onload = e => this.datosUsuario.avatar = reader.result as string;
+    reader.onload = () => {
+      this.usuario.avatar = reader.result as string;
+    };
     reader.readAsDataURL(this.selectedFile);
   }
 
-  generosIniciales(): string[] {
-    const valor = this.datosUsuario.generos_favoritos;
-    return valor ? valor.split(',').map((g: string) => g.trim()) : [];
+  private generosIniciales(): string[] {
+    return this.usuario.generos_favoritos
+      ? this.usuario.generos_favoritos.split(',').map(g => g.trim())
+      : [];
   }
 
-  fechaNoFuturaValidator() {
+  private fechaNoFuturaValidator() {
     return (control: any) => {
       const hoy = new Date();
       const valor = new Date(control.value);
@@ -93,6 +143,9 @@ export class PerfilComponent implements OnInit {
   }
 
   activarEdicion(): void {
+    if (!this.isOwner) {
+      return;
+    }
     this.inicializarFormulario();
     this.modoEdicion = true;
   }
@@ -103,36 +156,53 @@ export class PerfilComponent implements OnInit {
   }
 
   guardarCambios(): void {
-    if (this.formulario.invalid) {
+    if (!this.isOwner || this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       return;
     }
 
-    // Usaremos siempre FormData para incluir el fichero
     const formData = new FormData();
-    // Añadimos campos de texto
-    const { biografia, fecha_nacimiento, pais, ciudad, generos_favoritos } = this.formulario.value;
-    if (biografia) formData.append('biografia', biografia);
-    if (fecha_nacimiento) formData.append('fecha_nacimiento', fecha_nacimiento);
-    if (pais) formData.append('pais', pais);
-    if (ciudad) formData.append('ciudad', ciudad);
+    const {
+      biografia,
+      fecha_nacimiento,
+      pais,
+      ciudad,
+      generos_favoritos
+    } = this.formulario.value;
+
+    if (biografia) {
+      formData.append('biografia', biografia);
+    }
+    if (fecha_nacimiento) {
+      formData.append('fecha_nacimiento', fecha_nacimiento);
+    }
+    if (pais) {
+      formData.append('pais', pais);
+    }
+    if (ciudad) {
+      formData.append('ciudad', ciudad);
+    }
     if (generos_favoritos?.length) {
       formData.append('generos_favoritos', generos_favoritos.join(', '));
     }
-    // Añadimos fichero si existe
     if (this.selectedFile) {
       formData.append('avatar', this.selectedFile);
     }
 
-    this.apiService.actualizarPerfil(formData).subscribe({
-      next: (res) => {
+    this.api.actualizarPerfil(formData).subscribe({
+      next: res => {
         this.modoEdicion = false;
         this.ngOnInit();
-        this.mensajeGlobal.mostrar(res.mensaje || 'Perfil actualizado.', 'success');
+        this.mensajeGlobal.mostrar(
+          res.mensaje || 'Perfil actualizado.',
+          'success'
+        );
       },
-      error: (err) => {
-        console.error('Error al actualizar perfil:', err);
-        this.mensajeGlobal.mostrar(err.error?.error || 'Error al actualizar perfil', 'danger');
+      error: err => {
+        this.mensajeGlobal.mostrar(
+          err.error?.error || 'Error al actualizar perfil',
+          'danger'
+        );
       }
     });
   }

@@ -9,23 +9,15 @@
       {{ origen === 'publicado' ? 'Publicado el' : 'Fecha:' }}
       {{ relato.fecha_creacion | date:'mediumDate' }}
     </small>
-    <small class="text-muted">
-      Colaboradores: {{ relato.colaboradores || 1 }}
-    </small>
   </div>
 
   <app-estadisticas-relato [relatoId]="relato.id"></app-estadisticas-relato>
 
-  <button
-    class="btn btn-sm mt-2"
-    [ngClass]="{
+  <button class="btn btn-sm mt-2" [ngClass]="{
       'btn-outline-primary': origen === 'publicado',
       'btn-outline-success': origen === 'disponible',
       'btn-outline-secondary': origen === 'mis-relatos'
-    }"
-    [routerLink]="['/relato', relato.id]"
-    [queryParams]="{ origen }"
-  >
+    }" [routerLink]="['/relato', relato.id]" [queryParams]="{ origen }">
     Leer relato
   </button>
 </div>

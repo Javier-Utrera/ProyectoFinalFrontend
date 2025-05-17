@@ -13,6 +13,7 @@ import { EditarRelatoComponent } from './paginas/relatos/editar-relato/editar-re
 import { RelatosDisponiblesComponent } from './paginas/relatos/relatos-disponibles/relatos-disponibles.component';
 import { RankingComponent } from './paginas/ranking/ranking.component';
 import { AuthGuard } from './servicios/api-autenticacion/auth.guard';
+import { SocialComponent } from './paginas/social/social.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -21,6 +22,8 @@ export const routes: Routes = [
 
   // Rutas protegidas:
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
+  { path: 'perfil/:id', component: PerfilComponent, canActivate: [AuthGuard] },
+  { path: 'social',component: SocialComponent,    canActivate: [AuthGuard] },
   { path: 'crear-relato', component: CrearRelatoComponent, canActivate: [AuthGuard] },
   { path: 'mis-relatos', component: MisRelatosComponent, canActivate: [AuthGuard] },
   { path: 'relato/:id/editar', component: EditarRelatoComponent, canActivate: [AuthGuard] },

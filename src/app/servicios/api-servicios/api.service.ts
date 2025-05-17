@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Comentario, Estadistica, PaginatedResponse, Relato, Voto } from './api.models';
+import { Comentario, ComentariosPorSecciones, Estadistica, PaginatedResponse, Relato, Usuario, UsuarioRanking, Voto } from './api.models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -15,14 +15,25 @@ export class ApiService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
+  getUsuarioPorToken(): Observable<Usuario> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('No hay token en localStorage');
+    }
+    return this.http.get<Usuario>(
+      `${this.baseUrl}/token/usuario/${token}/`
+    );
+  }
+
   // ===========================================================================
   // PERFIL
   // ===========================================================================
 
-  obtenerPerfil(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/perfil/`, {
-      headers: this.getHeaders()
-    });
+  obtenerPerfil(usuarioId?: number): Observable<Usuario> {
+    const url = usuarioId
+      ? `${this.baseUrl}/perfil/${usuarioId}/`
+      : `${this.baseUrl}/perfil/`;
+    return this.http.get<Usuario>(url, { headers: this.getHeaders() });
   }
 
   actualizarPerfil(datos: any): Observable<any> {
@@ -225,9 +236,10 @@ export class ApiService {
   // COMENTARIOS
   // ===========================================================================
 
-  getComentarios(relatoId: number): Observable<Comentario[]> {
-    return this.http.get<Comentario[]>(
-      `${this.baseUrl}/relatos/${relatoId}/comentarios/`
+  getComentarios(relatoId: number): Observable<ComentariosPorSecciones> {
+    return this.http.get<ComentariosPorSecciones>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/`,
+      { headers: this.getHeaders() }
     );
   }
 
@@ -254,6 +266,42 @@ export class ApiService {
   borrarComentario(relatoId: number, comentarioId: number): Observable<any> {
     return this.http.delete<any>(
       `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/borrar/`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // ===========================================================================
+  // VOTOS A COMENTARIOS
+  // ===========================================================================
+
+  votarComentario(
+    relatoId: number,
+    comentarioId: number
+  ): Observable<Comentario> {
+    return this.http.post<Comentario>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/votar/`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  quitarVotoComentario(
+    relatoId: number,
+    comentarioId: number
+  ): Observable<Comentario> {
+    return this.http.post<Comentario>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/quitar-voto/`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  eliminarVotoComentario(
+    relatoId: number,
+    comentarioId: number
+  ): Observable<Comentario> {
+    return this.http.delete<Comentario>(
+      `${this.baseUrl}/relatos/${relatoId}/comentarios/${comentarioId}/voto/`,
       { headers: this.getHeaders() }
     );
   }
@@ -290,6 +338,14 @@ export class ApiService {
   getListadoEstadisticas(): Observable<Estadistica[]> {
     return this.http.get<Estadistica[]>(
       `${this.baseUrl}/estadisticas/`
+    );
+  }
+
+  getRankingUsuarios(
+    filtro: 'relatos' | 'votos' | 'palabras'
+  ): Observable<UsuarioRanking[]> {
+    return this.http.get<UsuarioRanking[]>(
+      `${this.baseUrl}/ranking-usuarios/?filtro=${filtro}`
     );
   }
 
