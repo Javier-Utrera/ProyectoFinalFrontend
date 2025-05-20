@@ -27,7 +27,7 @@ export class ComentariosComponent implements OnInit {
   @Input() relatoId!: number;
 
   comentariosAmigos: Comentario[] = [];
-  comentariosOtros:  Comentario[] = [];
+  comentariosOtros: Comentario[] = [];
 
   comentarioForm: FormGroup;
   cargando = false;
@@ -40,13 +40,13 @@ export class ComentariosComponent implements OnInit {
   editText = '';
 
   /** Clave de orden actual */
-  sortKey: 'fechaDesc'|'fechaAsc'|'votosDesc'|'votosAsc' = 'fechaDesc';
+  sortKey: 'fechaDesc' | 'fechaAsc' | 'votosDesc' | 'votosAsc' = 'fechaDesc';
 
   /** Funciones comparadoras para cada modo de orden */
   private comparators: Record<string, (a: Comentario, b: Comentario) => number> = {
-    fechaAsc:  (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
+    fechaAsc: (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime(),
     fechaDesc: (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime(),
-    votosAsc:  (a, b) => a.votos - b.votos,
+    votosAsc: (a, b) => a.votos - b.votos,
     votosDesc: (a, b) => b.votos - a.votos,
   };
 
@@ -74,7 +74,7 @@ export class ComentariosComponent implements OnInit {
           this.hasComentado = [...this.comentariosAmigos, ...this.comentariosOtros]
             .some(c => c.usuario.id === user.id);
         },
-        error: () => {}
+        error: () => { }
       });
     }
   }
@@ -97,7 +97,7 @@ export class ComentariosComponent implements OnInit {
     this.api.getComentarios(this.relatoId).subscribe({
       next: (data: ComentariosPorSecciones) => {
         this.comentariosAmigos = data.amigos;
-        this.comentariosOtros  = data.otros;
+        this.comentariosOtros = data.otros;
         this.applySort();
         this.cargando = false;
       },
@@ -109,7 +109,7 @@ export class ComentariosComponent implements OnInit {
   }
 
   /** Cambia el modo de orden y aplica */
-  setSort(key: 'fechaDesc'|'fechaAsc'|'votosDesc'|'votosAsc'): void {
+  setSort(key: 'fechaDesc' | 'fechaAsc' | 'votosDesc' | 'votosAsc'): void {
     this.sortKey = key;
     this.applySort();
   }
@@ -136,7 +136,8 @@ export class ComentariosComponent implements OnInit {
 
     this.api.crearComentario(this.relatoId, texto).subscribe({
       next: nuevo => {
-        this.comentariosAmigos.unshift(nuevo);
+        // Lo insertamos en "otros" ya que no somos amigos de nosotros mismos
+        this.comentariosOtros.unshift(nuevo);
         this.hasComentado = true;
         this.comentarioForm.reset();
         this.applySort();
@@ -148,9 +149,17 @@ export class ComentariosComponent implements OnInit {
     });
   }
 
+  puedeModificar(c: Comentario): boolean {
+    // administradores o moderadores
+    if (this.authService.hasRole(1, 3)) return true;
+    // autor del comentario
+    return c.usuario.id === this.currentUserId;
+  }
+
   /** Inicia la edición de un comentario */
   iniciarEdicion(c: Comentario): void {
     if (!this.isAuth) { this.goToLogin(); return; }
+    if (!this.puedeModificar(c)) return;
     this.editingId = c.id;
     this.editText = c.texto;
   }
@@ -187,11 +196,15 @@ export class ComentariosComponent implements OnInit {
   /** Borra un comentario */
   borrarComentario(c: Comentario): void {
     if (!this.isAuth) { this.goToLogin(); return; }
+    if (!this.puedeModificar(c)) {
+      this.mensajeGlobal.mostrar('No tienes permiso', 'warning');
+      return;
+    }
 
     this.api.borrarComentario(this.relatoId, c.id).subscribe({
       next: () => {
         this.comentariosAmigos = this.comentariosAmigos.filter(x => x.id !== c.id);
-        this.comentariosOtros  = this.comentariosOtros.filter(x => x.id !== c.id);
+        this.comentariosOtros = this.comentariosOtros.filter(x => x.id !== c.id);
         this.hasComentado = false;
         this.mensajeGlobal.mostrar('Comentario eliminado', 'success');
       },

@@ -11,6 +11,7 @@
           <label for="texto" class="form-label">Tu comentario</label>
           <textarea id="texto" formControlName="texto" class="form-control" rows="3"
             placeholder="Escribe tu comentario..."></textarea>
+
           <!-- Errores de validación -->
           @if (comentarioForm.get('texto')?.touched && comentarioForm.get('texto')?.invalid) {
           <div class="invalid-feedback d-block">
@@ -39,24 +40,24 @@
   <!-- Ordenación -->
   <div class="d-flex flex-wrap gap-2 mb-3">
     <button type="button" class="btn btn-sm"
-      [ngClass]="{'btn-primary': sortKey==='fechaDesc', 'btn-outline-primary': sortKey!=='fechaDesc'}"
+      [ngClass]="{ 'btn-primary': sortKey === 'fechaDesc', 'btn-outline-primary': sortKey !== 'fechaDesc' }"
       (click)="setSort('fechaDesc')">
       Más recientes
     </button>
     <button type="button" class="btn btn-sm"
-      [ngClass]="{'btn-primary': sortKey==='fechaAsc', 'btn-outline-primary': sortKey!=='fechaAsc'}"
+      [ngClass]="{ 'btn-primary': sortKey === 'fechaAsc', 'btn-outline-primary': sortKey !== 'fechaAsc' }"
       (click)="setSort('fechaAsc')">
       Más antiguos
     </button>
     <button type="button" class="btn btn-sm"
-      [ngClass]="{'btn-primary': sortKey==='votosDesc', 'btn-outline-primary': sortKey!=='votosDesc'}"
+      [ngClass]="{ 'btn-primary': sortKey === 'votosDesc', 'btn-outline-primary': sortKey !== 'votosDesc' }"
       (click)="setSort('votosDesc')">
       Votos positivos
     </button>
     <button type="button" class="btn btn-sm"
-      [ngClass]="{'btn-primary': sortKey==='votosAsc', 'btn-outline-primary': sortKey!=='votosAsc'}"
+      [ngClass]="{ 'btn-primary': sortKey === 'votosAsc', 'btn-outline-primary': sortKey !== 'votosAsc' }"
       (click)="setSort('votosAsc')">
-      Votos negativo
+      Votos negativos
     </button>
   </div>
 
@@ -67,12 +68,12 @@
     <span class="visually-hidden">Cargando...</span>
   </div>
 
-  <!-- Si no hay comentarios de ningún tipo -->
+  <!-- Si no hay comentarios -->
   } @else if ((comentariosAmigos.length + comentariosOtros.length) === 0) {
   <p class="text-center text-muted">No hay comentarios todavía. ¡Sé el primero!</p>
 
-  <!-- Mostrar primero comentarios de amigos -->
   } @else {
+  <!-- Comentarios de amigos -->
   @if (comentariosAmigos.length > 0) {
   <h5 class="mb-3">Comentarios de tus amigos</h5>
   <section class="list-group mb-5">
@@ -96,14 +97,14 @@
       <!-- Votación -->
       <div class="d-flex align-items-center mb-3">
         <button type="button" class="btn btn-sm me-2" [ngClass]="{
-                  'btn-success':    c.mi_voto === 1,
+                  'btn-success': c.mi_voto === 1,
                   'btn-outline-success': c.mi_voto !== 1
                 }" (click)="votarComentario(c)">
           <i class="bi bi-hand-thumbs-up"></i>
         </button>
         <span class="me-2">{{ c.votos }}</span>
         <button type="button" class="btn btn-sm" [ngClass]="{
-                  'btn-danger':    c.mi_voto === -1,
+                  'btn-danger': c.mi_voto === -1,
                   'btn-outline-danger': c.mi_voto !== -1
                 }" (click)="votarAbajoComentario(c)">
           <i class="bi bi-hand-thumbs-down"></i>
@@ -123,8 +124,14 @@
       } @else {
       <p class="mb-3">{{ c.texto }}</p>
       <div class="d-flex">
-        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">Editar</button>
-        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">Borrar</button>
+        @if (puedeModificar(c)) {
+        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">
+          <i class="bi bi-pencil"></i> Editar
+        </button>
+        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">
+          <i class="bi bi-trash"></i> Borrar
+        </button>
+        }
       </div>
       }
     </article>
@@ -132,7 +139,7 @@
   </section>
   }
 
-  <!-- Luego los demás comentarios -->
+  <!-- Otros comentarios -->
   @if (comentariosOtros.length > 0) {
   <h5 class="mb-3">Otros comentarios</h5>
   <section class="list-group">
@@ -153,22 +160,24 @@
         </div>
       </div>
 
+      <!-- Votación -->
       <div class="d-flex align-items-center mb-3">
         <button type="button" class="btn btn-sm me-2" [ngClass]="{
-                  'btn-success':    c.mi_voto === 1,
+                  'btn-success': c.mi_voto === 1,
                   'btn-outline-success': c.mi_voto !== 1
                 }" (click)="votarComentario(c)">
           <i class="bi bi-hand-thumbs-up"></i>
         </button>
         <span class="me-2">{{ c.votos }}</span>
         <button type="button" class="btn btn-sm" [ngClass]="{
-                  'btn-danger':    c.mi_voto === -1,
+                  'btn-danger': c.mi_voto === -1,
                   'btn-outline-danger': c.mi_voto !== -1
                 }" (click)="votarAbajoComentario(c)">
           <i class="bi bi-hand-thumbs-down"></i>
         </button>
       </div>
 
+      <!-- Edición / Borrado -->
       @if (editingId === c.id) {
       <div class="mb-3">
         <textarea class="form-control" [value]="editText" (input)="editText = $any($event.target).value"
@@ -181,8 +190,14 @@
       } @else {
       <p class="mb-3">{{ c.texto }}</p>
       <div class="d-flex">
-        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">Editar</button>
-        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">Borrar</button>
+        @if (puedeModificar(c)) {
+        <button class="btn btn-sm btn-link me-3" (click)="iniciarEdicion(c)">
+          <i class="bi bi-pencil"></i> Editar
+        </button>
+        <button class="btn btn-sm btn-link text-danger" (click)="borrarComentario(c)">
+          <i class="bi bi-trash"></i> Borrar
+        </button>
+        }
       </div>
       }
     </article>

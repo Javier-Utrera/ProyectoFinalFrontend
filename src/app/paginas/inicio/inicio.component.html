@@ -1,42 +1,124 @@
 <!-- Hero -->
-<section class="hero text-center py-5">
-  <div class="container">
-    <h1 class="display-5 fw-bold hero-title">Bienvenido a The Book Room</h1>
-    <p class="lead hero-subtitle mb-4">
-      Tu rincón de paz para crear, compartir y descubrir relatos junto a otros escritores.
-    </p>
-    <a class="btn btn-cta btn-lg" [routerLink]="['/crear-relato']">
-      <i class="bi bi-pencil-fill me-2"></i>Comienza a escribir
+<section class="hero text-center d-flex align-items-center">
+  <div class="overlay"></div>
+  <div class="container hero-content">
+    <div class="hero-panel">
+      <h1 class="hero-title">Bienvenido a The Book Room</h1>
+      <p class="hero-subtitle">
+        Tu rincón de paz para crear, compartir y descubrir relatos junto a otros escritores.
+      </p>
+      <a class="btn btn-cta btn-lg" routerLink="/crear-relato">
+        <i class="bi bi-pencil-fill me-2"></i>Comienza a escribir
+      </a>
+    </div>
+    <a class="scroll-hint" href="#relatos">
+      <i class="bi bi-chevron-down"></i>
     </a>
   </div>
 </section>
 
 <!-- Relatos destacados -->
-<section class="featured py-5">
+<section id="relatos" class="featured py-5">
   <div class="container">
-    <h2 class="section-title mb-4 text-center">Relatos destacados</h2>
+    <h2 class="section-title mb-4">Relatos destacados</h2>
 
     @if (cargando) {
       <div class="status-message">
         <div class="spinner-border" role="status"></div>
         <span class="visually-hidden">Cargando…</span>
       </div>
-    } @else if (relatos.length === 0) {
-      <p class="text-center text-muted">No hay relatos publicados todavía.</p>
+    } @else if (relatos.length > 0) {
+      <h3 class="page-title text-center mb-4">Relatos publicados</h3>
+      <div class="cards-grid">
+        @for (relato of relatos; track relato.id) {
+          <app-relatocard
+            [relato]="relato"
+            origen="publicado"
+          ></app-relatocard>
+        }
+      </div>
     } @else {
-      <section class="relatos-publicados">
-        <div class="container">
-          <h2 class="page-title">Relatos publicados</h2>
-          <div class="cards-grid">
-            @for (relato of relatos; track relato.id) {
-              <app-relatocard
-                [relato]="relato"
-                origen="publicado"
-              ></app-relatocard>
-            }
-          </div>
-        </div>
-      </section>
+      <p class="text-center text-muted">No hay relatos publicados todavía.</p>
     }
   </div>
 </section>
+
+<!-- Nuestros Valores -->
+<section class="values py-5">
+  <div class="container text-center">
+    <h2 class="section-title mb-4">Nuestros Valores</h2>
+    <div class="row values-grid">
+      <div class="col-md-4 mb-4">
+        <div class="value-card p-4">
+          <i class="bi bi-brush fs-1 mb-3 text-on-salvia"></i>
+          <h5 class="mb-2">Creatividad</h5>
+          <p class="text-muted">Fomentamos la originalidad y la expresión única de cada escritor.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="value-card p-4">
+          <i class="bi bi-people fs-1 mb-3 text-on-salvia"></i>
+          <h5 class="mb-2">Comunidad</h5>
+          <p class="text-muted">Creemos en el apoyo y la colaboración entre todos los miembros.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="value-card p-4">
+          <i class="bi bi-peace fs-1 mb-3 text-on-salvia"></i>
+          <h5 class="mb-2">Tranquilidad</h5>
+          <p class="text-muted">Espacio libre de presión para que fluya la inspiración.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Nuestro Equipo (estático) -->
+<section class="team py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="section-title mb-4">Conoce al Equipo</h2>
+    <div class="row justify-content-center">
+      <!-- Miembro 1 -->
+      <div class="col-6 col-md-3 mb-4">
+        <div class="team-card p-3">
+          <img src="https://i.pravatar.cc/150?img=6" 
+               alt="Nombre 1" 
+               class="rounded-circle mb-3 team-photo">
+          <h6 class="mb-1">Nombre 1</h6>
+          <p class="text-muted small mb-0">Fundadora</p>
+        </div>
+      </div>
+      <!-- Miembro 2 -->
+      <div class="col-6 col-md-3 mb-4">
+        <div class="team-card p-3">
+          <img src="https://i.pravatar.cc/150?img=5" 
+               alt="Nombre 2" 
+               class="rounded-circle mb-3 team-photo">
+          <h6 class="mb-1">Nombre 2</h6>
+          <p class="text-muted small mb-0">Desarrollador</p>
+        </div>
+      </div>
+      <!-- Miembro 3 -->
+      <div class="col-6 col-md-3 mb-4">
+        <div class="team-card p-3">
+          <img src="https://i.pravatar.cc/150?img=4" 
+               alt="Nombre 3" 
+               class="rounded-circle mb-3 team-photo">
+          <h6 class="mb-1">Nombre 3</h6>
+          <p class="text-muted small mb-0">Diseñadora</p>
+        </div>
+      </div>
+      <!-- Miembro 4 -->
+      <div class="col-6 col-md-3 mb-4">
+        <div class="team-card p-3">
+          <img src="https://i.pravatar.cc/150?img=3" 
+               alt="Nombre 4" 
+               class="rounded-circle mb-3 team-photo">
+          <h6 class="mb-1">Nombre 4</h6>
+          <p class="text-muted small mb-0">Community Manager</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

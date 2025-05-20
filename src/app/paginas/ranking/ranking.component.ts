@@ -3,10 +3,8 @@ import { Estadistica, UsuarioRanking } from '../../servicios/api-servicios/api.m
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { RelatoCardComponent } from "../../componentes/relatocard/relatocard.component";
 import { UserLinkComponent } from "../../componentes/user-link/user-link.component";
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
-import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-ranking',

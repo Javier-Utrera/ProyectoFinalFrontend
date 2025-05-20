@@ -1,16 +1,18 @@
 <section class="relato-view py-5">
-  <div class="container">
+  <div class="container-fluid">
 
     @if (cargando) {
     <p class="text-center text-muted">Cargando relato…</p>
-    } @else if (!relato) {
+    }
+    @else if (!relato) {
     <p class="text-center text-danger">No se pudo cargar el relato.</p>
-    } @else {
+    }
+    @else {
     <!-- Cabecera -->
     <header class="relato-header text-center mb-5">
       <h1 class="relato-titulo">{{ relato.titulo }}</h1>
       <ul class="relato-meta list-inline text-muted">
-        <li class="list-inline-item"><strong>Idioma:</strong> {{ relato.idioma }}</li>
+        <li class="list-inline-item"><strong>Idioma:</strong> {{ relato.idioma_display}}</li>
         <li class="list-inline-item"><strong>Estado:</strong> {{ relato.estado }}</li>
         <li class="list-inline-item"><strong>Autores:</strong> {{ relato.autores.join(', ') }}</li>
       </ul>
@@ -26,19 +28,19 @@
     </div>
 
     <!-- Controles de paginación -->
-    <div class="pagination-controls text-center mb-5">
-      <button class="btn btn-prev me-2" (click)="prevSpread()" [disabled]="currentPage === 0"
-        aria-label="Página anterior">
+    <div class="pagination-controls mb-5">
+      <button class="btn btn-prev" (click)="prevSpread()" [disabled]="currentPage === 0" aria-label="Página anterior">
         <i class="bi bi-chevron-left"></i>
+        <span class="visually-hidden">Anterior</span>
       </button>
-      <span class="mx-2">
-        Páginas {{ currentPage + 1 }}
-        –
-        {{ currentPage + pagesToShow.length }}
-        de {{ pages.length }}
+
+      <span class="page-indicator">
+        {{ currentPage + 1 }} &ndash; {{ currentPage + pagesToShow.length }} de {{ pages.length }}
       </span>
-      <button class="btn btn-next ms-2" (click)="nextSpread()" [disabled]="currentPage + pagesPerSpread >= pages.length"
+
+      <button class="btn btn-next" (click)="nextSpread()" [disabled]="currentPage + pagesPerSpread >= pages.length"
         aria-label="Página siguiente">
+        <span class="visually-hidden">Siguiente</span>
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>

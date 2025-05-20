@@ -1,108 +1,160 @@
-/* Sección principal */
+/*───────────────────────────────────────────────────────────*/
+/* 1) Sección y Contenedor                                    */
+/*───────────────────────────────────────────────────────────*/
 .mis-relatos {
-    background-color: var(--marfil);
-    padding: var(--sp-5) 0;
-  }
-  
-  .mis-relatos .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 var(--sp-3);
-  }
-  
-  /* Título */
-  .page-title {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-1);
-    color: var(--cafe);
-    text-align: center;
-    margin-bottom: var(--sp-5);
-  }
-  
-  /* Mensajes de estado */
-  .status-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-2);
-    margin: var(--sp-4) 0;
-    color: var(--gristopo);
-    font-size: var(--fs-5);
-  }
-  .status-message .spinner-border {
-    color: var(--salvia);
-    width: 3rem;
-    height: 3rem;
-  }
-  
-  /* Grid de tarjetas */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--sp-4);
-  }
-  
-  /* Wrapper de tarjeta + acciones */
-  .card-wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Grupo de botones */
+  background-color: var(--marfil);
+  padding: var(--sp-5) 0;
+}
+.mis-relatos .container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 var(--sp-3);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 2) Título                                                 */
+/*───────────────────────────────────────────────────────────*/
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-1);
+  color: var(--cafe);
+  text-align: center;
+  margin-bottom: var(--sp-5);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 3) Estado de carga y mensaje vacío                        */
+/*───────────────────────────────────────────────────────────*/
+.status-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--gristopo);
+  font-size: var(--fs-5);
+  padding: var(--sp-4) 0;
+}
+.empty-message {
+  text-align: center;
+  color: var(--cafe);
+  font-size: var(--fs-5);
+  margin: var(--sp-4) 0;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 4) Grid de tarjetas                                       */
+/*───────────────────────────────────────────────────────────*/
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--sp-4);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 5) Wrapper de tarjeta + acciones                          */
+/*───────────────────────────────────────────────────────────*/
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.card-wrapper app-relatocard {
+  flex: 1;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 6) Grupo de botones                                       */
+/*───────────────────────────────────────────────────────────*/
+.actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background-color: var(--cafe);
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+.btn-action {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--fs-6);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background-color .2s, border-color .2s, color .2s;
+}
+
+/* Leer */
+.btn-view {
+  background-color: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil);
+}
+.btn-view:hover {
+  background-color: var(--salvia-hover);
+}
+
+/* Escribir */
+.btn-edit {
+  background-color: var(--gristopo);
+  border-color: var(--gristopo);
+  color: var(--marfil);
+}
+.btn-edit:hover {
+  background-color: var(--gristopo-hover);
+}
+
+/* Marcar listo */
+.btn-ready {
+  background-color: var(--pastel-azul);
+  border-color: var(--pastel-azul);
+  color: var(--cafe);
+}
+.btn-ready:hover {
+  background-color: var(--pastel-azul-hover);
+}
+
+/* Eliminar */
+.btn-delete {
+  background-color: var(--terracota);
+  border-color: var(--terracota);
+  color: var(--marfil);
+}
+.btn-delete:hover {
+  background-color: var(--terracota-hover);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 7) Paginación                                             */
+/*───────────────────────────────────────────────────────────*/
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-5);
+  color: var(--cafe);
+}
+.pagination-controls .btn {
+  padding: var(--sp-2) var(--sp-3);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 8) Responsive                                             */
+/*───────────────────────────────────────────────────────────*/
+@media (max-width: 767px) {
   .actions-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-2);
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  /* Estilos de cada acción */
-  .btn-view {
-    border-color: var(--salvia);
-    color: var(--salvia);
+  .actions-group .btn-action {
+    width: 100%;
+    justify-content: center;
   }
-  .btn-view:hover {
-    background-color: var(--salvia-hover);
-    color: var(--marfil);
+  .pagination-controls {
+    flex-direction: column;
+    gap: var(--sp-3);
   }
-  
-  .btn-edit {
-    border-color: var(--gristopo);
-    color: var(--cafe);
-  }
-  .btn-edit:hover {
-    background-color: var(--gristopo-hover);
-    color: var(--marfil);
-  }
-  
-  .btn-ready {
-    border-color: var(--success);
-    color: var(--marfil);
-    background-color: var(--salvia);
-  }
-  .btn-ready:hover {
-    background-color: var(--salvia-hover);
-  }
-  
-  .btn-delete {
-    border-color: var(--terracota);
-    color: var(--marfil);
-    background-color: var(--terracota);
-  }
-  .btn-delete:hover {
-    background-color: var(--terracota-hover);
-  }
-  
-  /* Responsive */
-  @media (max-width: 767px) {
-    .mis-relatos {
-      padding: var(--sp-3) 0;
-    }
-    .actions-group {
-      justify-content: center;
-    }
-    .actions-group .btn-sm {
-      flex: 1 1 45%;
-      text-align: center;
-    }
-  }
-  
+}

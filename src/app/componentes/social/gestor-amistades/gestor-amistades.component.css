@@ -1,4 +1,6 @@
-/* Sección de pestañas */
+/*───────────────────────────────────────────────────────────*/
+/* 1) Contenedor general                                     */
+/*───────────────────────────────────────────────────────────*/
 .app-gestor-amistades {
     background-color: var(--marfil);
     padding: var(--sp-4);
@@ -7,20 +9,21 @@
     box-shadow: var(--shadow-sm);
 }
 
-/* Nav tabs */
+/*───────────────────────────────────────────────────────────*/
+/* 2) Pestañas (nav tabs)                                    */
+/*───────────────────────────────────────────────────────────*/
 .app-gestor-amistades .nav-tabs {
     border-bottom: 2px solid var(--gristopo);
     margin-bottom: var(--sp-4);
 }
 
 .app-gestor-amistades .nav-link {
-    font-family: 'Rubik', sans-serif;
     color: var(--cafe);
+    font-family: 'Rubik', sans-serif;
     padding: var(--sp-2) var(--sp-3);
     border: 1px solid transparent;
-    border-top-left-radius: var(--radius-sm);
-    border-top-right-radius: var(--radius-sm);
-    transition: background-color 0.2s, color 0.2s;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    transition: background-color .2s, color .2s;
 }
 
 .app-gestor-amistades .nav-link:hover {
@@ -33,7 +36,9 @@
     color: var(--salvia);
 }
 
-/* Contenido de cada pestaña */
+/*───────────────────────────────────────────────────────────*/
+/* 3) Contenido de pestañas                                  */
+/*───────────────────────────────────────────────────────────*/
 .app-gestor-amistades .tab-content {
     background-color: #fff;
     border: 1px solid var(--gristopo);
@@ -42,12 +47,14 @@
     padding: var(--sp-4);
 }
 
-/* Ajuste interno de la pestaña activa */
 .app-gestor-amistades .tab-pane {
     display: block;
+    /* siempre visible la activa */
 }
 
-/* Responsive: pestañas apiladas en móvil */
+/*───────────────────────────────────────────────────────────*/
+/* 4) Responsive                                             */
+/*───────────────────────────────────────────────────────────*/
 @media (max-width: 576px) {
     .app-gestor-amistades .nav-tabs {
         flex-wrap: wrap;

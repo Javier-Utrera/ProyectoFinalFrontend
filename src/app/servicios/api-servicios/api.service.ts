@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Comentario, ComentariosPorSecciones, Estadistica, PaginatedResponse, Relato, Usuario, UsuarioRanking, Voto } from './api.models';
+import { Comentario, ComentariosPorSecciones, Estadistica, OpcionesRelato, PaginatedResponse, Relato, Usuario, UsuarioRanking, Voto } from './api.models';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly baseUrl = environment.baseUrl;
+  private readonly swaggerUrl = environment.swaggerUrl;  
+
+  private opcionesCache$?: Observable<OpcionesRelato>;
 
   constructor(private http: HttpClient) { }
 
@@ -45,6 +49,17 @@ export class ApiService {
   // ===========================================================================
   // RELATOS
   // ===========================================================================
+
+  /** Opciones de idiomas y géneros para formularios */
+  getOpcionesRelato(): Observable<OpcionesRelato> {
+    if (!this.opcionesCache$) {
+      this.opcionesCache$ = this.http
+        .get<OpcionesRelato>(`${this.baseUrl}/opciones-relato/`)
+        .pipe(shareReplay(1));
+    }
+    return this.opcionesCache$;
+  }
+
 
   /** Relatos publicados (público). */
   getRelatosPublicados(params?: any): Observable<PaginatedResponse<Relato>> {
@@ -98,6 +113,15 @@ export class ApiService {
   editarRelato(relatoId: number, datos: any): Observable<any> {
     return this.http.patch<any>(
       `${this.baseUrl}/relatos/${relatoId}/editar/`,
+      datos,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /* Editar contenido FINAL de un relato (solo Moderador/Admin) */
+  editarRelatoFinal(relatoId: number, datos: any): Observable<any> {
+    return this.http.patch<any>(
+      `${this.baseUrl}/moderador/relatos/${relatoId}/editar-final/`,
       datos,
       { headers: this.getHeaders() }
     );
@@ -349,5 +373,10 @@ export class ApiService {
     );
   }
 
-
+  getSwaggerSpec(): Observable<any> {
+    return this.http.get<any>(
+      this.swaggerUrl,
+      { headers: this.getHeaders() }
+    );
+  }
 }

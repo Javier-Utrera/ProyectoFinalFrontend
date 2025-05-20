@@ -1,105 +1,279 @@
+/*───────────────────────────────────────────────────────────*/
+/* Hero                                                      */
+/*───────────────────────────────────────────────────────────*/
 .hero {
-    background-color: var(--beige);
-    padding: var(--sp-5) 0;
-    text-align: center;
+  position: relative;
+  min-height: 60vh;
+  background-image: url('https://res.cloudinary.com/dgvzeegli/image/upload/v1747691621/international-day-education-cartoon-style_dedupl.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-panel {
+  background: rgba(255, 255, 255, 0.8);
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  max-width: 700px;
 }
 
 .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-0);
-    color: var(--cafe);
-    margin-bottom: var(--sp-3);
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-1);
+  color: var(--cafe);
+  margin-bottom: var(--sp-3);
 }
 
 .hero-subtitle {
-    font-size: var(--fs-4);
-    color: var(--gristopo);
-    max-width: 700px;
-    margin: 0 auto var(--sp-4);
+  font-size: var(--fs-4);
+  color: var(--cafe);
+  margin-bottom: var(--sp-4);
+  line-height: 1.4;
 }
 
 .btn-cta {
-    background-color: var(--salvia);
-    border-color: var(--salvia);
-    color: var(--marfil);
-    padding: var(--sp-3) var(--sp-5);
-    font-size: var(--fs-5);
-    transition: background-color 0.2s, transform 0.1s;
+  background-color: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-5);
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .btn-cta:hover {
-    background-color: var(--salvia-hover);
-    transform: translateY(-2px);
+  background-color: var(--salvia-hover);
+  transform: translateY(-2px);
 }
 
-.btn-cta:active {
-    background-color: var(--salvia-active);
+.scroll-hint {
+  margin-top: var(--sp-4);
 }
 
+.scroll-hint i {
+  color: var(--marfil);
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+.scroll-hint:hover i {
+  color: var(--salvia);
+  cursor: pointer;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* Relatos destacados                                        */
+/*───────────────────────────────────────────────────────────*/
 .featured {
-    background-color: var(--marfil);
-    padding: var(--sp-5) 0;
+  background-color: var(--marfil);
+  padding: var(--sp-5) 0;
 }
 
 .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-2);
-    color: var(--cafe);
-    text-align: center;
-    margin-bottom: var(--sp-4);
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-2);
+  color: var(--cafe);
+  text-align: center;
+  margin-bottom: var(--sp-4);
 }
 
-/* Estado de carga / vacío */
 .status-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-2);
-    margin: var(--sp-4) 0;
-    color: var(--gristopo);
-    font-size: var(--fs-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: var(--sp-4) 0;
+  color: var(--gristopo);
 }
 
 .status-message .spinner-border {
-    color: var(--salvia);
-    width: 3rem;
-    height: 3rem;
+  color: var(--salvia);
+  width: 3rem;
+  height: 3rem;
 }
 
-.relatos-publicados {
-    padding: var(--sp-4) 0;
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3);
+  color: var(--cafe);
+  text-align: center;
+  margin-bottom: var(--sp-4);
 }
 
-.relatos-publicados .page-title {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-2);
-    color: var(--cafe);
-    text-align: center;
-    margin-bottom: var(--sp-4);
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--sp-4);
 }
 
-/* Grid reutilizando el mismo estilo de cards */
-.relatos-publicados .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--sp-4);
+/*───────────────────────────────────────────────────────────*/
+/* Nuestros Valores                                          */
+/*───────────────────────────────────────────────────────────*/
+.values {
+  background-color: var(--beige);
+  padding: var(--sp-5) 0;
 }
 
+.values .section-title {
+  margin-bottom: var(--sp-5);
+}
+
+.values-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-4);
+}
+
+.value-card {
+  flex: 1 1 250px;
+  background: var(--marfil);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-4);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+}
+
+.value-card i {
+  font-size: 2rem;
+  color: var(--salvia);
+  margin-bottom: var(--sp-2);
+}
+
+.value-card h5 {
+  margin-bottom: var(--sp-2);
+  color: var(--cafe);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* Nuestro Equipo                                            */
+/*───────────────────────────────────────────────────────────*/
+.team {
+  padding: var(--sp-5) 0;
+}
+
+.team .section-title {
+  margin-bottom: var(--sp-5);
+}
+
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-4);
+}
+
+.team-card {
+  background: var(--marfil);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-3);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+}
+
+.team-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: var(--sp-3);
+  border-radius: 50%;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* Animaciones                                               */
+/*───────────────────────────────────────────────────────────*/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* Responsive                                                */
+/*───────────────────────────────────────────────────────────*/
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: var(--fs-1);
-    }
+  .hero {
+    min-height: 50vh;
+  }
 
-    .hero-subtitle {
-        font-size: var(--fs-5);
-        padding: 0 var(--sp-2);
-    }
+  .hero-panel {
+    padding: var(--sp-3);
+  }
 
-    .btn-cta {
-        width: 100%;
-    }
+  .hero-title {
+    font-size: var(--fs-2);
+  }
 
-    .cards-grid {
-        gap: var(--sp-3);
-    }
+  .hero-subtitle {
+    font-size: var(--fs-5);
+    padding: 0 var(--sp-2);
+  }
+
+  .btn-cta {
+    width: 100%;
+  }
+
+  .cards-grid {
+    gap: var(--sp-3);
+  }
+
+  .values-grid,
+  .team-grid {
+    gap: var(--sp-3);
+  }
 }

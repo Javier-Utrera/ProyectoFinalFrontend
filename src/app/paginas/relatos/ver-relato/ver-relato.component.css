@@ -1,10 +1,28 @@
-/* Fondo de la sección */
+/* relato-view.component.css */
+
+/*───────────────────────────────────────────────────────────*/
+/* 1) Sección y contenedor                                    */
+/*───────────────────────────────────────────────────────────*/
 .relato-view {
     background-color: var(--marfil);
+    padding: var(--sp-5) 0;
 }
 
-/* Cabecera */
-.relato-header .relato-titulo {
+.relato-view .container {
+    max-width: none;
+    width: 100%;
+}
+
+
+/*───────────────────────────────────────────────────────────*/
+/* 2) Cabecera                                              */
+/*───────────────────────────────────────────────────────────*/
+.relato-header {
+    text-align: center;
+    margin-bottom: var(--sp-5);
+}
+
+.relato-titulo {
     font-family: 'Playfair Display', serif;
     font-size: var(--fs-1);
     color: var(--cafe);
@@ -12,13 +30,17 @@
 }
 
 .relato-meta {
-    font-size: var(--fs-6);
-    color: var(--gristopo);
     display: inline-flex;
     gap: var(--sp-3);
+    font-size: var(--fs-6);
+    color: var(--gristopo);
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Spread de páginas */
+/*───────────────────────────────────────────────────────────*/
+/* 3) Spread de páginas                                      */
+/*───────────────────────────────────────────────────────────*/
 .book-spread-wrapper {
     display: flex;
     justify-content: center;
@@ -28,25 +50,38 @@
 .book-spread {
     display: flex;
     gap: var(--sp-4);
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Página individual de “libro” */
+/*───────────────────────────────────────────────────────────*/
+/* 4) Página individual de “libro”                           */
+/*───────────────────────────────────────────────────────────*/
 .book-page {
     background-color: #fff;
     border: 1px solid var(--gristopo);
     border-radius: var(--radius-md);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-md);
     padding: var(--sp-4) var(--sp-5);
-    max-width: 60ch;
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
     line-height: 1.8;
     text-align: justify;
     color: var(--cafe);
+    transition: transform .2s, box-shadow .2s;
 }
 
-/* Tipografía interna */
+.book-page:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 5) Tipografía interna                                      */
+/*───────────────────────────────────────────────────────────*/
 .book-page .relato-contenido {
     font-size: var(--fs-4);
-    letter-spacing: normal;
 }
 
 .book-page .relato-contenido h2,
@@ -54,16 +89,11 @@
 .book-page .relato-contenido h4 {
     font-family: 'Playfair Display', serif;
     margin: var(--sp-4) 0 var(--sp-2);
-    text-align: left;
 }
 
 .book-page .relato-contenido p {
     text-indent: 1.5em;
     margin-bottom: var(--sp-3);
-}
-
-.book-page .relato-contenido p:first-of-type {
-    text-indent: 0;
 }
 
 .book-page .relato-contenido blockquote {
@@ -74,11 +104,6 @@
     font-style: italic;
 }
 
-.book-page .relato-contenido ul,
-.book-page .relato-contenido ol {
-    margin: var(--sp-3) 0 var(--sp-3) 1.5em;
-}
-
 .book-page .relato-contenido img {
     display: block;
     max-width: 100%;
@@ -87,27 +112,39 @@
     box-shadow: var(--shadow-sm);
 }
 
-.book-page .relato-contenido em:last-child {
-    display: block;
-    text-align: right;
-    margin-top: var(--sp-3);
-    color: var(--gristopo);
-}
-
-/* Controles de paginación */
+/*───────────────────────────────────────────────────────────*/
+/* 6) Controles de paginación                                */
+/*───────────────────────────────────────────────────────────*/
 .pagination-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--sp-2);
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--sp-5);
 }
 
-/* Botón “Anterior” secundario */
+.page-indicator {
+    font-size: var(--fs-6);
+    color: var(--cafe);
+}
+
+/* Botones */
+.btn-prev,
+.btn-next {
+    display: flex;
+    align-items: center;
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-6);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: background-color .2s, transform .1s;
+}
+
 .btn-prev {
-    background-color: var(--gristopo);
+    background-color: var(--salvia);
     border-color: var(--gristopo);
     color: var(--marfil);
-    transition: background-color 0.2s, transform 0.1s;
 }
 
 .btn-prev:hover:not(:disabled) {
@@ -119,12 +156,10 @@
     background-color: var(--gristopo-active);
 }
 
-/* Botón “Siguiente” principal */
 .btn-next {
     background-color: var(--salvia);
     border-color: var(--salvia);
     color: var(--marfil);
-    transition: background-color 0.2s, transform 0.1s;
 }
 
 .btn-next:hover:not(:disabled) {
@@ -136,28 +171,44 @@
     background-color: var(--salvia-active);
 }
 
-/* Iconos dentro de los botones */
-.btn-prev i,
-.btn-next i {
-    font-size: 1.25rem;
-    line-height: 1;
-}
-
-/* Estado deshabilitado */
 .pagination-controls .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
 }
 
-/* Responsive: en pantallas estrechas muestra una sola página */
-@media (max-width: 991px) {
+/*───────────────────────────────────────────────────────────*/
+/* 7) Responsive                                             */
+/*───────────────────────────────────────────────────────────*/
+/* Escritorio: muestra dos páginas que ocupan casi toda la anchura */
+@media (min-width: 992px) {
+    .book-page {
+        width: calc(50% - var(--sp-4));
+        /* dos páginas lado a lado con gap */
+        max-width: none;
+    }
+}
+
+/* Tablet: una sola página, ancho amplio */
+@media (max-width: 991px) and (min-width: 576px) {
+    .book-page {
+        width: 90%;
+    }
+}
+
+/* Móvil: una página 100% ancho */
+@media (max-width: 575px) {
     .book-spread {
         flex-direction: column;
         align-items: center;
     }
 
     .book-page {
-        max-width: 100%;
+        width: 100%;
+    }
+
+    .pagination-controls {
+        flex-direction: column;
+        gap: var(--sp-2);
     }
 }

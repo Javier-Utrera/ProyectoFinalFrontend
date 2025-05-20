@@ -14,8 +14,11 @@ import { RelatosDisponiblesComponent } from './paginas/relatos/relatos-disponibl
 import { RankingComponent } from './paginas/ranking/ranking.component';
 import { AuthGuard } from './servicios/api-autenticacion/auth.guard';
 import { SocialComponent } from './paginas/social/social.component';
+import { RoleGuard } from './servicios/api-autenticacion/role.guard';
+import { SwaggerDocsComponent } from './paginas/swagger-ui-component/swagger-ui-component.component';
 
 export const routes: Routes = [
+
   { path: '', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
@@ -23,19 +26,24 @@ export const routes: Routes = [
   // Rutas protegidas:
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
   { path: 'perfil/:id', component: PerfilComponent, canActivate: [AuthGuard] },
-  { path: 'social',component: SocialComponent,    canActivate: [AuthGuard] },
+  { path: 'social', component: SocialComponent, canActivate: [AuthGuard] },
   { path: 'crear-relato', component: CrearRelatoComponent, canActivate: [AuthGuard] },
   { path: 'mis-relatos', component: MisRelatosComponent, canActivate: [AuthGuard] },
   { path: 'relato/:id/editar', component: EditarRelatoComponent, canActivate: [AuthGuard] },
+  { path: 'moderador/relatos/:id/editar-final', component: EditarRelatoComponent, canActivate: [AuthGuard, RoleGuard] },
 
 
   // Rutas públicas:
-  { path: 'relatos-disponibles', component: RelatosDisponiblesComponent},
+  { path: 'relatos-disponibles', component: RelatosDisponiblesComponent },
   { path: 'relatos-publicados', component: RelatosPublicadosComponent },
   { path: 'relato/:id', component: VerRelatoComponent },
   { path: 'ranking', component: RankingComponent },
 
+  // Admin
+  { path: 'docs', component: SwaggerDocsComponent,canActivate: [AuthGuard, RoleGuard] },
+
   { path: '**', redirectTo: '' },
+  
 ];
 
 export const routing = provideRouter(routes);

@@ -1,9 +1,9 @@
 <section class="relatos-disponibles">
   <div class="container">
-    <h2 class="page-title">Relatos buscando escritores</h2>
+    <h2 class="page-title">Encuentro de escritores</h2>
 
     <!-- Buscador -->
-    <app-buscador [idiomas]="['es','en','fr']" [numEscritoresOpts]="[1,2,3,4,5]" [initialFilters]="filtrosActivo"
+    <app-buscador [numEscritoresOpts]="[1,2,3,4]" [initialFilters]="filtrosActivo"
       (paramsChange)="onBuscar($event)"></app-buscador>
 
     <!-- Estados de carga -->
@@ -21,7 +21,14 @@
     <div class="cards-grid">
       @for (relato of relatos; track relato.id) {
       <div class="card-wrapper">
-        <app-relatocard [relato]="relato" origen="disponible"></app-relatocard>
+        <div class="card-book">
+          <!-- Tag “página” -->
+          <div class="book-tag">
+            <i class="bi bi-book-fill me-1"></i>
+            {{ relato.participaciones.length }} / {{ relato.num_escritores }}
+          </div>
+          <app-relatocard [relato]="relato" origen="disponible"></app-relatocard>
+        </div>
         <button class="btn btn-join mt-3" (click)="unirse(relato.id)">
           <i class="bi bi-people-fill me-1"></i> Unirse al relato
         </button>

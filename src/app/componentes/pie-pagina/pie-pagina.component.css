@@ -1,41 +1,83 @@
 .custom-footer {
-    background-color: var(--beige);
-    color: var(--cafe);
-    padding: var(--sp-4) 0;
-    font-size: var(--fs-6);
-  }
-  
-  .custom-footer h5 {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-4);
-    margin-bottom: var(--sp-2);
-    color: var(--cafe);
-  }
-  
-  .custom-footer p,
-  .custom-footer li {
-    margin-bottom: var(--sp-1);
-  }
-  
-  .custom-footer a {
-    color: var(--salvia);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  .custom-footer a:hover {
-    color: var(--cafe);
-  }
-  
-  .custom-footer .map-wrapper {
-    border: 1px solid var(--gristopo);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-  }
-  
+  background-color: var(--cafe);
+  color: var(--marfil);
+  padding: var(--sp-5) 0 var(--sp-4);
+  font-size: var(--fs-6);
+}
+
+.custom-footer h5 {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-4);
+  margin-bottom: var(--sp-2);
+  color: var(--marfil);
+}
+
+.custom-footer p,
+.custom-footer li {
+  color: var(--marfil);
+  margin-bottom: var(--sp-2);
+}
+
+.custom-footer a {
+  color: var(--terracota);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.custom-footer a:hover {
+  color: var(--salvia);
+}
+
+/* Newsletter */
+.newsletter-form .input-group {
+  display: flex;
+}
+.newsletter-form .form-control {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.newsletter-form .btn-secondary {
+  background-color: var(--pastel-azul);
+  border-color: var(--pastel-azul);
+  color: var(--cafe);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  transition: background-color 0.2s;
+}
+.newsletter-form .btn-secondary:hover {
+  background-color: var(--pastel-azul-hover);
+}
+
+/* Mapa */
+.map-wrapper {
+  border: 1px solid var(--gristopo);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Footer bottom */
+.footer-bottom {
+  border-top: 1px solid var(--salvia);
+  padding-top: var(--sp-2);
+}
+
+.social-links a {
+  margin-left: var(--sp-3);
+  font-size: 1.25rem;
+  color: var(--marfil);
+  transition: color 0.2s;
+}
+.social-links a:hover {
+  color: var(--terracota);
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
   .footer-bottom {
-    border-top: 1px solid var(--gristopo);
-    padding-top: var(--sp-2);
+    flex-direction: column;
+    gap: var(--sp-2);
+    text-align: center;
   }
-  
+  .social-links {
+    margin-top: var(--sp-2);
+  }
+}

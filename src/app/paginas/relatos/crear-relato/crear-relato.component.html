@@ -1,3 +1,4 @@
+<!-- crear-relato.component.html -->
 <h2>Crear nuevo relato</h2>
 
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 mt-3">
@@ -6,7 +7,7 @@
     <label class="form-label">Título</label>
     <input type="text" class="form-control" formControlName="titulo" />
     @if (formulario.get('titulo')?.invalid && enviado) {
-      <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+    <div class="text-danger">Debe tener al menos 3 caracteres.</div>
     }
   </div>
 
@@ -15,7 +16,7 @@
     <label class="form-label">Descripción</label>
     <textarea class="form-control" formControlName="descripcion" rows="3"></textarea>
     @if (formulario.get('descripcion')?.invalid && enviado) {
-      <div class="text-danger">Debe tener al menos 10 caracteres.</div>
+    <div class="text-danger">Debe tener al menos 10 caracteres.</div>
     }
   </div>
 
@@ -24,15 +25,30 @@
     <label class="form-label">Contenido (opcional)</label>
     <app-editor [(model)]="contenidoHtml"></app-editor>
   </div>
-  
 
   <!-- Idioma -->
   <div class="mb-3">
     <label class="form-label">Idioma</label>
-    <input type="text" class="form-control" formControlName="idioma" />
+    <select formControlName="idioma" class="form-select">
+      <option value="" disabled>-- Elige un idioma --</option>
+      @for (i of idiomas; track i.value) {
+      <option [value]="i.value">{{ i.label }}</option>
+      }
+    </select>
     @if (formulario.get('idioma')?.invalid && enviado) {
-      <div class="text-danger">Este campo es obligatorio.</div>
+    <div class="text-danger">Este campo es obligatorio.</div>
     }
+  </div>
+
+  <!-- Género -->
+  <div class="mb-3">
+    <label class="form-label">Género (opcional)</label>
+    <select formControlName="generos" class="form-select">
+      <option value="">-- Ninguno --</option>
+      @for (g of generos; track g.value) {
+      <option [value]="g.value">{{ g.label }}</option>
+      }
+    </select>
   </div>
 
   <!-- Número de escritores -->
@@ -40,7 +56,7 @@
     <label class="form-label">Número de escritores</label>
     <input type="number" class="form-control" formControlName="num_escritores" min="1" max="4" />
     @if (formulario.get('num_escritores')?.invalid && enviado) {
-      <div class="text-danger">Debe ser entre 1 y 4 escritores.</div>
+    <div class="text-danger">Debe ser entre 1 y 4 escritores.</div>
     }
   </div>
 

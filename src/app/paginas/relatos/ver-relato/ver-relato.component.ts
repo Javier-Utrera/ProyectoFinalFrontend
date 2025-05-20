@@ -7,6 +7,7 @@ import { PuntuacionComponent } from '../../../componentes/puntuacion/puntuacion.
 import { MensajeAlertaComponent } from '../../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
 import { MensajeGlobalService } from '../../../servicios/mensaje-global/mensaje-global.service';
 import { AutenticacionService } from '../../../servicios/api-autenticacion/autenticacion.service';
+import { Relato } from '../../../servicios/api-servicios/api.models';
 
 @Component({
   selector: 'app-ver-relato',
@@ -21,7 +22,7 @@ import { AutenticacionService } from '../../../servicios/api-autenticacion/auten
   styleUrls: ['./ver-relato.component.css']
 })
 export class VerRelatoComponent implements OnInit {
-  relato: any = null;
+  relato: Relato | null = null;
   cargando = true;
   relatoId!: number;
   origen: string | null = null;
@@ -67,7 +68,7 @@ export class VerRelatoComponent implements OnInit {
   }
 
   get isAuthenticated(): boolean {
-    return !!this.authService.obtenerToken();
+    return !!this.authService.isAuthenticated;
   }
 
   goToLogin(): void {

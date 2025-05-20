@@ -1,116 +1,175 @@
-/* Sección principal */
+/*───────────────────────────────────────────────────────────*/
+/* 1) Secciones de Ranking                                    */
+/*───────────────────────────────────────────────────────────*/
+
+/* Ranking de Relatos: fondo beige */
 .ranking-relatos {
+    background-color: var(--beige);
+  }
+  /* Ranking de Usuarios: fondo marfil */
+  .ranking-usuarios {
     background-color: var(--marfil);
-}
-
-/* Contenedor centrado */
-.ranking-relatos .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 var(--sp-3);
-}
-
-/* Título */
-.page-title {
-    font-family: 'Playfair Display', serif;
-    font-size: var(--fs-1);
-    color: var(--cafe);
-    text-align: center;
-}
-
-/* Mensajes de estado */
-.status-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-2);
-    margin: var(--sp-4) 0;
-    color: var(--gristopo);
-    font-size: var(--fs-5);
-}
-
-.status-message .spinner-border {
-    color: var(--salvia);
-    width: 3rem;
-    height: 3rem;
-}
-
-/* Grid de tarjetas */
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--sp-4);
-    margin-top: var(--sp-4);
-}
-
-/* Tarjeta individual de ranking */
-.rank-card {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
+  }
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 2) Listado Vertical Común                                  */
+  /*───────────────────────────────────────────────────────────*/
+  .list-ranking {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 3) Ítems de Relatos                                        */
+  /*───────────────────────────────────────────────────────────*/
+  .ranking-relatos .rank-item {
+    background-color: #fff;              /* Destaca sobre el beige */
     border: 1px solid var(--gristopo);
     border-radius: var(--radius-md);
-    padding: var(--sp-4);
-    box-shadow: var(--shadow-sm);
-    height: 100%;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.rank-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-/* Título de la tarjeta */
-.rank-title {
-    font-family: 'Playfair Display', serif;
-    color: var(--cafe);
-    margin-bottom: var(--sp-3);
-    flex-shrink: 0;
-}
-
-/* Métricas apiladas */
-.rank-metric {
-    font-size: var(--fs-6);
-    color: var(--cafe);
-    margin-bottom: var(--sp-2);
-}
-
-.rank-metric .label {
-    font-weight: 600;
-    margin-right: var(--sp-1);
-}
-
-.rank-metric .badge {
-    background-color: var(--salvia);
-    color: var(--marfil);
-    font-size: var(--fs-6);
-    padding: 0.25em 0.5em;
-    border-radius: var(--radius-sm);
-}
-
-/* Botón ver relato anclado abajo */
-.rank-card .btn {
-    align-self: flex-start;
-}
-
-/* Alertas de error */
-.alert-danger {
-    background-color: var(--terracota);
-    color: var(--marfil);
-    border: none;
     padding: var(--sp-3) var(--sp-4);
-    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-3);
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
     box-shadow: var(--shadow-sm);
-}
-
-/* Responsive */
-@media (max-width: 767px) {
-    .ranking-relatos {
-        padding: var(--sp-4) 0;
+  }
+  .ranking-relatos .rank-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .ranking-relatos .rank-pos {
+    font-size: var(--fs-3);
+    color: var(--salvia);
+    margin-right: var(--sp-2);
+  }
+  .ranking-relatos .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--sp-2);
+  }
+  .ranking-relatos .rank-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-4);
+    color: var(--cafe);
+  }
+  .ranking-relatos .rank-metrics {
+    display: flex;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+  }
+  .ranking-relatos .rank-metrics li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    font-size: var(--fs-6);
+    color: var(--cafe);
+  }
+  .ranking-relatos .rank-metrics i {
+    margin-right: var(--sp-1);
+  }
+  .ranking-relatos .rank-item > a.btn {
+    align-self: center;
+    padding: var(--sp-1) var(--sp-3);
+    font-size: var(--fs-6);
+  }
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 4) Ítems de Usuarios                                       */
+  /*───────────────────────────────────────────────────────────*/
+  .ranking-usuarios .rank-item {
+    background-color: var(--beige);       /* Sobre marfil */
+    border-radius: var(--radius-md);
+    padding: var(--sp-2) var(--sp-3);
+    margin-bottom: var(--sp-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .ranking-usuarios .rank-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .ranking-usuarios .rank-pos {
+    font-size: var(--fs-3);
+    color: var(--salvia);
+    min-width: 2.5rem;
+    text-align: center;
+  }
+  .ranking-usuarios .rank-info {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+  .ranking-usuarios .avatar {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--marfil);
+    object-fit: cover;
+  }
+  .ranking-usuarios .user-name {
+    font-size: var(--fs-5);
+    color: var(--cafe);
+    white-space: nowrap;
+  }
+  .ranking-usuarios .metrics {
+    display: flex;
+    gap: var(--sp-3);
+  }
+  .ranking-usuarios .metrics li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    font-size: var(--fs-6);
+    color: var(--cafe);
+  }
+  .ranking-usuarios .metrics i {
+    margin-right: var(--sp-1);
+  }
+  .ranking-usuarios .rank-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+  .ranking-usuarios .rank-actions .btn,
+  .ranking-usuarios .rank-actions app-user-link {
+    padding: var(--sp-1) var(--sp-2);
+    font-size: var(--fs-6);
+  }
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 5) Títulos de Sección                                      */
+  /*───────────────────────────────────────────────────────────*/
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--fs-2);
+    color: var(--cafe);
+  }
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 6) Estados & Alertas                                       */
+  /*───────────────────────────────────────────────────────────*/
+  /* .status-message y .alert-danger reutilizan global */
+  
+  /*───────────────────────────────────────────────────────────*/
+  /* 7) Responsive                                              */
+  /*───────────────────────────────────────────────────────────*/
+  @media (max-width: 768px) {
+    .ranking-relatos .rank-item,
+    .ranking-usuarios .rank-item {
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    .rank-card {
-        padding: var(--sp-3);
+    .ranking-usuarios .rank-actions {
+      width: 100%;
+      justify-content: flex-start;
+      margin-top: var(--sp-2);
     }
-}
+    .ranking-usuarios .rank-item > .rank-info,
+    .ranking-usuarios .rank-item > .rank-actions {
+      width: 100%;
+    }
+  }
+  

@@ -1,96 +1,99 @@
+.editar-relato {
+  background-color: var(--marfil);
+  padding: var(--sp-5) 0;
+}
 
-   .editar-relato {
-    background-color: var(--marfil);
-    padding: var(--sp-5) 0;
-  }
-  
-  /* Concentrado de metadata */
-  .editar-relato .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 var(--sp-3);
-  }
-  
-  /* Títulos */
-  .page-title {
-    font-family: 'Playfair Display', serif;
-    color: var(--cafe);
-    font-size: var(--fs-2);
-    text-align: center;
-    margin-bottom: var(--sp-4);
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    color: var(--cafe);
-    font-size: var(--fs-3);
-    text-align: center;
-  }
-  
-  /* Estado de carga */
-  .status-text {
-    color: var(--gristopo);
-    font-size: var(--fs-5);
-    text-align: center;
-    margin-bottom: var(--sp-4);
-  }
-  
-  /* Formulario y vista lectura */
-  .form-card,
-  .read-only-card {
-    background: #fff;
-    border: 1px solid var(--gristopo);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    padding: var(--sp-4);
-    margin-bottom: var(--sp-4);
-  }
-  
-  .form-label {
-    font-weight: 600;
-    color: var(--cafe);
-  }
-  .form-control {
-    border-radius: var(--radius-sm);
-    margin-top: var(--sp-1);
-  }
-  
-  /* Botón guardar */
-  .btn-primary {
-    background-color: var(--salvia);
-    border-color: var(--salvia);
-    color: var(--marfil);
-    padding: var(--sp-2) var(--sp-4);
-    transition: background-color 0.2s, transform 0.1s;
-  }
-  .btn-primary:not(:disabled):hover {
-    background-color: var(--salvia-hover);
-    transform: translateY(-1px);
-  }
-  
-  /* Read-only dl */
-  .read-only-card h5 {
-    font-size: var(--fs-4);
-    margin-bottom: var(--sp-3);
-  }
-  .read-only-card dt {
-    font-weight: 600;
-    color: var(--cafe);
-  }
-  .read-only-card dd {
-    margin-bottom: var(--sp-2);
-    color: var(--cafe);
-  }
-   
+/* Concentrado de metadata */
+.editar-relato .container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--sp-3);
+}
+
+/* Títulos */
+.page-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--cafe);
+  font-size: var(--fs-2);
+  text-align: center;
+  margin-bottom: var(--sp-4);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--cafe);
+  font-size: var(--fs-3);
+  text-align: center;
+}
+
+/* Estado de carga */
+.status-text {
+  color: var(--gristopo);
+  font-size: var(--fs-5);
+  text-align: center;
+  margin-bottom: var(--sp-4);
+}
+
+/* Formulario y vista lectura */
+.form-card,
+.read-only-card {
+  background: #fff;
+  border: 1px solid var(--gristopo);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--cafe);
+}
+
+.form-control {
+  border-radius: var(--radius-sm);
+  margin-top: var(--sp-1);
+}
+
+/* Botón guardar */
+.btn-primary {
+  background-color: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil);
+  padding: var(--sp-2) var(--sp-4);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary:not(:disabled):hover {
+  background-color: var(--salvia-hover);
+  transform: translateY(-1px);
+}
+
+/* Read-only dl */
+.read-only-card h5 {
+  font-size: var(--fs-4);
+  margin-bottom: var(--sp-3);
+}
+
+.read-only-card dt {
+  font-weight: 600;
+  color: var(--cafe);
+}
+
+.read-only-card dd {
+  margin-bottom: var(--sp-2);
+  color: var(--cafe);
+}
+
+.fragment-editor-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: var(--sp-2);
+}
+
+/* Responsive: ligero padding extra */
+@media (max-width: 768px) {
   .fragment-editor-wrapper {
-    width: 100%;
-    max-width: 100%;
     padding: var(--sp-2);
   }
-  
-  /* Responsive: ligero padding extra */
-  @media (max-width: 768px) {
-    .fragment-editor-wrapper {
-      padding: var(--sp-2);
-    }
-  }
-  
+}

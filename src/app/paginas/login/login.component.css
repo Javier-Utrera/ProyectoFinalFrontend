@@ -30,6 +30,7 @@
   /* Campos */
   .form-control {
     border-radius: var(--radius-sm);
+    border: 1px solid var(--marfil);
   }
   
   /* Botón iniciar sesión */

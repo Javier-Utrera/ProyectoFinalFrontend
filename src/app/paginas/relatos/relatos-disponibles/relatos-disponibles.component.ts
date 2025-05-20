@@ -40,6 +40,7 @@ export class RelatosDisponiblesComponent implements OnInit {
   }
 
   onBuscar(filtros: any): void {
+    console.log('Parámetros de búsqueda:', filtros);
     this.filtrosActivo = filtros;
     this.page = 1;
     this.loadRelatos();

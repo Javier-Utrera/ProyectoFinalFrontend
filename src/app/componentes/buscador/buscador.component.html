@@ -1,75 +1,90 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="row gy-2 gx-3 align-items-end mb-4">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="buscar-form">
 
-  <!-- Autor -->
-  <div class="col-md">
-    <label for="autor" class="form-label">Autor</label>
-    <input type="text" id="autor" formControlName="autor" class="form-control" placeholder="Buscar por autor…" />
+  <div class="row g-3 align-items-end mb-3">
+    <!-- Título -->
+    <div class="col-12 col-sm-6 col-md-4">
+      <label for="titulo" class="form-label">Título</label>
+      <input type="text" id="titulo" formControlName="titulo" class="form-control" placeholder="Buscar por título…" />
+    </div>
+
+    <!-- Ordenar -->
+    <div class="col-12 col-sm-6 col-md-4">
+      <label for="ordering" class="form-label">Ordenar</label>
+      <select id="ordering" formControlName="ordering" class="form-select">
+        <option value="-fecha_creacion">Más recientes</option>
+        <option value="fecha_creacion">Más antiguos</option>
+        <option value="-titulo">Título Z→A</option>
+        <option value="titulo">Título A→Z</option>
+        <option value="-num_escritores">+ Colaboradores</option>
+        <option value="num_escritores">− Colaboradores</option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="col-12 col-sm-6 col-md-4 d-flex 
+    justify-content-start justify-content-md-end gap-2">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-search me-1"></i>Buscar
+      </button>
+      <button type="button" class="btn btn-outline-secondary" (click)="toggleAdvanced()">
+        <i class="bi" [class.bi-filter]="!advancedOpen" [class.bi-chevron-up]="advancedOpen"></i>
+      </button>
+    </div>
   </div>
 
-  <!-- Título -->
-  <div class="col-md">
-    <label for="titulo" class="form-label">Título</label>
-    <input type="text" id="titulo" formControlName="titulo" class="form-control" placeholder="Buscar por título…" />
-  </div>
+    <!-- Filtros avanzados -->
+    @if (advancedOpen) {
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="autor" class="form-label">Autor</label>
+        <input type="text" id="autor" formControlName="autor" class="form-control" placeholder="Autor…" />
+      </div>
 
-  <!-- Descripción -->
-  <div class="col-md">
-    <label for="descripcion" class="form-label">Descripción</label>
-    <input type="text" id="descripcion" formControlName="descripcion" class="form-control"
-      placeholder="Buscar por descripción…" />
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <input type="text" id="descripcion" formControlName="descripcion" class="form-control"
+          placeholder="Descripción…" />
+      </div>
 
-  <!-- Idioma -->
-  <div class="col-auto">
-    <label for="idioma" class="form-label">Idioma</label>
-    <select id="idioma" formControlName="idioma" class="form-select">
-      <option value="">Todos los idiomas</option>
-      @for (idioma of idiomas; track idioma) {
-      <option [value]="idioma">{{ idioma }}</option>
-      }
-    </select>
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="idioma" class="form-label">Idioma</label>
+        <select id="idioma" formControlName="idioma" class="form-select">
+          <option value="">Todos</option>
+          @for (i of idiomas; track i.value) {
+          <option [value]="i.value">{{ i.label }}</option>
+          }
+        </select>
+      </div>
 
-  <!-- Nº colaboradores -->
-  <div class="col-auto">
-    <label for="num_escritores" class="form-label">Colaboradores</label>
-    <select id="num_escritores" formControlName="num_escritores" class="form-select">
-      <option value="">Cualquiera</option>
-      @for (n of numEscritoresOpts; track n) {
-      <option [value]="n">{{ n }}</option>
-      }
-    </select>
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="generos" class="form-label">Género</label>
+        <select id="generos" formControlName="generos" class="form-select">
+          <option value="">Todos</option>
+          @for (g of generos; track g.value) {
+          <option [value]="g.value">{{ g.label }}</option>
+          }
+        </select>
+      </div>
 
-  <!-- Fecha desde -->
-  <div class="col-auto">
-    <label for="desde" class="form-label">Desde</label>
-    <input type="date" id="desde" formControlName="desde" class="form-control" />
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="num_escritores" class="form-label">Colaboradores</label>
+        <select id="num_escritores" formControlName="num_escritores" class="form-select">
+          <option value="">Cualquiera</option>
+          @for (n of numEscritoresOpts; track n) {
+          <option [value]="n">{{ n }}</option>
+          }
+        </select>
+      </div>
 
-  <!-- Fecha hasta -->
-  <div class="col-auto">
-    <label for="hasta" class="form-label">Hasta</label>
-    <input type="date" id="hasta" formControlName="hasta" class="form-control" />
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="desde" class="form-label">Desde</label>
+        <input type="date" id="desde" formControlName="desde" class="form-control" />
+      </div>
 
-  <!-- Ordenación -->
-  <div class="col-auto">
-    <label for="ordering" class="form-label">Ordenar</label>
-    <select id="ordering" formControlName="ordering" class="form-select">
-      <option value="-fecha_creacion">Más recientes</option>
-      <option value="fecha_creacion">Más antiguos</option>
-      <option value="-titulo">Título Z→A</option>
-      <option value="titulo">Título A→Z</option>
-      <option value="-num_escritores">+ Colaboradores</option>
-      <option value="num_escritores">− Colaboradores</option>
-    </select>
-  </div>
-
-  <!-- Botón de búsqueda -->
-  <div class="col-auto">
-    <button type="submit" class="btn btn-primary">
-      Buscar
-    </button>
-  </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="hasta" class="form-label">Hasta</label>
+        <input type="date" id="hasta" formControlName="hasta" class="form-control" />
+      </div>
+    </div>
+    }
 </form>

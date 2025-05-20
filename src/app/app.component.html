@@ -1,7 +1,9 @@
-<app-barra-navegacion></app-barra-navegacion>
+<div class="app-container d-flex flex-column">
+  <app-barra-navegacion></app-barra-navegacion>
 
-<main class="contenido-principal">
-  <router-outlet></router-outlet>
-</main>
+  <main class="contenido-principal flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
 
-<app-pie-pagina></app-pie-pagina>
+  <app-pie-pagina class="mt-auto"></app-pie-pagina>
+</div>

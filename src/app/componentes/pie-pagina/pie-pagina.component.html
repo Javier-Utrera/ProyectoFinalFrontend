@@ -1,45 +1,51 @@
 <footer class="footer custom-footer">
-    <div class="container">
-      <div class="row gy-4">
-        <!-- Columna: Sobre nosotros -->
-        <div class="col-12 col-md-4">
-          <h5>About BookRoom</h5>
-          <p>
-            BookRoom es el rincón de paz para escritores y lectores: 
-            crea, descubre y comparte relatos de todo el mundo.
-          </p>
-        </div>
-  
-        <!-- Columna: Enlaces rápidos -->
-        <div class="col-12 col-md-4">
-          <h5>Enlaces</h5>
-          <ul class="list-unstyled">
-            <li><a routerLink="/">Inicio</a></li>
-            <li><a routerLink="/relatos-publicados">Relatos publicados</a></li>
-            <li><a routerLink="/ranking">Ranking</a></li>
-            <li><a routerLink="/perfil">Perfil</a></li>
-          </ul>
-        </div>
-  
-        <!-- Columna: Mapa -->
-        <div class="col-12 col-md-4">
-          <h5>Nos encontramos en</h5>
-          <div class="map-wrapper">
-            <iframe
-              width="100%"
-              height="200"
-              style="border:0"
-              loading="lazy"
-              allowfullscreen
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.012345678901!2d-5.784321!3d37.154321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126abcd1234%3A0xabcdef1234567890!2sUtrera%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1683800000000!5m2!1ses!2ses"
-            ></iframe>
-          </div>
-        </div>
+  <div class="container">
+    <div class="row gy-4">
+      <!-- Sobre nosotros -->
+      <div class="col-12 col-md-4">
+        <h5>Sobre BookRoom</h5>
+        <p>
+          BookRoom es el rincón de paz para escritores y lectores: 
+          crea, descubre y comparte relatos de todo el mundo.
+        </p>
       </div>
-  
-      <div class="footer-bottom text-center mt-4">
-        <small>&copy; 2025 The Book Room. Todos los derechos reservados.</small>
+
+      <!-- Contacto / Newsletter -->
+      <div class="col-6 col-md-3">
+        <h5>Suscríbete</h5>
+        <form class="newsletter-form" (submit)="$event.preventDefault()">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Tu correo" aria-label="Correo para newsletter">
+            <button class="btn btn-secondary" type="submit">Enviar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Mapa -->
+      <!-- Mapa -->
+      <div class="col-12 col-md-3">
+        <h5>Nos encontramos en</h5>
+        <div class="map-wrapper">
+          <iframe
+            width="100%"
+            height="200"
+            style="border:0"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.012345678901!2d-5.784321!3d37.154321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126abcd1234%3A0xabcdef1234567890!2sUtrera%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1683800000000!5m2!1ses!2ses"
+            aria-label="Mapa de ubicación"
+          ></iframe>
+        </div>
       </div>
     </div>
-  </footer>
-  
+
+    <div class="footer-bottom d-flex justify-between items-center mt-4">
+      <small>&copy; 2025 The Book Room. Todos los derechos reservados.</small>
+      <div class="social-links">
+        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>

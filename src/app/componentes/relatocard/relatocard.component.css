@@ -1,50 +1,86 @@
-/* Tarjeta principal */
+/* relato-card.component.css */
+
+/* Card contrast alto */
 .relato-card {
-  background-color: #fff;
+  background-color: #fff; /* Blanco puro para resaltar */
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-md);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: var(--sp-4);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  border-left: 4px solid transparent;
 }
+
+/* Efecto hover */
 .relato-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Contenido de la tarjeta */
-.relato-card h5 {
+/* Bordes coloridos según origen */
+.relato-card.origin-publicado   { border-left-color: var(--salvia); }
+.relato-card.origin-disponible  { border-left-color: var(--pastel-azul); }
+.relato-card.origin-mis-relatos { border-left-color: var(--gristopo); }
+
+/* Header y título */
+.relato-header {
+  margin-bottom: var(--sp-3);
+}
+.relato-title {
   font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3);
   color: var(--cafe);
-  margin-bottom: var(--sp-2);
-  flex-shrink: 0;
+  margin: 0;
 }
 
-/* Metadatos en dos columnas */
-.relato-card p {
-  margin-bottom: var(--sp-1);
+/* Meta datos */
+.relato-meta li {
   font-size: var(--fs-6);
   color: var(--cafe);
+  margin-bottom: var(--sp-1);
 }
-.meta-row {
+.relato-meta .fecha {
+  margin-top: var(--sp-2);
+}
+
+/* Descripción */
+.relato-descripcion p {
+  font-size: var(--fs-5);
+  color: var(--cafe);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Estadísticas */
+.relato-stats {
+  margin: var(--sp-3) 0;
+}
+
+/* Acciones / botones */
+.relato-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: var(--sp-2);
-  margin-top: auto; /* empuja la acciones abajo */
+  margin-top: auto;
+}
+.relato-actions .btn {
+  font-size: var(--fs-6);
+  padding: var(--sp-1) var(--sp-3);
 }
 
-/* Botón “Leer relato” centrado abajo */
-.relato-card .btn {
-  align-self: flex-start;
-  margin-top: var(--sp-3);
-}
+/* Hover estados botón */
+.btn-outline-primary:hover   { background-color: var(--salvia-hover); }
+.btn-outline-success:hover   { background-color: var(--pastel-azul-hover); }
+.btn-outline-secondary:hover { background-color: var(--gristopo-hover); }
+.btn-warning:hover           { background-color: var(--terracota-hover); }
+.btn-danger:hover            { background-color: rgba(0, 0, 0, 0.1); }
 
-/* Estadísticas ajustadas */
-app-estadisticas-relato {
-  margin-top: var(--sp-2);
-  margin-bottom: var(--sp-2);
+/* Responsive */
+@media (max-width: 576px) {
+  .relato-actions {
+    justify-content: center;
+  }
 }

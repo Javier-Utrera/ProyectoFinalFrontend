@@ -1,118 +1,107 @@
-
+/* Barra de navegación optimizada para desktop y mobile */
 .navbar.custom-navbar {
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--gristopo);
-  box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gristopo);
+  box-shadow: var(--shadow-sm);
   padding: var(--sp-2) var(--sp-3);
+  display: flex;
+  align-items: center;
 }
 
-/* Marca */
+/* Marca y toggler siempre visibles */
 .navbar.custom-navbar .navbar-brand {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-2);
   color: var(--cafe);
-  transition: color 0.2s;
+  transition: color .2s;
+  margin-right: var(--sp-3);
 }
 .navbar.custom-navbar .navbar-brand:hover {
   color: var(--salvia);
 }
-
-/* Enlaces de navegación */
-.navbar.custom-navbar .nav-link {
-  color: var(--gristopo);
-  margin: 0 var(--sp-2);
-  position: relative;
-  transition: color 0.2s;
-}
-.navbar.custom-navbar .nav-link::after {
-  content: '';
-  display: block;
-  height: 2px;
-  width: 0;
-  background: var(--salvia);
-  transition: width 0.2s;
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-}
-.navbar.custom-navbar .nav-link:hover {
-  color: var(--salvia);
-}
-.navbar.custom-navbar .nav-link:hover::after {
-  width: 100%;
-}
-
-/* Botones pequeños */
-.navbar.custom-navbar .btn-sm {
-  font-size: var(--fs-6);
-  padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-sm);
-}
-
-/* Botones de acción */
-.navbar.custom-navbar .btn-success {
-  background-color: var(--salvia);
-  border-color: var(--salvia);
-  color: var(--marfil);
-  transition: background-color 0.2s;
-}
-.navbar.custom-navbar .btn-success:hover {
-  background-color: var(--salvia-hover);
-}
-.navbar.custom-navbar .btn-success:active {
-  background-color: var(--salvia-active);
-}
-
-.navbar.custom-navbar .btn-secondary {
-  background-color: var(--gristopo);
-  border-color: var(--gristopo);
-  color: var(--marfil);
-  transition: background-color 0.2s;
-}
-.navbar.custom-navbar .btn-secondary:hover {
-  background-color: var(--gristopo-hover);
-}
-.navbar.custom-navbar .btn-secondary:active {
-  background-color: var(--gristopo-active);
-}
-
-.navbar.custom-navbar .btn-danger {
-  background-color: var(--terracota);
-  border-color: var(--terracota);
-  color: var(--marfil);
-  transition: background-color 0.2s;
-}
-.navbar.custom-navbar .btn-danger:hover {
-  background-color: var(--terracota-hover);
-}
-.navbar.custom-navbar .btn-danger:active {
-  background-color: var(--terracota-active);
-}
-
-/* Toggle móvil */
 .navbar.custom-navbar .navbar-toggler {
   border: none;
   font-size: 1.5rem;
   color: var(--cafe);
+  margin-right: var(--sp-3);
 }
 .navbar.custom-navbar .navbar-toggler:focus {
-  box-shadow: none;
   outline: none;
+  box-shadow: none;
 }
 
-/* Responsive: menú colapsado */
+/* Desktop: scroll horizontal visible, collapse always open */
+@media (min-width: 992px) {
+  .navbar.custom-navbar .navbar-collapse {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    /* Espacio debajo para separar scrollbar de contenido */
+    padding-bottom: var(--sp-2);
+    scrollbar-width: auto;
+  }
+  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar {
+    height: 6px;
+  }
+  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+  }
+  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .navbar.custom-navbar .navbar-nav,
+  .navbar.custom-navbar .navbar-nav .nav-item,
+  .navbar.custom-navbar .navbar-nav .btn-sm {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 var(--sp-2);
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile: collapse hidden/shown via Bootstrap, items centered */
 @media (max-width: 991px) {
   .navbar.custom-navbar .navbar-collapse {
-    background-color: rgba(255, 255, 255, 0.95);
+    /* Dejar que Bootstrap maneje show/hide */
+    background-color: rgba(255,255,255,0.95);
     backdrop-filter: blur(8px);
     border-radius: 0 0 var(--radius-md) var(--radius-md);
     padding: var(--sp-3);
+    white-space: normal;
+    overflow: visible;
+  }
+  .navbar.custom-navbar .collapse:not(.show) {
+    display: none !important;
+  }
+  .navbar.custom-navbar .collapse.show {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
+  .navbar.custom-navbar .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
   .navbar.custom-navbar .nav-item {
-    margin-bottom: var(--sp-2);
+    width: 100%;
+    margin-bottom: var(--sp-3);
+    display: flex;
+    justify-content: center;
+  }
+  /* Botones con ancho automático y consistente */
+  .navbar.custom-navbar .btn-sm {
+    width: auto !important;
+    min-width: 120px;
+    margin: var(--sp-2) 0;
   }
 }

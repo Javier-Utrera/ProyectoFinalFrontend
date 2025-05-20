@@ -1,23 +1,46 @@
-<div class="relato-card">
-  <h5>{{ relato.titulo }}</h5>
+<article class="relato-card" [ngClass]="{
+  'origin-publicado': origen === 'publicado',
+  'origin-disponible': origen === 'disponible',
+  'origin-mis-relatos': origen === 'mis-relatos'
+}">
+  <header class="relato-header">
+    <h5 class="relato-title">{{ relato.titulo }}</h5>
+  </header>
 
-  <p><strong>Idioma:</strong> {{ relato.idioma }}</p>
-  <p><strong>Descripción:</strong> {{ relato.descripcion }}</p>
+  <ul class="relato-meta list-unstyled mb-3">
+    <li><strong>Idioma:</strong> {{ relato.idioma_display }}</li>
+    <li><strong>Género:</strong> {{ relato.generos_display }}</li>
+    <li><strong>Estado:</strong> {{ relato.estado }}</li>
+    <li class="fecha">
+      <small class="text-muted">
+        {{ origen === 'publicado' ? 'Publicado el' : 'Fecha:' }}
+        {{ relato.fecha_creacion | date:'mediumDate' }}
+      </small>
+    </li>
+  </ul>
 
-  <div class="meta-row">
-    <small class="text-muted">
-      {{ origen === 'publicado' ? 'Publicado el' : 'Fecha:' }}
-      {{ relato.fecha_creacion | date:'mediumDate' }}
-    </small>
-  </div>
+  <section class="relato-descripcion mb-3">
+    <p>{{ relato.descripcion }}</p>
+  </section>
 
-  <app-estadisticas-relato [relatoId]="relato.id"></app-estadisticas-relato>
+  <app-estadisticas-relato [relatoId]="relato.id" class="relato-stats mb-3"></app-estadisticas-relato>
 
-  <button class="btn btn-sm mt-2" [ngClass]="{
+  <footer class="relato-actions mt-auto">
+    <button class="btn btn-sm" [ngClass]="{
       'btn-outline-primary': origen === 'publicado',
       'btn-outline-success': origen === 'disponible',
       'btn-outline-secondary': origen === 'mis-relatos'
     }" [routerLink]="['/relato', relato.id]" [queryParams]="{ origen }">
-    Leer relato
-  </button>
-</div>
+      Leer relato
+    </button>
+
+    @if (auth.hasRole(1, 3)) {
+    <button class="btn btn-sm btn-warning ms-2" [routerLink]="['/moderador/relatos', relato.id, 'editar-final']">
+      Editar (mod)
+    </button>
+    <button class="btn btn-sm btn-danger ms-2" (click)="borrar()">
+      <i class="bi bi-trash me-1"></i>Eliminar
+    </button>
+    }
+  </footer>
+</article>

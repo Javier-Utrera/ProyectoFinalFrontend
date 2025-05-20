@@ -49,6 +49,7 @@ export class BuscadorUsuariosComponent implements OnInit {
 
     this.apiService.buscarUsuarios(valor).subscribe({
       next: (res) => {
+        console.log(res);
         this.resultados = res;
         this.buscando = false;
         if (res.length === 0) {

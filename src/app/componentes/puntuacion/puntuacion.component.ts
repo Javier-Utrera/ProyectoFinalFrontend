@@ -27,7 +27,7 @@ export class PuntuacionComponent implements OnInit {
   ngOnInit(): void {
     this.mensajeGlobal.limpiar();
   
-    if (this.authService.obtenerToken()) {
+    if (this.authService.isAuthenticated) {
       this.api.getMiVoto(this.relatoId).subscribe({
         next: voto => {
           this.miPuntuacion = voto?.puntuacion ?? 0;
@@ -42,7 +42,7 @@ export class PuntuacionComponent implements OnInit {
 
   votar(p: number): void {
     // Si no hay token, redirigimos a login (guardando la URL de retorno)
-    if (!this.authService.obtenerToken()) {
+    if (!this.authService.isAuthenticated) {
       const returnUrl = this.router.url;
       this.router.navigate(['/login'], { queryParams: { returnUrl } });
       return;

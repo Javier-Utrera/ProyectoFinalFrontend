@@ -1,16 +1,15 @@
-/* Sección principal */
+/*── Sección y contenedor ───────────────────────────────────*/
 .buscador-usuarios {
   padding: var(--sp-5) 0;
 }
-
 .buscador-usuarios .container {
   max-width: 600px;
   margin: 0 auto;
   padding: 0 var(--sp-3);
 }
 
-/* Título de sección */
-.buscador-usuarios .section-subtitle {
+/*── Título de sección ──────────────────────────────────────*/
+.section-subtitle {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
   color: var(--cafe);
@@ -18,131 +17,114 @@
   margin-bottom: var(--sp-4);
 }
 
-/* Tarjeta del formulario */
-.buscador-usuarios .form-card {
-  background-color: #fff;
+/*── Formulario de búsqueda ─────────────────────────────────*/
+.form-card {
+  background-color: var(--beige);
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-}
-
-/* Spacing interno */
-.buscador-usuarios .form-card.p-4 {
-  background-color: var(--marfil);
   padding: var(--sp-4);
 }
-
-/* Input de búsqueda */
-.buscador-usuarios .form-control {
+.form-card .form-control {
   border-radius: var(--radius-sm);
   padding: var(--sp-2);
 }
-
-/* Errores de validación inline */
-.buscador-usuarios .text-danger {
+.form-card .text-danger {
   font-size: var(--fs-6);
   margin-top: var(--sp-1);
 }
-
-/* Botón buscar */
-.buscador-usuarios .btn-primary {
+.form-card .btn-primary {
   background-color: var(--salvia);
   border-color: var(--salvia);
   color: var(--marfil);
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color .2s, transform .1s;
 }
-
-.buscador-usuarios .btn-primary:disabled {
+.form-card .btn-primary:disabled {
   opacity: 0.6;
 }
-
-.buscador-usuarios .btn-primary:not(:disabled):hover {
+.form-card .btn-primary:not(:disabled):hover {
   background-color: var(--salvia-hover);
   transform: translateY(-1px);
 }
-
-.buscador-usuarios .btn-primary:not(:disabled):active {
+.form-card .btn-primary:not(:disabled):active {
   background-color: var(--salvia-active);
 }
 
-/* Estado de búsqueda */
-.buscador-usuarios .status-message {
+/*── Estado de búsqueda ────────────────────────────────────*/
+.status-message {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-2);
   margin-bottom: var(--sp-4);
 }
-
-.buscador-usuarios .status-message .spinner-border {
+.status-message .spinner-border {
   color: var(--salvia);
   width: 3rem;
   height: 3rem;
 }
 
-/* Resultados */
-.buscador-usuarios .list-group {
+/*── Resultados ────────────────────────────────────────────*/
+.resultados-list {
   margin-top: var(--sp-3);
-  border: none;
+  padding: 0;
+  list-style: none;
 }
-
-.buscador-usuarios .list-group-item {
+.user-result {
+  background-color: var(--marfil);
+  display: flex;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-3);
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-sm);
-  padding: var(--sp-3);
   margin-bottom: var(--sp-2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background-color 0.2s;
+  transition: background-color .2s;
 }
-
-.buscador-usuarios .list-group-item:hover {
+.user-result:hover {
   background-color: var(--beige);
 }
 
-/* Datos de usuario en resultados */
-.buscador-usuarios .user-info strong {
-  font-size: var(--fs-5);
-  color: var(--cafe);
+/* Avatar del resultado */
+.result-avatar {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border: 2px solid var(--marfil);
 }
 
-.buscador-usuarios .user-info small {
+/* Info de usuario */
+.user-info {
   font-size: var(--fs-6);
-  color: var(--gristopo);
+  color: var(--cafe);
+  line-height: 1.2;
 }
 
-/* Botón enviar solicitud */
-.buscador-usuarios .btn-success {
+/* Botón solicitar */
+.user-result .btn-success {
   background-color: var(--salvia);
   border-color: var(--salvia);
   color: var(--marfil);
   font-size: var(--fs-6);
   padding: var(--sp-1) var(--sp-3);
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color .2s, transform .1s;
 }
-
-.buscador-usuarios .btn-success:hover {
+.user-result .btn-success:hover {
   background-color: var(--salvia-hover);
   transform: translateY(-1px);
 }
-
-.buscador-usuarios .btn-success:active {
+.user-result .btn-success:active {
   background-color: var(--salvia-active);
 }
 
-/* Responsive */
+/*── Responsive ────────────────────────────────────────────*/
 @media (max-width: 576px) {
-  .buscador-usuarios .form-card {
-    padding: var(--sp-3) !important;
-  }
-
-  .buscador-usuarios .btn-success {
-    width: 100%;
-  }
-
-  .buscador-usuarios .list-group-item {
+  .user-result {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .user-result .btn-success {
+    width: 100%;
+    margin-top: var(--sp-2);
+    text-align: center;
   }
 }
