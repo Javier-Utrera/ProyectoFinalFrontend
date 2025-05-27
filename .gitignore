@@ -43,6 +43,7 @@ Thumbs.db
 
 # Docker
 Dockerfile
+Dockerfile.prod
 .dockerignore
 
 # Entornos
@@ -51,3 +52,7 @@ Dockerfile
 
 # Otros logs
 *.log
+
+sonar-project.properties
+# Cobertura de tests
+/coverage/

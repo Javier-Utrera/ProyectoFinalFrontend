@@ -1,20 +1,17 @@
-/*───────────────────────────────────────────────────────────*/
-/* 1) Sección y Contenedor                                    */
-/*───────────────────────────────────────────────────────────*/
+/* 1) Sección Principal y Contenedor */
 .mis-relatos {
   background-color: var(--marfil);
   padding: var(--sp-5) 0;
 }
+
 .mis-relatos .container {
   max-width: 1140px;
   margin: 0 auto;
   padding: 0 var(--sp-3);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 2) Título                                                 */
-/*───────────────────────────────────────────────────────────*/
-.page-title {
+/* 2) Título de la página */
+.mis-relatos .page-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-1);
   color: var(--cafe);
@@ -22,52 +19,53 @@
   margin-bottom: var(--sp-5);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 3) Estado de carga y mensaje vacío                        */
-/*───────────────────────────────────────────────────────────*/
-.status-message {
+/* 3) Estado de carga y mensaje vacío */
+.mis-relatos .status-message {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-2);
+  padding: var(--sp-4) 0;
   color: var(--gristopo);
   font-size: var(--fs-5);
-  padding: var(--sp-4) 0;
 }
-.empty-message {
+
+.mis-relatos .status-message .spinner-border {
+  color: var(--salvia);
+  width: 3rem;
+  height: 3rem;
+}
+
+.mis-relatos .empty-message {
   text-align: center;
   color: var(--cafe);
   font-size: var(--fs-5);
   margin: var(--sp-4) 0;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 4) Grid de tarjetas                                       */
-/*───────────────────────────────────────────────────────────*/
-.cards-grid {
+/* 4) Grid de tarjetas */
+.mis-relatos .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: var(--sp-4);
+  justify-content: center;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 5) Wrapper de tarjeta + acciones                          */
-/*───────────────────────────────────────────────────────────*/
-.card-wrapper {
+/* 5) Wrapper de tarjeta + acciones */
+.mis-relatos .card-wrapper {
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.card-wrapper app-relatocard {
-  flex: 1;
+  width: 100%;
+  margin-bottom: 0;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 6) Grupo de botones                                       */
-/*───────────────────────────────────────────────────────────*/
-.actions-group {
+.mis-relatos .card-wrapper app-relatocard,
+.mis-relatos .card-wrapper .relato-card {
+  width: 100%;
+}
+
+/* 6) Grupo de botones bajo cada card */
+.mis-relatos .actions-group {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-2);
@@ -75,8 +73,10 @@
   background-color: var(--cafe);
   justify-content: center;
   border-radius: var(--radius-md);
+  margin-top: var(--sp-3);
 }
-.btn-action {
+
+.mis-relatos .btn-action {
   display: flex;
   align-items: center;
   gap: var(--sp-1);
@@ -87,73 +87,77 @@
   transition: background-color .2s, border-color .2s, color .2s;
 }
 
-/* Leer */
-.btn-view {
+/*   - Leer */
+.mis-relatos .btn-view {
   background-color: var(--salvia);
   border-color: var(--salvia);
   color: var(--marfil);
 }
-.btn-view:hover {
+
+.mis-relatos .btn-view:hover {
   background-color: var(--salvia-hover);
 }
 
-/* Escribir */
-.btn-edit {
+/*   - Escribir */
+.mis-relatos .btn-edit {
   background-color: var(--gristopo);
   border-color: var(--gristopo);
   color: var(--marfil);
 }
-.btn-edit:hover {
+
+.mis-relatos .btn-edit:hover {
   background-color: var(--gristopo-hover);
 }
 
-/* Marcar listo */
-.btn-ready {
+/*   - Marcar listo */
+.mis-relatos .btn-ready {
   background-color: var(--pastel-azul);
   border-color: var(--pastel-azul);
   color: var(--cafe);
 }
-.btn-ready:hover {
+
+.mis-relatos .btn-ready:hover {
   background-color: var(--pastel-azul-hover);
 }
 
-/* Eliminar */
-.btn-delete {
+/*   - Eliminar */
+.mis-relatos .btn-delete {
   background-color: var(--terracota);
   border-color: var(--terracota);
   color: var(--marfil);
 }
-.btn-delete:hover {
+
+.mis-relatos .btn-delete:hover {
   background-color: var(--terracota-hover);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 7) Paginación                                             */
-/*───────────────────────────────────────────────────────────*/
-.pagination-controls {
+/* 7) Controles de paginación */
+.mis-relatos .pagination-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: var(--fs-5);
   color: var(--cafe);
+  margin-top: var(--sp-4);
 }
-.pagination-controls .btn {
+
+.mis-relatos .pagination-controls .btn {
   padding: var(--sp-2) var(--sp-3);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 8) Responsive                                             */
-/*───────────────────────────────────────────────────────────*/
+/* 8) Responsive */
 @media (max-width: 767px) {
-  .actions-group {
+  .mis-relatos .actions-group {
     flex-direction: column;
     align-items: stretch;
   }
-  .actions-group .btn-action {
+
+  .mis-relatos .actions-group .btn-action {
     width: 100%;
     justify-content: center;
   }
-  .pagination-controls {
+
+  .mis-relatos .pagination-controls {
     flex-direction: column;
     gap: var(--sp-3);
   }

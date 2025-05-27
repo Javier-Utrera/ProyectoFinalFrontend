@@ -1,4 +1,6 @@
-/* Sección principal */
+/* ──────────────────────────────────────────────────────────────
+   Sección Principal y Contenedor
+────────────────────────────────────────────────────────────── */
 .relatos-disponibles {
   background-color: var(--marfil);
   padding: var(--sp-5) 0;
@@ -10,8 +12,10 @@
   padding: 0 var(--sp-3);
 }
 
-/* Título */
-.page-title {
+/* ──────────────────────────────────────────────────────────────
+   Título de la Página
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .page-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-1);
   color: var(--cafe);
@@ -19,8 +23,10 @@
   margin-bottom: var(--sp-5);
 }
 
-/* Mensajes de estado */
-.status-message {
+/* ──────────────────────────────────────────────────────────────
+   Mensajes de Estado (Cargando / Vacío)
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .status-message {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,40 +36,52 @@
   font-size: var(--fs-5);
 }
 
-.status-message .spinner-border {
+.relatos-disponibles .status-message .spinner-border {
   color: var(--salvia);
   width: 3rem;
   height: 3rem;
 }
 
-/* Grid de tarjetas + botón */
-.cards-grid {
+/* ──────────────────────────────────────────────────────────────
+   Grid de Tarjetas
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Cada tarjeta entre 280px y 340px de ancho. Si cabe, caben varias columnas */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: var(--sp-4);
+  justify-content: center;
 }
 
-/* Cada tarjeta con su botón */
-.card-wrapper {
+/* Cuando el componente <app-relatocard> está directo en el grid */
+.relatos-disponibles .cards-grid > app-relatocard,
+.relatos-disponibles .cards-grid > .relato-card {
+  width: 100%;
+}
+
+/* Cuando usas card-wrapper y card-book */
+.relatos-disponibles .cards-grid > .card-wrapper {
   display: flex;
   flex-direction: column;
-  background: transparent;
-  margin-bottom: 2.5rem;
+  width: 100%;
+  margin-bottom: 0; /* El gap del grid separa las filas */
 }
 
-/* Simulación de libro abierto */
-.card-book {
+/* ──────────────────────────────────────────────────────────────
+   “Cubierta” del Libro (card-book)
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .card-book {
   position: relative;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    inset 4px 0 8px rgba(0, 0, 0, 0.05),
-    inset -4px 0 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
   border-radius: 0.25rem;
   overflow: visible;
 }
 
-/* Tag "marcapáginas" */
-.book-tag {
+
+/* ──────────────────────────────────────────────────────────────
+   Tag “Marcapáginas” (.book-tag)
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .book-tag {
   position: absolute;
   top: -1.2rem;
   left: -1.2rem;
@@ -80,8 +98,10 @@
   z-index: 6000;
 }
 
-/* Botón Unirse */
-.btn-join {
+/* ──────────────────────────────────────────────────────────────
+   Botón “Unirse al relato”
+────────────────────────────────────────────────────────────── */
+.relatos-disponibles .btn-join {
   align-self: flex-start;
   background-color: var(--salvia);
   border-color: var(--salvia);
@@ -90,35 +110,34 @@
   margin-top: 1rem;
 }
 
-.btn-join:hover {
+.relatos-disponibles .btn-join:hover {
   background-color: var(--salvia-hover);
   transform: translateY(-2px);
 }
 
-.btn-join:active {
+.relatos-disponibles .btn-join:active {
   background-color: var(--salvia-active);
 }
 
-.btn-join i {
+.relatos-disponibles .btn-join i {
   font-size: 1rem;
   vertical-align: middle;
 }
 
-/* Responsive */
+/* ──────────────────────────────────────────────────────────────
+   Media Queries (Responsive)
+────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .relatos-disponibles {
     padding: var(--sp-3) 0;
   }
-
-  .page-title {
+  .relatos-disponibles .page-title {
     font-size: var(--fs-2);
   }
-
-  .cards-grid {
+  .relatos-disponibles .cards-grid {
     gap: var(--sp-3);
   }
-
-  .btn-join {
+  .relatos-disponibles .btn-join {
     margin-top: var(--sp-2);
   }
 }

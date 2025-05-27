@@ -4,39 +4,32 @@
 
     <!-- Estado de carga -->
     @if (cargando) {
-      <div class="status-message text-center mb-4" role="status">
-        <div class="spinner-border" role="status"></div>
-        <span class="visually-hidden">Cargando usuarios bloqueados…</span>
-      </div>
+    <div class="status-message text-center mb-4" role="status">
+      <div class="spinner-border" role="status"></div>
+      <span class="visually-hidden">Cargando usuarios bloqueados…</span>
+    </div>
     }
     <!-- Estado vacío -->
     @else if (usuarios.length === 0) {
-      <div class="status-message text-center mb-4" role="alert">
-        <p>No tienes usuarios bloqueados.</p>
-      </div>
+    <div class="status-message text-center mb-4" role="alert">
+      <p>No tienes usuarios bloqueados.</p>
+    </div>
     }
     <!-- Lista de bloqueados -->
     @else {
-      <ul class="list-group" role="list">
-        @for (usuario of usuarios; track usuario.id) {
-          <li
-            class="list-group-item blocked-user-item d-flex justify-content-between align-items-center"
-            role="listitem"
-          >
-            <div class="user-info">
-              <strong class="username">{{ usuario.username }}</strong>
-              <small class="email text-muted">{{ usuario.email }}</small>
-            </div>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger"
-              (click)="desbloquear(usuario.id)"
-            >
-              Desbloquear
-            </button>
-          </li>
-        }
-      </ul>
+    <ul class="list-group" role="list">
+      @for (usuario of usuarios; track usuario.id) {
+      <li class="list-group-item blocked-user-item d-flex justify-content-between align-items-center" role="listitem">
+        <div class="user-info">
+          <strong class="username">{{ usuario.username }}</strong>
+          <small class="email text-muted">{{ usuario.email }}</small>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-danger" (click)="desbloquear(usuario.id)">
+          Desbloquear
+        </button>
+      </li>
+      }
+    </ul>
     }
   </div>
 </section>

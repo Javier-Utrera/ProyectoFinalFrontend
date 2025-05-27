@@ -5,7 +5,6 @@
 /*───────────────────────────────────────────────────────────*/
 .relato-view {
     background-color: var(--marfil);
-    padding: var(--sp-5) 0;
 }
 
 .relato-view .container {
@@ -19,14 +18,12 @@
 /*───────────────────────────────────────────────────────────*/
 .relato-header {
     text-align: center;
-    margin-bottom: var(--sp-5);
 }
 
 .relato-titulo {
     font-family: 'Playfair Display', serif;
     font-size: var(--fs-1);
     color: var(--cafe);
-    margin-bottom: var(--sp-2);
 }
 
 .relato-meta {
@@ -44,14 +41,25 @@
 .book-spread-wrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: var(--sp-5);
+    padding: 3%;
 }
 
 .book-spread {
     display: flex;
-    gap: var(--sp-4);
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: stretch;
+}
+
+.book-spread .book-page:first-child {
+    box-shadow:
+        rgba(0, 0, 0, 0.2) 0 .5em 1em,
+        inset -2px 0 4px -2px rgba(0, 0, 0, 0.2);
+}
+
+.book-spread .book-page:first-child+.book-page {
+    box-shadow:
+        rgba(0, 0, 0, 0.2) 0 .5em 1em,
+        inset 2px 0 4px -2px rgba(0, 0, 0, 0.2);
 }
 
 /*───────────────────────────────────────────────────────────*/
@@ -63,18 +71,9 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     padding: var(--sp-4) var(--sp-5);
-    width: 100%;
-    max-width: 100%;
-    overflow-y: auto;
     line-height: 1.8;
     text-align: justify;
     color: var(--cafe);
-    transition: transform .2s, box-shadow .2s;
-}
-
-.book-page:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
 }
 
 /*───────────────────────────────────────────────────────────*/
@@ -177,38 +176,3 @@
     transform: none;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 7) Responsive                                             */
-/*───────────────────────────────────────────────────────────*/
-/* Escritorio: muestra dos páginas que ocupan casi toda la anchura */
-@media (min-width: 992px) {
-    .book-page {
-        width: calc(50% - var(--sp-4));
-        /* dos páginas lado a lado con gap */
-        max-width: none;
-    }
-}
-
-/* Tablet: una sola página, ancho amplio */
-@media (max-width: 991px) and (min-width: 576px) {
-    .book-page {
-        width: 90%;
-    }
-}
-
-/* Móvil: una página 100% ancho */
-@media (max-width: 575px) {
-    .book-spread {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .book-page {
-        width: 100%;
-    }
-
-    .pagination-controls {
-        flex-direction: column;
-        gap: var(--sp-2);
-    }
-}

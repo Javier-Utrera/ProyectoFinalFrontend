@@ -2,8 +2,8 @@ import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { CommonModule } from '@angular/common';
-declare var SwaggerUIBundle: any;
-declare var SwaggerUIStandalonePreset: any;
+declare let SwaggerUIBundle: any;
+declare let SwaggerUIStandalonePreset: any;
 
 @Component({
   selector: 'app-swagger-ui-component',
@@ -15,8 +15,8 @@ export class SwaggerDocsComponent implements AfterViewInit {
   isAdmin = false;
 
   constructor(
-    private authService: AutenticacionService,
-    private api: ApiService
+    private readonly authService: AutenticacionService,
+    private readonly api: ApiService
   ) {
     this.isAdmin = this.authService.hasRole(1);
   }

@@ -33,11 +33,11 @@ export class VerRelatoComponent implements OnInit {
   pagesPerSpread = 2;
 
   constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService,
-    private router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly apiService: ApiService,
+    private readonly router: Router,
     public mensajeGlobal: MensajeGlobalService,
-    private viewportScroller: ViewportScroller,
+    private readonly viewportScroller: ViewportScroller,
     public  authService: AutenticacionService
   ) {}
 
@@ -83,7 +83,6 @@ export class VerRelatoComponent implements OnInit {
 
   private updatePagesPerSpread() {
     this.pagesPerSpread = window.innerWidth < 992 ? 1 : 2;
-    // ajusta currentPage si queda fuera de rango
     const maxStart = Math.max(0, this.pages.length - this.pagesPerSpread);
     if (this.currentPage > maxStart) {
       this.currentPage = maxStart;
@@ -116,11 +115,9 @@ export class VerRelatoComponent implements OnInit {
     setTimeout(() => {
       const el = document.getElementById('spread');
       if (el) {
-        // Calcula la posición vertical del elemento y réstale 100 px
         const y = el.getBoundingClientRect().top + window.scrollY - 100;
         window.scrollTo({ top: y, behavior: 'smooth' });
       } else {
-        // Fallback al top de la página
         this.viewportScroller.scrollToPosition([0, 0]);
       }
     }, 50);

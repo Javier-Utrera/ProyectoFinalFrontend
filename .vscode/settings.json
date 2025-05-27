@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "Angular",
+        "projectKey": "mi-frontend-angular"
+    }
+}

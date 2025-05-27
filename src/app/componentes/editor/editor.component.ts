@@ -1,6 +1,5 @@
 import {
-  Component, Input, Output, EventEmitter, ViewChild, ElementRef,
-  OnInit, OnDestroy, AfterViewInit, ViewEncapsulation
+  Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy, AfterViewInit, ViewEncapsulation
 } from '@angular/core';
 
 @Component({
@@ -10,7 +9,7 @@ import {
   styleUrls: ['./editor.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditorComponent implements AfterViewInit, OnDestroy {
   @Input() model: string = '';
   @Output() modelChange = new EventEmitter<string>();
 
@@ -62,6 +61,5 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
       this.editor = null;
     }
   }
-
-  ngOnInit(): void { }
+  
 }

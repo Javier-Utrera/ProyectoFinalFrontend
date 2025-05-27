@@ -23,22 +23,18 @@
     <h2 class="section-title mb-4">Relatos destacados</h2>
 
     @if (cargando) {
-      <div class="status-message">
-        <div class="spinner-border" role="status"></div>
-        <span class="visually-hidden">Cargando…</span>
-      </div>
+    <div class="status-message">
+      <app-libro-carga></app-libro-carga>
+    </div>
     } @else if (relatos.length > 0) {
-      <h3 class="page-title text-center mb-4">Relatos publicados</h3>
-      <div class="cards-grid">
-        @for (relato of relatos; track relato.id) {
-          <app-relatocard
-            [relato]="relato"
-            origen="publicado"
-          ></app-relatocard>
-        }
-      </div>
+    <h3 class="page-title text-center mb-4">Relatos publicados</h3>
+    <div class="cards-grid">
+      @for (relato of relatos; track relato.id) {
+      <app-relatocard [relato]="relato" origen="publicado"></app-relatocard>
+      }
+    </div>
     } @else {
-      <p class="text-center text-muted">No hay relatos publicados todavía.</p>
+    <p class="text-center text-muted">No hay relatos publicados todavía.</p>
     }
   </div>
 </section>
@@ -81,9 +77,7 @@
       <!-- Miembro 1 -->
       <div class="col-6 col-md-3 mb-4">
         <div class="team-card p-3">
-          <img src="https://i.pravatar.cc/150?img=6" 
-               alt="Nombre 1" 
-               class="rounded-circle mb-3 team-photo">
+          <img src="https://i.pravatar.cc/150?img=6" alt="Nombre 1" class="rounded-circle mb-3 team-photo">
           <h6 class="mb-1">Nombre 1</h6>
           <p class="text-muted small mb-0">Fundadora</p>
         </div>
@@ -91,9 +85,7 @@
       <!-- Miembro 2 -->
       <div class="col-6 col-md-3 mb-4">
         <div class="team-card p-3">
-          <img src="https://i.pravatar.cc/150?img=5" 
-               alt="Nombre 2" 
-               class="rounded-circle mb-3 team-photo">
+          <img src="https://i.pravatar.cc/150?img=5" alt="Nombre 2" class="rounded-circle mb-3 team-photo">
           <h6 class="mb-1">Nombre 2</h6>
           <p class="text-muted small mb-0">Desarrollador</p>
         </div>
@@ -101,9 +93,7 @@
       <!-- Miembro 3 -->
       <div class="col-6 col-md-3 mb-4">
         <div class="team-card p-3">
-          <img src="https://i.pravatar.cc/150?img=4" 
-               alt="Nombre 3" 
-               class="rounded-circle mb-3 team-photo">
+          <img src="https://i.pravatar.cc/150?img=4" alt="Nombre 3" class="rounded-circle mb-3 team-photo">
           <h6 class="mb-1">Nombre 3</h6>
           <p class="text-muted small mb-0">Diseñadora</p>
         </div>
@@ -111,9 +101,7 @@
       <!-- Miembro 4 -->
       <div class="col-6 col-md-3 mb-4">
         <div class="team-card p-3">
-          <img src="https://i.pravatar.cc/150?img=3" 
-               alt="Nombre 4" 
-               class="rounded-circle mb-3 team-photo">
+          <img src="https://i.pravatar.cc/150?img=3" alt="Nombre 4" class="rounded-circle mb-3 team-photo">
           <h6 class="mb-1">Nombre 4</h6>
           <p class="text-muted small mb-0">Community Manager</p>
         </div>
@@ -121,4 +109,3 @@
     </div>
   </div>
 </section>
-

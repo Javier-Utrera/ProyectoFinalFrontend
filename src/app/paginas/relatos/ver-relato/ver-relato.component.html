@@ -9,7 +9,7 @@
     }
     @else {
     <!-- Cabecera -->
-    <header class="relato-header text-center mb-5">
+    <header class="relato-header text-center">
       <h1 class="relato-titulo">{{ relato.titulo }}</h1>
       <ul class="relato-meta list-inline text-muted">
         <li class="list-inline-item"><strong>Idioma:</strong> {{ relato.idioma_display}}</li>
@@ -18,8 +18,8 @@
       </ul>
     </header>
 
-    <!-- Spread de páginas -->
-    <div id="spread" class="book-spread-wrapper mb-4">
+    <!-- Paginas -->
+    <div id="spread" class="book-spread-wrapper">
       <div class="book-spread">
         @for (pageHtml of pagesToShow; track pageHtml) {
         <div class="book-page" [innerHTML]="pageHtml"></div>

@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
-import { RouterModule } from '@angular/router';
-import Collapse from 'bootstrap/js/dist/collapse';
+import { RouterModule,Router } from '@angular/router';
 
 @Component({
   selector: 'app-barra-navegacion',
@@ -19,8 +17,8 @@ export class BarraNavegacionComponent implements OnInit {
   private readonly MOBILE_WIDTH = 992;
 
   constructor(
-    private authService: AutenticacionService,
-    private router: Router
+    private readonly authService: AutenticacionService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
