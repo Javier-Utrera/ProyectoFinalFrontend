@@ -5,11 +5,12 @@ import { ApiService } from '../../servicios/api-servicios/api.service';
 import { RelatoCardComponent } from "../../componentes/relatocard/relatocard.component";
 import { PaginatedResponse, Relato } from '../../servicios/api-servicios/api.models';
 import { LibroCargaComponent } from "../../componentes/comunes/libro-carga/libro-carga.component";
+import { HeroComponent } from "../../componentes/comunes/hero/hero.component";
 
 
 @Component({
   selector: 'app-inicio',
-  imports: [CommonModule, RouterModule, RelatoCardComponent, LibroCargaComponent],
+  imports: [CommonModule, RouterModule, RelatoCardComponent, LibroCargaComponent, HeroComponent],
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })

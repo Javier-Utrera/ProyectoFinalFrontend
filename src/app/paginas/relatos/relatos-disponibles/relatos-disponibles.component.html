@@ -9,8 +9,7 @@
     <!-- Estados de carga -->
     @if (loading) {
     <div class="status-message" role="status">
-      <div class="spinner-border"></div>
-      <span class="visually-hidden">Cargando…</span>
+      <app-libro-carga></app-libro-carga>
     </div>
     } @else if (relatos.length === 0) {
     <div class="status-message" role="alert">

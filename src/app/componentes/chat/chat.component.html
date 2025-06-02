@@ -1,0 +1,57 @@
+<div class="container content">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-10 col-md-11 col-sm-12 col-12 px-1 mx-auto">
+            <div class="chat-card">
+
+                <!-- CABECERA DEL CHAT -->
+                <div class="card-header chat-header">
+                    Chat de Colaboradores
+                </div>
+
+                <!-- CUERPO DEL CHAT: altura fija con scroll interno -->
+                <div class="card-body chat-body">
+                    <ul class="chat-list p-0 m-0" id="contenedor-mensajes">
+                        <!-- Cuando no hay mensajes -->
+                        <li *ngIf="mensajes.length === 0" class="mensaje-vacio text-center sin-mensajes py-4">
+                            No hay mensajes aún.
+                        </li>
+
+                        <!-- Sólo las últimas 50 para no sobrecargar -->
+                        <li *ngFor="let msg of mensajes | slice: -50" [ngClass]="{
+                            'mensaje-propio': msg.autor === usuarioActual,
+                            'mensaje-ajeno':  msg.autor !== usuarioActual
+                        }" class="mb-4">
+                            <!-- Burbuja de mensaje -->
+                            <div class="chat-message p-3 shadow-sm" [ngClass]="{
+                                'bg-salvia-chat text-on-salvia': msg.autor === usuarioActual,
+                                'bg-pastel-azul-chat text-on-pastel-azul': msg.autor !== usuarioActual
+                            }">
+                                <h5 class="mb-1 nombre-autor">{{ msg.autor }}</h5>
+                                <p class="mb-1 texto-mensaje">{{ msg.texto }}</p>
+                                <small class="fecha-mensaje text-muted">
+                                    {{ msg.fecha_envio | date:'shortDate' }}
+                                    {{ msg.fecha_envio | date:'shortTime' }}
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- PIE DEL CHAT: campo texto + botón de envío -->
+                <div class="card-footer chat-footer">
+                    <div class="input-container w-100">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control input-mensaje" placeholder="Escribe un mensaje..."
+                                [formControl]="mensajeControl" (keyup.enter)="enviar()" aria-label="Mensaje" />
+                            <button class="btn btn-primary btn-enviar" type="button" (click)="enviar()"
+                                [disabled]="!mensajeControl.value?.trim()" aria-label="Enviar">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

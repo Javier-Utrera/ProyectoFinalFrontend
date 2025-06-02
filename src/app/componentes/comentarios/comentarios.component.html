@@ -3,7 +3,7 @@
 
   <!-- Formulario de nuevo comentario -->
   @if (!cargando && !hasComentado) {
-  <section class="card mb-5">
+  <section id="chat" class="card mb-5">
     <div class="card-body">
       <h5 class="card-title">Deja tu comentario</h5>
       <form [formGroup]="comentarioForm" (ngSubmit)="enviarComentario()">

@@ -4,10 +4,11 @@ import { ApiService } from '../../../servicios/api-servicios/api.service';
 import { RelatoCardComponent } from "../../../componentes/relatocard/relatocard.component";
 import { PaginatedResponse, Relato } from '../../../servicios/api-servicios/api.models';
 import { BuscadorComponent } from "../../../componentes/buscador/buscador.component";
+import { LibroCargaComponent } from "../../../componentes/comunes/libro-carga/libro-carga.component";
 
 @Component({
   selector: 'app-relatos-disponibles',
-  imports: [RelatoCardComponent, BuscadorComponent],
+  imports: [RelatoCardComponent, BuscadorComponent, LibroCargaComponent],
   templateUrl: './relatos-disponibles.component.html',
   styleUrl: './relatos-disponibles.component.css'
 })
@@ -63,7 +64,7 @@ export class RelatosDisponiblesComponent implements OnInit {
         },
         error: err => {
           console.error('Error al cargar relatos disponibles:', err);
-          this.loading = false;
+          this.loading = true;
         }
       });
   }

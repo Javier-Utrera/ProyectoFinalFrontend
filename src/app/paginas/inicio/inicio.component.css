@@ -1,84 +1,4 @@
 /*───────────────────────────────────────────────────────────*/
-/* Hero                                                      */
-/*───────────────────────────────────────────────────────────*/
-.hero {
-  position: relative;
-  min-height: 60vh;
-  background-image: url('https://res.cloudinary.com/dgvzeegli/image/upload/v1747691621/international-day-education-cartoon-style_dedupl.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  animation: fadeIn 0.8s ease-out;
-}
-
-.hero .overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hero-panel {
-  background: rgba(255, 255, 255, 0.8);
-  padding: var(--sp-4);
-  border-radius: var(--radius-md);
-  max-width: 700px;
-}
-
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: var(--fs-1);
-  color: var(--cafe);
-  margin-bottom: var(--sp-3);
-}
-
-.hero-subtitle {
-  font-size: var(--fs-4);
-  color: var(--cafe);
-  margin-bottom: var(--sp-4);
-  line-height: 1.4;
-}
-
-.btn-cta {
-  background-color: var(--salvia);
-  border-color: var(--salvia);
-  color: var(--marfil);
-  padding: var(--sp-3) var(--sp-5);
-  font-size: var(--fs-5);
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-.btn-cta:hover {
-  background-color: var(--salvia-hover);
-  transform: translateY(-2px);
-}
-
-.scroll-hint {
-  margin-top: var(--sp-4);
-}
-
-.scroll-hint i {
-  color: var(--marfil);
-  font-size: 2rem;
-  animation: bounce 2s infinite;
-}
-
-.scroll-hint:hover i {
-  color: var(--salvia);
-  cursor: pointer;
-}
-
-/*───────────────────────────────────────────────────────────*/
 /* Relatos destacados                                        */
 /*───────────────────────────────────────────────────────────*/
 .featured {
@@ -117,10 +37,29 @@
   margin-bottom: var(--sp-4);
 }
 
+/* ──────────────────────────────────────────────────────────────
+   Grid de Tarjetas
+────────────────────────────────────────────────────────────── */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Cada tarjeta entre 280px y 340px de ancho. Si cabe, caben varias columnas */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: var(--sp-4);
+  justify-content: center;
+}
+
+/* Cuando el componente <app-relatocard> está directo en el grid */
+.cards-grid > app-relatocard,
+.cards-grid > .relato-card {
+  width: 100%;
+}
+
+/* Cuando usas card-wrapper y card-book */
+.cards-grid > .card-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0; /* El gap del grid separa las filas */
 }
 
 /*───────────────────────────────────────────────────────────*/

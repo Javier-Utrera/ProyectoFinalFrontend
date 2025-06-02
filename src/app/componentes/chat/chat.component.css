@@ -1,0 +1,266 @@
+/*───────────────────────────────────────────────────────────*/
+/* 1) CONTENEDOR DEL CHAT                                    */
+/*───────────────────────────────────────────────────────────*/
+.chat-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 90vw;
+  margin: 1.5rem auto; 
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ajuste en pantallas extra grandes */
+@media (min-width: 1400px) {
+  .chat-card {
+    max-width: 1000px;
+  }
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 2) CABECERA DEL CHAT                                      */
+/*───────────────────────────────────────────────────────────*/
+.chat-header {
+  background-color: var(--cafe);
+  color: var(--marfil);
+  font-size: var(--fs-4);
+  font-weight: 600;
+  padding: var(--sp-3);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 3) CUERPO DEL CHAT: ALTURA FIJA Y SCROLL                  */
+/*───────────────────────────────────────────────────────────*/
+.chat-body {
+  flex: 1 1 auto;
+  height: 65vh;
+  overflow-y: auto;
+  padding: var(--sp-3);
+  background-color: var(--beige);
+  border-top: 1px solid var(--gristopo-hover);
+  border-bottom: 1px solid var(--gristopo-hover);
+}
+
+@media (max-width: 576px) {
+  .chat-body {
+    height: 55vh;
+    padding: var(--sp-2);
+  }
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 4) LISTA DE MENSAJES (UL)                                 */
+/*───────────────────────────────────────────────────────────*/
+.chat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.mensaje-vacio {
+  padding: var(--sp-4);
+  font-style: italic;
+  color: var(--cafe);
+}
+
+.chat-list li {
+  display: flex;
+  width: 100%;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 5) BURBUJAS DE MENSAJE                                    */
+/*───────────────────────────────────────────────────────────*/
+.chat-message {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-sm);
+  word-wrap: break-word;
+  max-width: 75%;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+/* Autor dentro de la burbuja */
+.nombre-autor {
+  margin: 0 0 var(--sp-1) 0;
+  font-size: var(--fs-5);
+  font-weight: 500;
+}
+
+/* Texto dentro de la burbuja */
+.texto-mensaje {
+  margin: 0 0 var(--sp-2) 0;
+  font-size: var(--fs-6);
+  line-height: 1.4;
+}
+
+/* Fecha debajo del texto */
+.fecha-mensaje {
+  font-size: var(--fs-6);
+  color: var(--gristopo-hover);
+  display: block;
+  text-align: right;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 6) COLORES SEGÚN AUTOR                                     */
+/*───────────────────────────────────────────────────────────*/
+.bg-salvia-chat {
+  background-color: #798b63; 
+}
+.text-on-salvia {
+  color: var(--marfil);
+}
+
+/* Hover para propia */
+.bg-salvia-chat:hover {
+  background-color: #6d7b59;
+}
+
+.bg-pastel-azul-chat {
+  background-color: #7aaedc;
+}
+.text-on-pastel-azul {
+  color: var(--marfil);
+}
+
+/* Hover para ajeno */
+.bg-pastel-azul-chat:hover {
+  background-color: #6a9ad1;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 7) ESPACIO ENTRE BURBUJAS                                  */
+/*───────────────────────────────────────────────────────────*/
+.mb-4 {
+  margin-bottom: var(--sp-4);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 8) ALINEACIÓN DE BURBUJAS                                  */
+/*───────────────────────────────────────────────────────────*/
+/* Mensaje propio: empujamos burbuja a la derecha */
+.mensaje-propio .chat-message {
+  margin-left: auto;
+}
+
+/* Mensaje ajeno: empujamos burbuja a la izquierda */
+.mensaje-ajeno .chat-message {
+  margin-right: auto;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 9) PIE DEL CHAT (INPUT + BOTÓN)                            */
+/*───────────────────────────────────────────────────────────*/
+.chat-footer {
+  padding: var(--sp-3);
+  background-color: var(--cafe);
+  border-top: 1px solid var(--gristopo-hover);
+}
+
+/* El input y el botón ocupan todo el ancho de su contenedor */
+.input-container {
+  display: flex;
+  width: 100%;
+}
+
+/* Estilo del input de texto */
+.input-mensaje {
+  flex: 1;
+  padding: var(--sp-3) var(--sp-3);
+  font-size: var(--fs-5);
+  border: 1px solid var(--gristopo-hover);
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background-color: #fff;
+  color: var(--cafe);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-mensaje::placeholder {
+  color: var(--gristopo-hover);
+  font-size: var(--fs-6);
+}
+
+.input-mensaje:focus {
+  outline: none;
+  border-color: var(--salvia);
+  box-shadow: 0 0 0 0.2rem rgba(163, 177, 138, 0.25);
+}
+
+/* Botón de envío sólido (btn-primary) */
+.btn-enviar {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: var(--fs-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-enviar:hover {
+  background-color: var(--salvia-hover);
+  border-color: var(--salvia-hover);
+}
+
+.btn-enviar:active {
+  background-color: var(--salvia-active);
+  border-color: var(--salvia-active);
+}
+
+.btn-enviar:disabled {
+  background-color: var(--gristopo-hover);
+  border-color: var(--gristopo-active);
+  color: var(--marfil);
+  cursor: not-allowed;
+}
+
+/* Icono de envío ligeramente más grande */
+.btn-enviar i {
+  font-size: 1.25rem;
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 10) MEDIA QUERIES ADICIONALES                             */
+/*───────────────────────────────────────────────────────────*/
+/* En tablet (≥768px y <992px) ajustamos la altura y fuentes */
+@media (min-width: 768px) and (max-width: 991px) {
+  .chat-body {
+    height: 60vh;
+  }
+  .nombre-autor {
+    font-size: var(--fs-4);
+  }
+  .texto-mensaje {
+    font-size: var(--fs-6);
+  }
+}
+
+/* En móvil (≤576px) reducimos fuentes y ajustamos altura */
+@media (max-width: 576px) {
+  .chat-body {
+    height: 55vh;
+  }
+  .nombre-autor {
+    font-size: var(--fs-6);
+  }
+  .texto-mensaje {
+    font-size: 0.82rem;
+  }
+  .input-mensaje {
+    font-size: 0.9rem;
+  }
+  .btn-enviar {
+    font-size: 0.9rem;
+  }
+}

@@ -1,3 +1,7 @@
+#chat{
+  background-color: var(--beige);
+}
+
 /* Contenedor principal */
 .comentarios-container {
   padding: var(--sp-3) 0;

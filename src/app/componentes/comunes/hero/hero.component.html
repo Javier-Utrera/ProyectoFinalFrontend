@@ -1,0 +1,32 @@
+<!-- hero.component.html -->
+<section #heroSection class="hero image-as-background"
+    style="background-image: url('https://res.cloudinary.com/dgvzeegli/image/upload/v1747691621/international-day-education-cartoon-style_dedupl.jpg');">
+    <div class="hero-container">
+        <p class="animate fadeInLeft delay-400">
+            Tu rincón de paz para crear, compartir y descubrir relatos junto a otros escritores.
+        </p>
+        <h1 class="hero-title animate fadeInLeft delay-600">
+            Bienvenido a The Book Room
+        </h1>
+        <a class="hero-button animate fadeInLeft delay-800" routerLink="/crear-relato" title="Comienza a escribir">
+            <i class="bi bi-pencil-fill me-2"></i>Comienza a escribir
+        </a>
+    </div>
+</section>
+
+<section id="relatos" class="main-content">
+    <h2>Descubre Historias Únicas</h2>
+    <p>
+        En <strong>The Book Room</strong> creemos en el poder de las palabras para
+        transformar realidades. Explora relatos inéditos de escritores apasionados,
+        deja volar tu imaginación y encuentra inspiración para tu próximo proyecto.
+    </p>
+    <p>
+        Comparte tus propias creaciones con nuestra comunidad, recibe feedback
+        constructivo y crece junto a otros narradores. ¡Tu historia merece ser leída!
+    </p>
+
+    <a class="btn-cta btn-lg" routerLink="/relatos-publicados">
+        <i class="bi bi-book-half me-2"></i>Explorar Relatos
+    </a>
+</section>

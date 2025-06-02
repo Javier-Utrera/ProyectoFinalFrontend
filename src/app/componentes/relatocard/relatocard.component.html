@@ -1,10 +1,12 @@
 <article class="relato-card" [ngClass]="{
-  'origin-publicado': origen === 'publicado',
-  'origin-disponible': origen === 'disponible',
-  'origin-mis-relatos': origen === 'mis-relatos'
-}">
+    'origin-publicado': origen === 'publicado',
+    'origin-disponible': origen === 'disponible',
+    'origin-mis-relatos': origen === 'mis-relatos'
+  }">
   <header class="relato-header">
-    <h5 class="relato-title">{{ relato.titulo }}</h5>
+    <h5 class="relato-title text-truncate" title="{{ relato.titulo }}">
+      {{ relato.titulo }}
+    </h5>
   </header>
 
   <ul class="relato-meta list-unstyled mb-3">
@@ -19,18 +21,21 @@
     </li>
   </ul>
 
+  <!-- Descripción con line-clamp (máximo 3 líneas) -->
   <section class="relato-descripcion mb-3">
-    <p>{{ relato.descripcion }}</p>
+    <p class="description-clamp" title="{{ relato.descripcion }}">
+      {{ relato.descripcion }}
+    </p>
   </section>
 
   <app-estadisticas-relato [relatoId]="relato.id" class="relato-stats mb-3"></app-estadisticas-relato>
 
   <footer class="relato-actions mt-auto">
     <button class="btn btn-sm" [ngClass]="{
-      'btn-outline-primary': origen === 'publicado',
-      'btn-outline-success': origen === 'disponible',
-      'btn-outline-secondary': origen === 'mis-relatos'
-    }" [routerLink]="['/relato', relato.id]" [queryParams]="{ origen }">
+        'btn-outline-primary': origen === 'publicado',
+        'btn-outline-success': origen === 'disponible',
+        'btn-outline-secondary': origen === 'mis-relatos'
+      }" [routerLink]="['/relato', relato.id]" [queryParams]="{ origen }">
       Leer relato
     </button>
 

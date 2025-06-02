@@ -84,7 +84,14 @@
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
-  transition: background-color .2s, border-color .2s, color .2s;
+  transition: 
+    transform 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.mis-relatos .btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /*   - Leer */
@@ -94,10 +101,6 @@
   color: var(--marfil);
 }
 
-.mis-relatos .btn-view:hover {
-  background-color: var(--salvia-hover);
-}
-
 /*   - Escribir */
 .mis-relatos .btn-edit {
   background-color: var(--gristopo);
@@ -105,19 +108,10 @@
   color: var(--marfil);
 }
 
-.mis-relatos .btn-edit:hover {
-  background-color: var(--gristopo-hover);
-}
-
 /*   - Marcar listo */
 .mis-relatos .btn-ready {
   background-color: var(--pastel-azul);
-  border-color: var(--pastel-azul);
   color: var(--cafe);
-}
-
-.mis-relatos .btn-ready:hover {
-  background-color: var(--pastel-azul-hover);
 }
 
 /*   - Eliminar */
@@ -127,9 +121,6 @@
   color: var(--marfil);
 }
 
-.mis-relatos .btn-delete:hover {
-  background-color: var(--terracota-hover);
-}
 
 /* 7) Controles de paginación */
 .mis-relatos .pagination-controls {

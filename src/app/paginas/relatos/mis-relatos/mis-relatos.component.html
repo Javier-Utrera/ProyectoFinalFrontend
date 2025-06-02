@@ -19,7 +19,7 @@
       @for (relato of relatos; track relato.id) {
       <div class="card-wrapper">
         <app-relatocard [relato]="relato" origen="mis-relatos"></app-relatocard>
-        <div class="actions-group">
+        <div class="actions-group rounded">
           <button class="btn btn-action btn-view" (click)="verRelato(relato.id)">
             <i class="bi bi-eye-fill"></i> Leer
           </button>

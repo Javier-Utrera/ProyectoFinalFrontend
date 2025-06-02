@@ -1,27 +1,11 @@
 <!-- Hero -->
-<section class="hero text-center d-flex align-items-center">
-  <div class="overlay"></div>
-  <div class="container hero-content">
-    <div class="hero-panel">
-      <h1 class="hero-title">Bienvenido a The Book Room</h1>
-      <p class="hero-subtitle">
-        Tu rincón de paz para crear, compartir y descubrir relatos junto a otros escritores.
-      </p>
-      <a class="btn btn-cta btn-lg" routerLink="/crear-relato">
-        <i class="bi bi-pencil-fill me-2"></i>Comienza a escribir
-      </a>
-    </div>
-    <a class="scroll-hint" href="#relatos">
-      <i class="bi bi-chevron-down"></i>
-    </a>
-  </div>
+<section class="hero">
+  <app-hero></app-hero>
 </section>
 
 <!-- Relatos destacados -->
 <section id="relatos" class="featured py-5">
   <div class="container">
-    <h2 class="section-title mb-4">Relatos destacados</h2>
-
     @if (cargando) {
     <div class="status-message">
       <app-libro-carga></app-libro-carga>
@@ -29,9 +13,11 @@
     } @else if (relatos.length > 0) {
     <h3 class="page-title text-center mb-4">Relatos publicados</h3>
     <div class="cards-grid">
-      @for (relato of relatos; track relato.id) {
-      <app-relatocard [relato]="relato" origen="publicado"></app-relatocard>
-      }
+      <div class="card-book">
+        @for (relato of relatos; track relato.id) {
+        <app-relatocard [relato]="relato" origen="publicado"></app-relatocard>
+        }
+      </div>
     </div>
     } @else {
     <p class="text-center text-muted">No hay relatos publicados todavía.</p>

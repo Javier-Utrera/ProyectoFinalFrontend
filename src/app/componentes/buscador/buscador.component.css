@@ -2,3 +2,95 @@
     display: block;
     margin-block: var(--sp-5);
 }
+
+/* ─── Formulario principal ────────────────────────────────────────────────── */
+.buscar-form {
+    /* Opcional: fondo blanco y ligero sombreado para resaltar la búsqueda */
+    background-color: var(--beige);
+    padding: var(--sp-4);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.buscar-form:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Etiquetas y campos */
+.buscar-form .form-label {
+    font-weight: 500;
+    color: var(--cafe);
+}
+
+.buscar-form .form-control,
+.buscar-form .form-select {
+    border: 1px solid var(--gristopo);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.buscar-form .form-control:focus,
+.buscar-form .form-select:focus {
+    border-color: var(--salvia);
+    box-shadow: 0 0 0 0.2rem rgba(163, 177, 138, 0.25);
+}
+
+/* Botones */
+.btn-shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-shadow:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Icono chevron-rotate */
+.rotate-180 {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ─── Animación de los Filtros Avanzados ──────────────────────────────────── */
+.advanced-filters {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+        max-height 0.4s ease-in-out,
+        opacity 0.4s ease-in-out;
+}
+
+/* Cuando esté abierto, permitimos alto suficiente para mostrar todo el contenido */
+.advanced-filters.open {
+    max-height: 1000px;
+    /* Un valor grande para asegurarnos de que “cabe” todo */
+    opacity: 1;
+}
+
+/* Cada fila de filtros puede tener un ligero margen superior cuando se despliega */
+.advanced-filters .row {
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.advanced-filters.open .row {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ─── Espaciado y Responsividad Adicional ─────────────────────────────────── */
+
+/* Asegurarnos de que no haya saltos de línea extraños en pantallas muy pequeñas */
+@media (max-width: 576px) {
+    .buscar-form {
+        padding: var(--sp-3);
+    }
+
+    .buscar-form .row.g-3 {
+        row-gap: var(--sp-2) !important;
+    }
+}

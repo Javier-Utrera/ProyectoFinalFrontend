@@ -1,5 +1,7 @@
-/* ─── Relato Card─────────────────────────── */
+/* ─── Relato Card: contenedor principal ───────────────────────────────────────── */
 .relato-card {
+  position: relative; 
+  max-width: 400px;
   background-color: #fff;
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-md);
@@ -12,52 +14,49 @@
     box-shadow 0.4s ease-in-out;
   height: 100%;
   border-left: 4px solid transparent;
-
-  /* aquí vienen las propiedades de .book */
   transform-style: preserve-3d;
   transform-origin: left center;
   backface-visibility: hidden;
   overflow: hidden;
 }
 
-/* ─── Sombra interior ─────────────────── */
+/* ─── Sombra interior (efecto 3D) ──────────────────────────────────────────────── */
 .relato-card::after {
   content: "";
-  display: block;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   transform: translateX(8px) rotateY(90deg);
   transform-origin: left center;
   transition: all 0.4s ease-in-out;
-  background: linear-gradient(-180deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 60%);
+  background: linear-gradient(
+    -180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
 }
 
-/* ─── Hover global ───────────────────────────────────────── */
+/* ─── Hover global ────────────────────────────────────────────────────────────── */
 .relato-card:hover {
   cursor: pointer;
-  transform: rotateY(-10deg) rotateZ(-0.5deg) scale(1.01);
+  transform: rotateY(15deg) rotateX(0deg) scale(1);
 }
 
-/* sombras según origen */
+/* ─── Sombras según origen ────────────────────────────────────────────────────── */
 .relato-card.origin-publicado:hover {
-  box-shadow: 1px 3px 2px var(--salvia), 10px 8px 0 var(--salvia);
+  box-shadow: 7px 0px 0px var(--salvia-hover), 14px 0px 0px var(--salvia);
 }
-
 .relato-card.origin-disponible:hover {
-  box-shadow: 1px 3px 2px var(--pastel-azul), 10px 8px 0 var(--pastel-azul);
+  box-shadow: 7px 0px 0px var(--pastel-azul), 14px 0px 0px var(--pastel-azul-hover);
 }
-
 .relato-card.origin-mis-relatos:hover {
-  box-shadow: 1px 3px 2px var(--cafe), 10px 8px 0 var(--cafe);
+  box-shadow: 7px 0px 0px var(--terracota-hover), 14px 0px 0px var(--cafe);
 }
 
-/* ─── Marcapáginas ─────────────── */
+/* ─── Marcapáginas (etiqueta lateral) ─────────────────────────────────────────── */
 .relato-card::before {
   content: "";
   position: absolute;
@@ -66,28 +65,26 @@
   width: 20px;
   height: 100px;
   opacity: 0;
-  transition: all .25s;
+  transition: all 0.25s;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAABhCAYAAABh23lYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHCSURBVHgB7dxPTsJAHMXxN7Xu3UhigobxJHACvQFwAr2BcgO8AZxE7uGiDZiQyEIW7oSOUyKbKgLS8u+9b9JNF818fum0XdWUhy9VEDZBGIdBGD6DsFM3bQYgTnjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNZ2hR/7o+UcmnCIsaNCbLcU/RR8oB1bO/4+17l8ixoGeIBBBVvMXI0ih+L7Df2j8iiqnvgh+AVVUXDOTZvF4tNb2qC7DJ1tNgSDO78tblFQxeE92l+0NSjZDjaoMowqyYl7hDF15JzL+x+YHtxLgFq/ZO2m8LT4wsb90nUjmMD61XaRc7ng5+jBua29ntsecq6oIWyELxqdLe8h/GvPp+h0T28D/FezZ8Ip7pHgZt3X5NoPvH1BZ5sNIUTDL7C+6hBWxxt0gk+00tsOe96qH0zL8GO4pBtMg/YhoLMtG8Ii/EpfY4fSoiFk8UeFzpYdwhz/jiNGZ0uHEBjUEzftohJFZyAsdX8BM0/amLC3spYAAAAASUVORK5CYII=') no-repeat center/16px;
 }
-
-/* ─── Hover activa marcapáginas ──────────────────────────── */
 .relato-card:hover::before {
   opacity: 1;
   transform: translateY(9px);
 }
 
+/* ─── Border‐left según origen ───────────────────────────────────────────────── */
 .relato-card.origin-publicado {
   border-left-color: var(--salvia);
 }
-
 .relato-card.origin-disponible {
   border-left-color: var(--pastel-azul);
 }
-
 .relato-card.origin-mis-relatos {
   border-left-color: var(--gristopo);
 }
 
+/* ─── Encabezado (Título) ───────────────────────────────────────────────────── */
 .relato-header {
   margin-bottom: var(--sp-3);
 }
@@ -96,9 +93,11 @@
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
   color: var(--cafe);
-  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
+/* ─── Meta (lista con idioma, género, estado, fecha) ─────────────────────────── */
 .relato-meta li {
   font-size: var(--fs-6);
   color: var(--cafe);
@@ -109,17 +108,26 @@
   margin-top: var(--sp-2);
 }
 
-.relato-descripcion p {
+/* ─── Descripción con line‐clamp: máximo 3 líneas ─────────────────────────────── */
+.description-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: var(--fs-5);
   color: var(--cafe);
   line-height: 1.6;
   margin: 0;
 }
 
+/* ─── Estadísticas ───────────────────────────────────────────────────────────── */
 .relato-stats {
   margin: var(--sp-3) 0;
 }
 
+/* ─── Acciones (botones) ─────────────────────────────────────────────────────── */
 .relato-actions {
   display: flex;
   flex-wrap: wrap;
@@ -132,7 +140,7 @@
   padding: var(--sp-1) var(--sp-3);
 }
 
-/* Botones hover */
+/* ─── Hover para botones ──────────────────────────────────────────────────────── */
 .btn-outline-primary:hover {
   background-color: var(--salvia-hover);
 }
@@ -153,8 +161,11 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
+/* ─── Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 576px) {
+  .relato-card {
+    max-width: 100%;
+  }
   .relato-actions {
     justify-content: center;
   }

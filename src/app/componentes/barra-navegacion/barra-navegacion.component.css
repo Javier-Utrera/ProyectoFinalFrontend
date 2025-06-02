@@ -1,9 +1,11 @@
-/* Barra de navegación optimizada para desktop y mobile */
+/* ========================================
+   Barra de navegación personalizada (sticky, blur, etc.)
+   ======================================== */
 .navbar.custom-navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255,255,255,0.85);
+  background-color: var(--marfil);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--gristopo);
   box-shadow: var(--shadow-sm);
@@ -12,96 +14,102 @@
   align-items: center;
 }
 
-/* Marca y toggler siempre visibles */
+/* Marca (logo) */
 .navbar.custom-navbar .navbar-brand {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-2);
   color: var(--cafe);
-  transition: color .2s;
-  margin-right: var(--sp-3);
+  transition: color 0.2s;
 }
+
 .navbar.custom-navbar .navbar-brand:hover {
   color: var(--salvia);
 }
+
+/* Botón toggler */
 .navbar.custom-navbar .navbar-toggler {
   border: none;
   font-size: 1.5rem;
   color: var(--cafe);
-  margin-right: var(--sp-3);
 }
+
 .navbar.custom-navbar .navbar-toggler:focus {
   outline: none;
   box-shadow: none;
 }
 
-/* Desktop: scroll horizontal visible, collapse always open */
-@media (min-width: 992px) {
-  .navbar.custom-navbar .navbar-collapse {
-    display: flex !important;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    /* Espacio debajo para separar scrollbar de contenido */
-    padding-bottom: var(--sp-2);
-    scrollbar-width: auto;
-  }
-  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar {
-    height: 6px;
-  }
-  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 3px;
-  }
-  .navbar.custom-navbar .navbar-collapse::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .navbar.custom-navbar .navbar-nav,
-  .navbar.custom-navbar .navbar-nav .nav-item,
-  .navbar.custom-navbar .navbar-nav .btn-sm {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 var(--sp-2);
-    flex-shrink: 0;
-  }
+/* ------------------------------------------------
+     Menú horizontal en escritorio (wrapper y enlaces en fila)
+     ------------------------------------------------ */
+.horizontal-menu-wrapper {
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
-/* Mobile: collapse hidden/shown via Bootstrap, items centered */
-@media (max-width: 991px) {
-  .navbar.custom-navbar .navbar-collapse {
-    /* Dejar que Bootstrap maneje show/hide */
-    background-color: rgba(255,255,255,0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    padding: var(--sp-3);
-    white-space: normal;
-    overflow: visible;
-  }
-  .navbar.custom-navbar .collapse:not(.show) {
-    display: none !important;
-  }
-  .navbar.custom-navbar .collapse.show {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-  }
-  .navbar.custom-navbar .navbar-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .navbar.custom-navbar .nav-item {
-    width: 100%;
-    margin-bottom: var(--sp-3);
-    display: flex;
-    justify-content: center;
-  }
-  /* Botones con ancho automático y consistente */
-  .navbar.custom-navbar .btn-sm {
-    width: auto !important;
-    min-width: 120px;
-    margin: var(--sp-2) 0;
-  }
+.horizontal-menu-wrapper .navbar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.horizontal-menu-wrapper .navbar-nav .nav-item,
+.horizontal-menu-wrapper .navbar-nav .btn-sm {
+  margin: 0 var(--sp-2);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+     Offcanvas para móvil/tablet y escritorio si overflow
+     ------------------------------------------------ */
+.offcanvas.custom-offcanvas {
+  width: 45vw;
+  background-color: var(--marfil);
+  backdrop-filter: blur(8px);
+  z-index: 1050;
+}
+
+/* Cabecera del Offcanvas centrada */
+.offcanvas.custom-offcanvas .offcanvas-header {
+  justify-content: center;
+}
+
+/* Cuerpo del Offcanvas en flex-col centrado */
+.offcanvas.custom-offcanvas .offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+/* Lista de enlaces en vertical dentro del Offcanvas */
+.offcanvas.custom-offcanvas .navbar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Cada <li> ocupa el ancho completo y su contenido queda centrado */
+.offcanvas.custom-offcanvas .nav-item {
+  width: 100%;
+  margin-bottom: var(--sp-3);
+  display: flex;
+  justify-content: center;
+}
+
+/* Botones con ancho mínimo y centrados */
+.offcanvas.custom-offcanvas .btn-sm {
+  width: min-content;
+  min-width: 120px;
+  margin: var(--sp-2) 0;
+}
+
+/* Evita que los iconos y textos se rompan en varias líneas */
+.offcanvas.custom-offcanvas .nav-link,
+.offcanvas.custom-offcanvas .btn {
+  white-space: nowrap;
 }

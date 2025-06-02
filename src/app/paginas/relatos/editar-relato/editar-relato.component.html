@@ -6,7 +6,7 @@
     <p class="text-center">Cargando metadatos...</p>
     } @else {
     @if (esCreador || esModAdmin) {
-    <form [formGroup]="formularioMetas" (ngSubmit)="onSubmitMetas()" class="card p-4 mb-4">
+    <form [formGroup]="formularioMetas" (ngSubmit)="onSubmitMetas()" class="p-4 mb-4">
       <!-- Título -->
       <div class="mb-3">
         <label>Título</label>
@@ -60,7 +60,7 @@
     </section>
     }
 
-    @if (esCreador) {
+    @if (esCreador || esModAdmin) {
     <div class="mb-4">
       <app-editor-fragmento [relatoId]="relatoId" (fragmentoListo)="onFragmentoListo()">
       </app-editor-fragmento>
@@ -68,7 +68,7 @@
     }
 
     @if (esModAdmin) {
-    <div class="card p-4 mb-4">
+    <div class="p-4 mb-4">
       <h3>Contenido FINAL</h3>
       <form [formGroup]="formularioFinal" (ngSubmit)="onSubmitFinal()">
         <app-editor [(model)]="contenidoFinal"></app-editor>
@@ -82,6 +82,16 @@
         </div>
       </form>
     </div>
+    }
+
+    @if (esColaborador || esCreador || esModAdmin) {
+    <button class="chat-toggle-btn" (click)="toggleChat()" [attr.aria-expanded]="chatExpanded" [attr.aria-label]="
+        chatExpanded ? 'Cerrar chat' : 'Abrir chat'
+      ">
+      <i class="bi bi-chat-dots-fill"></i>
+    </button>
+    <app-chat class="chat-panel" [class.open]="chatExpanded" [relatoId]="relatoId">
+    </app-chat>
     }
     }
   </div>

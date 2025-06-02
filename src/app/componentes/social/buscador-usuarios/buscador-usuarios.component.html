@@ -48,8 +48,7 @@
             @for (usuario of resultados; track usuario.id) {
             <li class="list-group-item user-result d-flex align-items-center">
                 @if(usuario.avatar){
-                <img [src]="usuario.avatar" alt="{{ usuario.username }}"
-                    class="result-avatar rounded-circle me-3" />
+                <img [src]="usuario.avatar" alt="{{ usuario.username }}" class="result-avatar rounded-circle me-3" />
                 }
                 <ng-template #anon>
                     <i class="bi bi-person-circle fs-2 text-muted me-3"></i>

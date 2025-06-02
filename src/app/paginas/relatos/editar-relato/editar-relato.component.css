@@ -1,3 +1,6 @@
+/*───────────────────────────────────────────────────────────*/
+/* ESTILOS PARA LA SECCIÓN “editar-relato”                    */
+/*───────────────────────────────────────────────────────────*/
 .editar-relato {
   background-color: var(--marfil);
   padding: var(--sp-5) 0;
@@ -97,3 +100,72 @@
     padding: var(--sp-2);
   }
 }
+
+/*───────────────────────────────────────────────────────────*/
+/* ESTILOS PARA EL CHAT FLOTANTE (BOTÓN + <app-chat>)         */
+/*───────────────────────────────────────────────────────────*/
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--salvia);
+  border: none;
+  box-shadow: var(--shadow-md);
+  color: var(--marfil);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+  z-index: 1100;
+}
+
+.chat-toggle-btn:hover {
+  background-color: var(--salvia-hover);
+  transform: translateY(-2px);
+}
+
+.chat-toggle-btn:active {
+  background-color: var(--salvia-active);
+}
+
+.chat-toggle-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(163, 177, 138, 0.5);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 2) PANEL DESLIZABLE (<app-chat> como elemento host)       */
+/*───────────────────────────────────────────────────────────*/
+
+app-chat.chat-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  width: 30rem;
+  max-width: 100%;
+  transform: translateX(-100%); 
+  transition: transform 0.3s ease-out;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cuando angular agrega la clase .open, aparece (translateX(0)) */
+app-chat.chat-panel.open {
+  transform: translateX(0);
+}
+
+/*───────────────────────────────────────────────────────────*/
+/* 3) ESTILOS RESPONSIVE (MÓVIL)                             */
+/*───────────────────────────────────────────────────────────*/
+@media (max-width: 576px) {
+  app-chat.chat-panel {
+    width: 100vw; 
+  }
+}
+
