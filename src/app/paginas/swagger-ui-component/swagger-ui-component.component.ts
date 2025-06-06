@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 declare let SwaggerUIBundle: any;
 declare let SwaggerUIStandalonePreset: any;
 
@@ -36,8 +37,10 @@ export class SwaggerDocsComponent implements AfterViewInit {
           ],
           layout: 'BaseLayout',
           docExpansion: 'none',
-          requestInterceptor: (req:any) => {
-            if (req.url.startsWith('http://')) {
+          // Solo en producción cambiamos http→https
+          requestInterceptor: (req: any) => {
+            if (environment.production && req.url.startsWith('http://')) {
+              // En prod, tu backend sí corre en https, así que está OK
               req.url = req.url.replace('http://', 'https://');
             }
             return req;

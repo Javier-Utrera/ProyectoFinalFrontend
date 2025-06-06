@@ -379,4 +379,29 @@ export class ApiService {
       { headers: this.getHeaders() }
     );
   }
+
+  // ===========================================================================
+  // PAYPAL (SUSCRIPCIÓN PREMIUM)
+  // ===========================================================================
+
+  /** Crear orden de PayPal para el pago de suscripción */
+  crearOrdenPaypal(): Observable<{ orderID: string, status: string, links: any[] }> {
+    return this.http.post<{ orderID: string, status: string, links: any[] }>(
+      `${this.baseUrl}/paypal/crear-orden/`,
+      {},  // body vacío
+      { headers: this.getHeaders() }
+    );
+  }
+  
+
+  /** Captura la orden de PayPal y crea la suscripción + factura */
+  capturarYCrearSuscripcion(data: { orderID: string }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/paypal/capturar-y-suscribirse/`,
+      data,
+      { headers: this.getHeaders() }
+    );
+  }
 }
+
+

@@ -51,7 +51,7 @@
 
         <hr />
 
-        <!-- Estadísticas (puedes decidir mostrarlas o no a terceros) -->
+        <!-- Estadísticas-->
         <p><strong>Relatos publicados:</strong>
           {{ usuario.total_relatos_publicados }}
         </p>
@@ -61,6 +61,63 @@
         <p><strong>Palabras escritas:</strong>
           {{ usuario.total_palabras_escritas }}
         </p>
+
+        <hr />
+
+        <section class="subscription-info mb-4">
+          <h5>Información de suscripción</h5>
+
+          <!-- 1) Tipo de suscripción y vigencia -->
+          <p>
+            <strong>Tipo de suscripción:</strong>
+            {{ usuario.suscripcion?.tipo === 'PREMIUM' ? 'Premium' : 'Gratuita' }}
+          </p>
+
+          <!-- @if(isOwner && usuario.suscripcion?.tipo === 'FREE'){
+
+          } -->
+          <div *ngIf="isOwner && usuario.suscripcion?.tipo === 'FREE'">
+            <app-boton-paypal
+              (pagoAprobado)="onPaypalAprobado($event)"
+              (errorPago)="mensajeGlobal.mostrar('Error al pagar', 'danger')">
+            </app-boton-paypal>
+          </div>
+
+          <div *ngIf="facturaPdfUrl" class="mt-3">
+            <a 
+              class="btn btn-outline-primary" 
+              [href]="facturaPdfUrl" 
+              target="_blank" 
+              rel="noopener">
+              Descargar mi factura (PDF)
+            </a>
+          </div>
+
+
+          <p *ngIf="usuario.suscripcion">
+            <strong>Caduca:</strong>
+            <!-- Si es FREE con fecha_fin null, mostramos “N/A”-->
+            {{ usuario.suscripcion.fecha_fin
+            ? (usuario.suscripcion.fecha_fin | date:'shortDate')
+            : 'Ilimitada' }}
+          </p>
+
+          <!-- 2) Relatos creados esta semana y máximo -->
+          <p>
+            <strong>Relatos creados esta semana:</strong>
+            {{ usuario.relatos_creados_semana || 0 }}
+            /
+            {{ usuario.suscripcion?.tipo === 'FREE' ? 1 : '∞' }}
+          </p>
+
+          <!-- 3) Participaciones esta semana y máximo -->
+          <p>
+            <strong>Participaciones esta semana:</strong>
+            {{ usuario.participaciones_semana || 0 }}
+            /
+            {{ usuario.suscripcion?.tipo === 'FREE' ? 2 : '∞' }}
+          </p>
+        </section>
 
         <!-- Botón editar solo para el propietario -->
         @if (isOwner) {

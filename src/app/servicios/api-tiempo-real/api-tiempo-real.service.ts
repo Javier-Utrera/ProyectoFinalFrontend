@@ -2,6 +2,7 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Observable, Subject } from 'rxjs';
 export class ApiTiempoRealService {
   private socket!: WebSocket;
   private mensajesSubject = new Subject<any>();
+  private readonly wsBaseUrl = environment.wsBaseUrl;
 
   // Observable que exponen los mensajes entrantes
   public mensajes$ = this.mensajesSubject.asObservable();
@@ -28,7 +30,7 @@ export class ApiTiempoRealService {
     }
 
     // 2) Construimos la URL con query string ?token=<valor>
-    const url = `ws://localhost:8000/ws/chat/${relatoId}/?token=${token}`;
+    const url = `${this.wsBaseUrl}/chat/${relatoId}/?token=${token}`;
     this.socket = new WebSocket(url);
 
     // 3) Definimos el handler de mensajes entrantes
@@ -44,7 +46,6 @@ export class ApiTiempoRealService {
       });
     };
 
-    // 4) Opcional: manejadores de open, error y close para debug
     this.socket.onopen = () => {
       console.log('ChatService: conexión abierta');
     };

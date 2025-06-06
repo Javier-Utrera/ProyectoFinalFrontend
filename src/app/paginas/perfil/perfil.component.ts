@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
@@ -15,6 +15,9 @@ import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-glo
 import { Usuario } from '../../servicios/api-servicios/api.models';
 
 import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
+import { BotonPaypalComponent } from "../../componentes/comunes/boton-paypal/boton-paypal.component";
+
+declare var paypal: any;
 
 @Component({
   selector: 'app-perfil',
@@ -22,12 +25,14 @@ import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta
     CommonModule,
     ReactiveFormsModule,
     NgSelectModule,
-    MensajeAlertaComponent
-  ],
+    MensajeAlertaComponent,
+    BotonPaypalComponent
+],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
+
   usuario!: Usuario;
   private currentUser?: Usuario;
   isOwner = false;
@@ -38,6 +43,8 @@ export class PerfilComponent implements OnInit {
   modoEdicion = false;
   formulario!: FormGroup;
   selectedFile: File | null = null;
+
+  facturaPdfUrl: string | null = null;
 
   generosDisponibles: string[] = [
     'Fantasía', 'Ciencia ficción', 'Terror', 'Romance',
@@ -54,9 +61,31 @@ export class PerfilComponent implements OnInit {
     public mensajeGlobal: MensajeGlobalService
   ) { }
 
+
+  onPaypalAprobado(event: { orderID: string }) {
+    this.api.capturarYCrearSuscripcion({ orderID: event.orderID }).subscribe({
+      next: (res) => {
+        this.mensajeGlobal.mostrar('¡Pago realizado con éxito!', 'success');
+  
+        // Si el backend trae la URL del PDF, la guardamos en facturaPdfUrl
+        if (res.factura && res.factura.pdf_url) {
+          this.facturaPdfUrl = res.factura.pdf_url;
+        }
+  
+        // Refrescamos el perfil para actualizar el estado de suscripción
+        this.ngOnInit();
+      },
+      error: (err) => {
+        this.mensajeGlobal.mostrar('No se pudo activar la suscripción', 'danger');
+      }
+    });
+  }
+
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     const targetId = idParam ? +idParam : undefined;
+   
+    
 
     if (this.auth.obtenerToken()) {
       this.api.obtenerPerfil().subscribe({
@@ -78,6 +107,7 @@ export class PerfilComponent implements OnInit {
     this.api.obtenerPerfil(userId).subscribe({
       next: perfil => {
         this.usuario = perfil;
+        console.log('Perfil cargado:', this.usuario);
         this.cargando = false;
       },
       error: err => {
@@ -207,3 +237,7 @@ export class PerfilComponent implements OnInit {
     });
   }
 }
+function ngAfterViewInit() {
+  throw new Error('Function not implemented.');
+}
+

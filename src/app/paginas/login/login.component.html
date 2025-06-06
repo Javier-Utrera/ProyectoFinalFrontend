@@ -5,19 +5,21 @@
     <!-- Mensaje global -->
     <app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo" class="mb-4"></app-mensaje-alerta>
 
-    <!-- Formulario -->
+    <!-- Tarjeta principal -->
     <div class="form-card mx-auto">
+      <!-- 1) Formulario tradicional -->
       <form [formGroup]="formulario" (ngSubmit)="onSubmit()" novalidate>
         <!-- Username -->
         <div class="mb-3">
           <label for="username" class="form-label">Nombre de usuario</label>
           <input type="text" id="username" formControlName="username" class="form-control" />
-          <!-- Error cliente -->
           @if (
           formulario.get('username')?.invalid &&
           formulario.get('username')?.touched
           ) {
-          <div class="text-danger mt-1">El nombre de usuario es obligatorio</div>
+          <div class="text-danger mt-1">
+            El nombre de usuario es obligatorio
+          </div>
           }
         </div>
 
@@ -25,12 +27,13 @@
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
           <input type="password" id="password" formControlName="password" class="form-control" />
-          <!-- Error cliente -->
           @if (
           formulario.get('password')?.invalid &&
           formulario.get('password')?.touched
           ) {
-          <div class="text-danger mt-1">La contraseña es obligatoria</div>
+          <div class="text-danger mt-1">
+            La contraseña es obligatoria
+          </div>
           }
         </div>
 
@@ -40,7 +43,16 @@
         </button>
       </form>
 
-      <!-- Botón registrarse -->
+      <!-- 2) Separador opcional -->
+      <div class="separator my-4 text-center">O continúa con</div>
+
+      <!-- 3) Botón de Google -->
+      <div class="d-flex justify-content-center mb-3">
+        <!-- Aquí se rendizará el botón de Google -->
+        <div id="googleButton"></div>
+      </div>
+
+      <!-- 4) Botón registrarse -->
       <div class="text-center mt-3">
         <button class="btn btn-outline-secondary w-100" (click)="router.navigate(['/registro'])">
           ¿No tienes cuenta? Regístrate

@@ -42,7 +42,6 @@
 ────────────────────────────────────────────────────────────── */
 .cards-grid {
   display: grid;
-  /* Cada tarjeta entre 280px y 340px de ancho. Si cabe, caben varias columnas */
   grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: var(--sp-4);
   justify-content: center;

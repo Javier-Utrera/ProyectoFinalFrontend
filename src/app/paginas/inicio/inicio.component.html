@@ -13,11 +13,9 @@
     } @else if (relatos.length > 0) {
     <h3 class="page-title text-center mb-4">Relatos publicados</h3>
     <div class="cards-grid">
-      <div class="card-book">
-        @for (relato of relatos; track relato.id) {
-        <app-relatocard [relato]="relato" origen="publicado"></app-relatocard>
-        }
-      </div>
+      @for (relato of relatos; track relato.id) {
+      <app-relatocard [relato]="relato" origen="publicado"></app-relatocard>
+      }
     </div>
     } @else {
     <p class="text-center text-muted">No hay relatos publicados todavía.</p>

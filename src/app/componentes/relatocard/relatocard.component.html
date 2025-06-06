@@ -2,7 +2,13 @@
     'origin-publicado': origen === 'publicado',
     'origin-disponible': origen === 'disponible',
     'origin-mis-relatos': origen === 'mis-relatos'
+  }" [ngStyle]="{
+    'background-image': 'url(' + imagenFondo + ')'
   }">
+
+  <div class="overlay"></div>
+
+
   <header class="relato-header">
     <h5 class="relato-title text-truncate" title="{{ relato.titulo }}">
       {{ relato.titulo }}

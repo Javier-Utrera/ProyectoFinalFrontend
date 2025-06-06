@@ -57,6 +57,12 @@
   font-size: var(--fs-6);
 }
 
+.separator {
+  font-size: var(--fs-6);
+  color: var(--gristopo);
+}
+
+
 /* Responsive */
 @media (max-width: 576px) {
   .form-card {

@@ -1,8 +1,10 @@
 /* ─── Relato Card: contenedor principal ───────────────────────────────────────── */
 .relato-card {
-  position: relative; 
-  max-width: 400px;
+  position: relative;
+  max-width: 300px;
   background-color: #fff;
+  background-size: cover;
+  background-position: center;
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-md);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -20,6 +22,28 @@
   overflow: hidden;
 }
 
+/* ─── Overlay semitransparente para mejorar contraste ─────────────────────────── */
+.relato-card .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* capa oscura al 30% */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ─── Contenido (texto, meta, botones) sobre la imagen ────────────────────────── */
+.relato-card header,
+.relato-card .relato-meta,
+.relato-card .relato-descripcion,
+.relato-card app-estadisticas-relato,
+.relato-card .relato-actions {
+  position: relative;
+  z-index: 2;
+}
+
 /* ─── Sombra interior (efecto 3D) ──────────────────────────────────────────────── */
 .relato-card::after {
   content: "";
@@ -32,11 +56,9 @@
   transform: translateX(8px) rotateY(90deg);
   transform-origin: left center;
   transition: all 0.4s ease-in-out;
-  background: linear-gradient(
-    -180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0) 60%
-  );
+  background: linear-gradient(-180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0) 60%);
 }
 
 /* ─── Hover global ────────────────────────────────────────────────────────────── */
@@ -49,9 +71,11 @@
 .relato-card.origin-publicado:hover {
   box-shadow: 7px 0px 0px var(--salvia-hover), 14px 0px 0px var(--salvia);
 }
+
 .relato-card.origin-disponible:hover {
   box-shadow: 7px 0px 0px var(--pastel-azul), 14px 0px 0px var(--pastel-azul-hover);
 }
+
 .relato-card.origin-mis-relatos:hover {
   box-shadow: 7px 0px 0px var(--terracota-hover), 14px 0px 0px var(--cafe);
 }
@@ -68,6 +92,7 @@
   transition: all 0.25s;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAABhCAYAAABh23lYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHCSURBVHgB7dxPTsJAHMXxN7Xu3UhigobxJHACvQFwAr2BcgO8AZxE7uGiDZiQyEIW7oSOUyKbKgLS8u+9b9JNF818fum0XdWUhy9VEDZBGIdBGD6DsFM3bQYgTnjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNaEZ0141oRnTXjWhGdNeNZ2hR/7o+UcmnCIsaNCbLcU/RR8oB1bO/4+17l8ixoGeIBBBVvMXI0ih+L7Df2j8iiqnvgh+AVVUXDOTZvF4tNb2qC7DJ1tNgSDO78tblFQxeE92l+0NSjZDjaoMowqyYl7hDF15JzL+x+YHtxLgFq/ZO2m8LT4wsb90nUjmMD61XaRc7ng5+jBua29ntsecq6oIWyELxqdLe8h/GvPp+h0T28D/FezZ8Ip7pHgZt3X5NoPvH1BZ5sNIUTDL7C+6hBWxxt0gk+00tsOe96qH0zL8GO4pBtMg/YhoLMtG8Ii/EpfY4fSoiFk8UeFzpYdwhz/jiNGZ0uHEBjUEzftohJFZyAsdX8BM0/amLC3spYAAAAASUVORK5CYII=') no-repeat center/16px;
 }
+
 .relato-card:hover::before {
   opacity: 1;
   transform: translateY(9px);
@@ -77,9 +102,11 @@
 .relato-card.origin-publicado {
   border-left-color: var(--salvia);
 }
+
 .relato-card.origin-disponible {
   border-left-color: var(--pastel-azul);
 }
+
 .relato-card.origin-mis-relatos {
   border-left-color: var(--gristopo);
 }
@@ -92,15 +119,16 @@
 .relato-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
-  color: var(--cafe);
+  color: #fff;       /* Blanco para contraste sobre la imagen + overlay */
   overflow: hidden;
   white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* ─── Meta (lista con idioma, género, estado, fecha) ─────────────────────────── */
 .relato-meta li {
   font-size: var(--fs-6);
-  color: var(--cafe);
+  color: #f0f0f0;    /* Texto claro sobre capa oscura */
   margin-bottom: var(--sp-1);
 }
 
@@ -117,14 +145,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: var(--fs-5);
-  color: var(--cafe);
+  color: #f0f0f0;    /* Texto claro sobre capa oscura */
   line-height: 1.6;
   margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 /* ─── Estadísticas ───────────────────────────────────────────────────────────── */
 .relato-stats {
   margin: var(--sp-3) 0;
+  position: relative;
+  z-index: 2;        /* para que quede sobre la imagen */
 }
 
 /* ─── Acciones (botones) ─────────────────────────────────────────────────────── */
@@ -133,6 +164,8 @@
   flex-wrap: wrap;
   gap: var(--sp-2);
   margin-top: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .relato-actions .btn {
@@ -166,6 +199,7 @@
   .relato-card {
     max-width: 100%;
   }
+
   .relato-actions {
     justify-content: center;
   }

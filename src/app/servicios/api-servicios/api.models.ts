@@ -35,6 +35,16 @@ export interface Usuario {
   total_palabras_escritas?: number;
   rol?: number;
   rol_nombre?: string;
+  suscripcion?: Suscripcion;
+  relatos_creados_semana?: number;
+  participaciones_semana?: number;
+}
+
+export interface Suscripcion {
+  tipo: 'FREE' | 'PREMIUM';
+  activa: boolean;
+  fecha_inicio: string;
+  fecha_fin?: string; 
 }
 
 // Mi voto sobre relato

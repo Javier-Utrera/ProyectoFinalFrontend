@@ -6,6 +6,7 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { Usuario } from '../../servicios/api-servicios/api.models';
+import { environment } from '../../../environments/environment';
 
 interface Mensaje {
   id: number;
@@ -27,6 +28,8 @@ interface Mensaje {
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() relatoId!: number;
+
+  private readonly baseUrl = environment.baseUrl;
 
   mensajes: Mensaje[] = [];
   mensajeControl = new FormControl('');
@@ -79,8 +82,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   private cargarHistorial(): void {
-    const url = `http://localhost:8000/api/relatos/${this.relatoId}/mensajes/`;
-    const token = this.authService.obtenerToken() || ''; // obtenemos token del servicio
+    const url = `${this.baseUrl}/relatos/${this.relatoId}/mensajes/`;
+    const token = this.authService.obtenerToken() || '';
 
     this.http.get<Mensaje[]>(url, {
       headers: { Authorization: `Bearer ${token}` }

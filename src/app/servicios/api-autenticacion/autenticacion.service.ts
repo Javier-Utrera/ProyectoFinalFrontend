@@ -102,4 +102,17 @@ export class AutenticacionService {
     const role = this.currentUser?.rol ?? 0;
     return roles.includes(role);
   }
+
+  loginWithGoogle(idToken: string): Observable<any> {
+    return this.http.post<{ access_token: string; user: Usuario }>(
+      `${this.baseUrl}/auth/google-login/`,
+      { id_token: idToken }
+    ).pipe(
+      tap(res => {
+        localStorage.setItem('token', res.access_token);
+        this.estadoAutenticacion.next(true);
+        this.currentUserSubject.next(res.user);
+      })
+    );
+  }
 }

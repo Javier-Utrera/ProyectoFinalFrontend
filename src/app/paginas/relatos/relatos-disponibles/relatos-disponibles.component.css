@@ -64,7 +64,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 0; /* El gap del grid separa las filas */
+  margin-bottom: 0;
 }
 
 /* ──────────────────────────────────────────────────────────────
