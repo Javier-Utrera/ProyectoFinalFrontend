@@ -1,6 +1,20 @@
-@if (mensaje) {
-<div class="alert alert-{{ tipo }} alert-dismissible fade show" role="alert">
-    {{ mensaje }}
-    <button type="button" class="btn-close" aria-label="Cerrar" (click)="cerrar()"></button>
-</div>
-}
+<div #modal class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content border-0 shadow-sm rounded-2">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Confirmar acción
+          </h5>
+          <button type="button" class="btn-close" (click)="cancelar()"></button>
+        </div>
+        <div class="modal-body">
+          <p>{{ config?.mensaje }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="aceptar()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

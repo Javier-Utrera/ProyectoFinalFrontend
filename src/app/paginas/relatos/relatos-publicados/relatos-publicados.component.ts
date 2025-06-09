@@ -18,7 +18,7 @@ export class RelatosPublicadosComponent implements OnInit {
   cargando = true;
   currentPage = 1;
 
-  private readonly pageSize = 5;
+  private readonly pageSize = 6;
   filters: any = {};
 
   constructor(

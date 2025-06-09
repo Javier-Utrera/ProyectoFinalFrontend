@@ -10,7 +10,7 @@ import { OpcionesRelato } from '../../../servicios/api-servicios/api.models';
   selector: 'app-crear-relato',
   imports: [CommonModule, ReactiveFormsModule, EditorComponent],
   templateUrl: './crear-relato.component.html',
-  styleUrl: './crear-relato.component.css',
+  styleUrls: ['./crear-relato.component.css'],
 })
 export class CrearRelatoComponent implements OnInit {
   formulario!: FormGroup;
@@ -24,38 +24,43 @@ export class CrearRelatoComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    // 1) Construir el formulario, incluyendo generos
     this.formulario = this.fb.group({
       titulo: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
       contenido: [''],
       idioma: ['', Validators.required],
-      generos: [''], // campo opcional
+      generos: [''],
       num_escritores: [1, [Validators.required, Validators.min(1), Validators.max(4)]]
     });
 
-    // 2) Cargar opciones de idioma y género (cacheado en ApiService)
-    this.apiService.getOpcionesRelato().subscribe((opts: OpcionesRelato) => {
-      this.idiomas = opts.idiomas.map(([value, label]) => ({ value, label }));
-      this.generos = opts.generos.map(([value, label]) => ({ value, label }));
-    });
+    this.apiService.getOpcionesRelato()
+      .subscribe((opts: OpcionesRelato) => {
+        this.idiomas = opts.idiomas.map(([value, label]) => ({ value, label }));
+        this.generos = opts.generos.map(([value, label]) => ({ value, label }));
+      });
   }
 
   onSubmit(): void {
     this.enviado = true;
-    if (this.formulario.invalid) return;
+    if (this.formulario.invalid) {
+      return;
+    }
 
     const datos = {
       ...this.formulario.value,
       contenido: this.contenidoHtml
     };
 
-    this.apiService.crearRelato(datos).subscribe({
-      next: () => this.router.navigate(['/mis-relatos']),
-      error: err => console.error('Error al crear el relato:', err)
-    });
+    this.apiService.crearRelato(datos)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/mis-relatos']);
+        },
+        error: () => {
+        }
+      });
   }
 }

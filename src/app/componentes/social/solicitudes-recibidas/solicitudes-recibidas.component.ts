@@ -1,27 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 import { MensajeGlobalService } from '../../../servicios/mensaje-global/mensaje-global.service';
+import { LibroCargaComponent } from "../../comunes/libro-carga/libro-carga.component";
 
 @Component({
   selector: 'app-solicitudes-recibidas',
-  imports: [],
+  standalone: true,
   templateUrl: './solicitudes-recibidas.component.html',
-  styleUrl: './solicitudes-recibidas.component.css'
+  styleUrls: ['./solicitudes-recibidas.component.css'],
+  imports: [LibroCargaComponent]
 })
 export class SolicitudesRecibidasComponent implements OnInit {
   solicitudes: any[] = [];
   cargando = true;
 
-  constructor(private apiService: ApiService,public mensajeGlobal: MensajeGlobalService) {}
+  constructor(
+    private apiService: ApiService,
+    public mensajeGlobal: MensajeGlobalService
+  ) {}
 
   ngOnInit(): void {
+    this.cargarSolicitudes();
+  }
+
+  private cargarSolicitudes(): void {
+    this.cargando = true;
     this.apiService.getSolicitudesRecibidas().subscribe({
-      next: (res) => {
+      next: res => {
         this.solicitudes = res;
         this.cargando = false;
       },
-      error: (err) => {
-        console.error('Error al obtener solicitudes:', err);
+      error: () => {
         this.cargando = false;
       }
     });
@@ -29,30 +38,27 @@ export class SolicitudesRecibidasComponent implements OnInit {
 
   aceptar(id: number): void {
     this.apiService.aceptarSolicitudAmistad(id).subscribe({
-      next: (res) => {
+      next: () => {
         this.solicitudes = this.solicitudes.filter(s => s.id !== id);
-        this.mensajeGlobal.mostrar(res.mensaje ||'Solicitud aceptada.', 'success');
       },
-      error: (err) => {
-        console.error('Error al bloquear solicitud:', err);
-        this.mensajeGlobal.mostrar(err.error?.error || 'Error al aceptar la solicitud', 'danger');
+      error: () => {
       }
     });
   }
 
-  bloquear(id: number): void {
-    if (!confirm('¿Seguro que quieres bloquear esta solicitud?')) return;
+  /** Bloquea tras confirmación modal */
+  async bloquear(id: number): Promise<void> {
+    const confirmado = await this.mensajeGlobal.confirmar(
+      '¿Estás seguro de que quieres bloquear esta solicitud?'
+    );
+    if (!confirmado) return;
 
     this.apiService.bloquearSolicitudAmistad(id).subscribe({
-      next: (res) => {
+      next: () => {
         this.solicitudes = this.solicitudes.filter(s => s.id !== id);
-        this.mensajeGlobal.mostrar(res.mensaje ||'Solicitud bloqueada.', 'success');
       },
-      error: (err) => {
-        console.error('Error al bloquear solicitud:', err);
-        this.mensajeGlobal.mostrar(err.error?.error || 'Error al bloquear solicitud', 'danger');
+      error: () => {
       }
     });
   }
 }
-

@@ -1,13 +1,10 @@
 <article class="relato-card" [ngClass]="{
-    'origin-publicado': origen === 'publicado',
-    'origin-disponible': origen === 'disponible',
-    'origin-mis-relatos': origen === 'mis-relatos'
-  }" [ngStyle]="{
-    'background-image': 'url(' + imagenFondo + ')'
-  }">
+  'origin-publicado': origen === 'publicado',
+  'origin-disponible': origen === 'disponible',
+  'origin-mis-relatos': origen === 'mis-relatos'
+}" [ngStyle]="{'background-image': 'url(' + imagenFondo + ')'}">
 
   <div class="overlay"></div>
-
 
   <header class="relato-header">
     <h5 class="relato-title text-truncate" title="{{ relato.titulo }}">
@@ -20,14 +17,13 @@
     <li><strong>Género:</strong> {{ relato.generos_display }}</li>
     <li><strong>Estado:</strong> {{ relato.estado }}</li>
     <li class="fecha">
-      <small class="text-muted">
+      <small>
         {{ origen === 'publicado' ? 'Publicado el' : 'Fecha:' }}
         {{ relato.fecha_creacion | date:'mediumDate' }}
       </small>
     </li>
   </ul>
 
-  <!-- Descripción con line-clamp (máximo 3 líneas) -->
   <section class="relato-descripcion mb-3">
     <p class="description-clamp" title="{{ relato.descripcion }}">
       {{ relato.descripcion }}
@@ -36,22 +32,45 @@
 
   <app-estadisticas-relato [relatoId]="relato.id" class="relato-stats mb-3"></app-estadisticas-relato>
 
-  <footer class="relato-actions mt-auto">
-    <button class="btn btn-sm" [ngClass]="{
-        'btn-outline-primary': origen === 'publicado',
-        'btn-outline-success': origen === 'disponible',
-        'btn-outline-secondary': origen === 'mis-relatos'
-      }" [routerLink]="['/relato', relato.id]" [queryParams]="{ origen }">
-      Leer relato
-    </button>
-
+  <footer class="relato-actions">
+    <!-- Grupo 1: Leer relato -->
+    @if (relato.estado === 'PUBLICADO') {
+      <button
+        class="btn btn-lg action-btn"
+        [ngClass]="{
+          'btn-primary': origen === 'publicado',
+          'btn-success': origen === 'disponible',
+          'btn-secondary': origen === 'mis-relatos'
+        }"
+        [routerLink]="['/relato', relato.id]"
+        [queryParams]="{ origen }"
+      >
+        <i
+          class="bi"
+          [ngClass]="{
+            'bi-book': origen === 'publicado',
+            'bi-journal-plus': origen === 'disponible',
+            'bi-pen': origen === 'mis-relatos'
+          }"
+          aria-hidden="true"
+        ></i>
+        Leer relato
+      </button>
+    }
+  
+    <!-- Grupo 2: Editar/Eliminar (sólo admin) -->
     @if (auth.hasRole(1, 3)) {
-    <button class="btn btn-sm btn-warning ms-2" [routerLink]="['/moderador/relatos', relato.id, 'editar-final']">
-      Editar (mod)
-    </button>
-    <button class="btn btn-sm btn-danger ms-2" (click)="borrar()">
-      <i class="bi bi-trash me-1"></i>Eliminar
-    </button>
+      <div class="admin-actions">
+        <button
+          class="btn btn-warning btn-sm"
+          [routerLink]="['/moderador/relatos', relato.id, 'editar-final']"
+        >
+          Editar (mod)
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="borrar()">
+          <i class="bi bi-trash me-1"></i>Eliminar
+        </button>
+      </div>
     }
   </footer>
 </article>

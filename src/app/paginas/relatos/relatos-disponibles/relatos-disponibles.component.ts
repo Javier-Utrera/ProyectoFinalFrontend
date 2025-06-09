@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
+import { MensajeGlobalService } from '../../../servicios/mensaje-global/mensaje-global.service';
 import { RelatoCardComponent } from "../../../componentes/relatocard/relatocard.component";
 import { PaginatedResponse, Relato } from '../../../servicios/api-servicios/api.models';
 import { BuscadorComponent } from "../../../componentes/buscador/buscador.component";
@@ -8,9 +9,13 @@ import { LibroCargaComponent } from "../../../componentes/comunes/libro-carga/li
 
 @Component({
   selector: 'app-relatos-disponibles',
-  imports: [RelatoCardComponent, BuscadorComponent, LibroCargaComponent],
+  imports: [
+    RelatoCardComponent,
+    BuscadorComponent,
+    LibroCargaComponent
+  ],
   templateUrl: './relatos-disponibles.component.html',
-  styleUrl: './relatos-disponibles.component.css'
+  styleUrls: ['./relatos-disponibles.component.css']
 })
 export class RelatosDisponiblesComponent implements OnInit {
   relatos: Relato[] = [];
@@ -18,16 +23,16 @@ export class RelatosDisponiblesComponent implements OnInit {
   loading = true;
   authenticated = false;
 
-  // Paginación
   page = 1;
-  private readonly itemsPerPage = 5;
+  private readonly itemsPerPage = 6;
   filtrosActivo: any = {};
 
   constructor(
     private api: ApiService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private msj: MensajeGlobalService
+  ) {}
 
   ngOnInit(): void {
     this.authenticated = !!localStorage.getItem('token');
@@ -41,7 +46,6 @@ export class RelatosDisponiblesComponent implements OnInit {
   }
 
   onBuscar(filtros: any): void {
-    console.log('Parámetros de búsqueda:', filtros);
     this.filtrosActivo = filtros;
     this.page = 1;
     this.loadRelatos();
@@ -64,7 +68,8 @@ export class RelatosDisponiblesComponent implements OnInit {
         },
         error: err => {
           console.error('Error al cargar relatos disponibles:', err);
-          this.loading = true;
+          this.loading = false;
+          this.msj.mostrar('Error al cargar relatos disponibles', 'danger');
         }
       });
   }
@@ -76,19 +81,19 @@ export class RelatosDisponiblesComponent implements OnInit {
       });
       return;
     }
-    this.api.unirseARelato(id).subscribe({
-      next: res => {
-        alert(res.mensaje);
-        this.router.navigate(['/mis-relatos']);
-      },
-      error: err => {
-        console.error('Error al unirse al relato:', err);
-        alert('Error al unirse al relato.');
-      }
-    });
+  
+    this.api.unirseARelato(id)
+      .subscribe({
+        next: res => {
+          if (!res.mensaje.includes('Ya participas')) {
+            this.router.navigate(['/mis-relatos']);
+          }
+        },
+        error: () => {
+        }
+      });
   }
 
-  /** Paginación */
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.total / this.itemsPerPage));
   }

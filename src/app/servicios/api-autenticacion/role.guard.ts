@@ -1,4 +1,3 @@
-// src/app/core/role.guard.ts
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -7,7 +6,8 @@ import {
   Router
 } from '@angular/router';
 import { AutenticacionService } from './autenticacion.service';
-
+import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
@@ -19,12 +19,16 @@ export class RoleGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    // Solo admin (1) o moderador (3)
-    if (this.auth.hasRole(1, 3)) {
-      return true;
-    }
-    this.router.navigate(['/']);
-    return false;
+  ): Observable<boolean> {
+    return this.auth.currentUser$.pipe(
+      take(1),
+      map(user => {
+        if (user && user.rol !== undefined && [1,3].includes(user.rol)) {
+          return true;
+        }
+        this.router.navigate(['/']);
+        return false;
+      })
+    );
   }
 }

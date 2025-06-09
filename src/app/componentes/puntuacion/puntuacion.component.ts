@@ -24,9 +24,7 @@ export class PuntuacionComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.mensajeGlobal.limpiar();
-  
+  ngOnInit(): void { 
     if (this.authService.isAuthenticated) {
       this.api.getMiVoto(this.relatoId).subscribe({
         next: voto => {

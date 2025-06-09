@@ -147,8 +147,11 @@
     <article class="list-group-item mb-3 p-4 comentario-item">
       <div class="d-flex align-items-start mb-3">
         @if (c.usuario.avatar) {
-        <img [src]="c.usuario.avatar" alt="{{ c.usuario.username }} avatar" class="rounded-circle me-3" width="48"
-          height="48">
+          <img [src]="c.usuario.avatar | cloudinaryOpt:48:48" 
+          alt="{{ c.usuario.username }} avatar"
+          class="rounded-circle me-3"
+          width="48"
+          height="48" />
         } @else {
         <div class="avatar-placeholder rounded-circle me-3"></div>
         }
@@ -160,22 +163,25 @@
         </div>
       </div>
 
-      <!-- Votación -->
+      <!-- Botón Voto Arriba -->
+      @if(!esAutorDelComentario(c)){
       <div class="d-flex align-items-center mb-3">
         <button type="button" class="btn btn-sm me-2" [ngClass]="{
-                  'btn-success': c.mi_voto === 1,
-                  'btn-outline-success': c.mi_voto !== 1
-                }" (click)="votarComentario(c)">
+                    'btn-success': c.mi_voto === 1,
+                    'btn-outline-success': c.mi_voto !== 1
+                  }" (click)="votarComentario(c)">
           <i class="bi bi-hand-thumbs-up"></i>
         </button>
         <span class="me-2">{{ c.votos }}</span>
         <button type="button" class="btn btn-sm" [ngClass]="{
-                  'btn-danger': c.mi_voto === -1,
-                  'btn-outline-danger': c.mi_voto !== -1
-                }" (click)="votarAbajoComentario(c)">
+                    'btn-danger': c.mi_voto === -1,
+                    'btn-outline-danger': c.mi_voto !== -1
+                  }" (click)="votarAbajoComentario(c)">
           <i class="bi bi-hand-thumbs-down"></i>
         </button>
       </div>
+      }
+
 
       <!-- Edición / Borrado -->
       @if (editingId === c.id) {

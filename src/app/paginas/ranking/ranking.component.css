@@ -1,24 +1,21 @@
-.ranking-relatos {
-  background-color: var(--beige);
-}
+/*─────────────────────────────*/
+/* 1) Fondos                   */
+/*─────────────────────────────*/
+.ranking-relatos { background-color: var(--beige); }
+.ranking-usuarios { background-color: var(--marfil); }
 
-/* Ranking de Usuarios: fondo marfil */
-.ranking-usuarios {
-  background-color: var(--marfil);
-}
-
-/*───────────────────────────────────────────────────────────*/
-/* 2) Listado Vertical Común                                  */
-/*───────────────────────────────────────────────────────────*/
+/*─────────────────────────────*/
+/* 2) Lista base               */
+/*─────────────────────────────*/
 .list-ranking {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 3) Ítems de Relatos                                        */
-/*───────────────────────────────────────────────────────────*/
+/*─────────────────────────────*/
+/* 3) Relatos - Ítem           */
+/*─────────────────────────────*/
 .ranking-relatos .rank-item {
   background-color: #fff;
   border: 1px solid var(--gristopo);
@@ -27,8 +24,8 @@
   margin-bottom: var(--sp-3);
   display: flex;
   flex-direction: column;
-  transition: transform .2s, box-shadow .2s;
   box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
 }
 
 .ranking-relatos .rank-item:hover {
@@ -36,62 +33,87 @@
   box-shadow: var(--shadow-md);
 }
 
-.ranking-relatos .rank-pos {
-  font-size: var(--fs-3);
-  color: var(--salvia);
-  margin-right: var(--sp-2);
-}
-
-.ranking-relatos .header {
+.relato-header {
   display: flex;
   align-items: center;
+  gap: var(--sp-2);
   margin-bottom: var(--sp-2);
+  min-width: 0;
 }
 
-.ranking-relatos .rank-title {
+.rank-pos {
+  font-size: var(--fs-3);
+  color: var(--salvia);
+  min-width: 2.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rank-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-4);
   color: var(--cafe);
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 auto;
 }
 
-.ranking-relatos .rank-metrics {
+.relato-metrics {
   display: flex;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
   margin-bottom: var(--sp-3);
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.ranking-relatos .rank-metrics li {
-  list-style: none;
+.relato-metric {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-size: var(--fs-6);
+  min-width: 65px;
+}
+
+.relato-metric i {
+  font-size: 1.2em;
+  margin-bottom: 2px;
+}
+
+.metric-value {
+  font-size: 1.09em;
+  font-weight: bold;
   color: var(--cafe);
 }
 
-.ranking-relatos .rank-metrics i {
-  margin-right: var(--sp-1);
+.metric-label {
+  font-size: 0.91em;
+  color: #938b7b;
+  margin-top: 1px;
+  white-space: nowrap;
 }
 
-.ranking-relatos .rank-item>a.btn {
+.ver-relato {
   align-self: center;
+  margin-top: var(--sp-2);
   padding: var(--sp-1) var(--sp-3);
   font-size: var(--fs-6);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 4) Ítems de Usuarios                                       */
-/*───────────────────────────────────────────────────────────*/
+/*─────────────────────────────*/
+/* 4) Usuarios - Ítem          */
+/*─────────────────────────────*/
 .ranking-usuarios .rank-item {
   background-color: var(--beige);
-  /* Sobre marfil */
   border-radius: var(--radius-md);
   padding: var(--sp-2) var(--sp-3);
   margin-bottom: var(--sp-3);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  transition: transform .2s, box-shadow .2s;
+  gap: var(--sp-3);
   box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+  flex-wrap: wrap;
 }
 
 .ranking-usuarios .rank-item:hover {
@@ -99,17 +121,12 @@
   box-shadow: var(--shadow-md);
 }
 
-.ranking-usuarios .rank-pos {
-  font-size: var(--fs-3);
-  color: var(--salvia);
-  min-width: 2.5rem;
-  text-align: center;
-}
-
-.ranking-usuarios .rank-info {
+.usuario-header {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
+  min-width: 0;
+  flex: 1 1 200px;
 }
 
 .ranking-usuarios .avatar {
@@ -117,71 +134,157 @@
   height: 40px;
   border: 2px solid var(--marfil);
   object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.ranking-usuarios .user-name {
+.user-name {
   font-size: var(--fs-5);
   color: var(--cafe);
+  font-weight: 600;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 120px;
+  display: inline-block;
 }
 
-.ranking-usuarios .metrics {
-  display: flex;
-  gap: var(--sp-3);
-}
-
-.ranking-usuarios .metrics li {
-  list-style: none;
+.usuario-metrics {
   display: flex;
   align-items: center;
-  font-size: var(--fs-6);
-  color: var(--cafe);
+  gap: var(--sp-4);
+  flex: 1 1 250px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.ranking-usuarios .metrics i {
-  margin-right: var(--sp-1);
+.usuario-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 65px;
 }
 
-.ranking-usuarios .rank-actions {
+.usuario-metric i {
+  font-size: 1.2em;
+  color: var(--salvia);
+  margin-bottom: 2px;
+}
+
+.usuario-actions {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: 12px;        /* separación uniforme entre botones */
+  margin-left: auto;
+  min-width: 180px; /* suficiente para 2 botones largos + icono */
+  width: 180px;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
-.ranking-usuarios .rank-actions .btn,
-.ranking-usuarios .rank-actions app-user-link {
-  padding: var(--sp-1) var(--sp-2);
-  font-size: var(--fs-6);
+/* Botón estándar (Agregar amigo / Ver perfil) */
+.usuario-actions .btn,
+.usuario-actions app-user-link button {
+  height: 40px;
+  font-size: 1rem;
+  padding: 0 12px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 5) Títulos de Sección                                      */
-/*───────────────────────────────────────────────────────────*/
+/* Botón SOLO icono: opcional, mismo alto, más estrecho */
+.usuario-actions .btn-icon-only {
+  min-width: 44px;
+  max-width: 44px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Elimina margen por defecto en botones de app-user-link */
+.usuario-actions app-user-link button {
+  margin: 0 !important;
+}
+
+/* FILLER invisible para alinear botones siempre al final si falta uno */
+.usuario-actions .actions-filler {
+  width: 110px; /* igual que el ancho de los botones principales */
+  height: 40px;
+  display: inline-block;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+
+/*─────────────────────────────*/
+/* 5) Títulos                  */
+/*─────────────────────────────*/
 .page-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-2);
   color: var(--cafe);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 7) Responsive                                              */
-/*───────────────────────────────────────────────────────────*/
+/*─────────────────────────────*/
+/* 6) Responsive               */
+/*─────────────────────────────*/
+@media (max-width: 1020px) {
+  .rank-title { max-width: 130px; font-size: 1.01rem; }
+  .user-name { max-width: 85px; }
+  .relato-metric, .usuario-metric { min-width: 50px; }
+}
 @media (max-width: 768px) {
-
   .ranking-relatos .rank-item,
   .ranking-usuarios .rank-item {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    padding: var(--sp-2);
+    gap: var(--sp-2);
   }
-
-  .ranking-usuarios .rank-actions {
+  .relato-header,
+  .usuario-header {
     width: 100%;
-    justify-content: flex-start;
+    margin-bottom: var(--sp-2);
+    gap: var(--sp-2);
+  }
+  .rank-title, .user-name {
+    max-width: 92vw;
+    font-size: 1rem;
+  }
+  .relato-metrics, .usuario-metrics {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--sp-2);
+    gap: var(--sp-2);
+  }
+  .usuario-actions {
+    width: 100%;
+    justify-content: center;
     margin-top: var(--sp-2);
+    gap: var(--sp-1);
   }
+}
+@media (max-width: 450px) {
+  .rank-title, .user-name {
+    max-width: 78vw;
+    font-size: 0.93rem;
+  }
+  .metric-label { font-size: 0.84em; }
+  .rank-pos { font-size: 1.1rem; min-width: 2rem; }
+  .usuario-header { gap: var(--sp-1); }
+}
 
-  .ranking-usuarios .rank-item>.rank-info,
-  .ranking-usuarios .rank-item>.rank-actions {
-    width: 100%;
-  }
+/*─────────────────────────────*/
+/* 7) Utilidad                 */
+/*─────────────────────────────*/
+.status-message {
+  padding: var(--sp-2);
+  color: var(--cafe);
+  font-size: 1.05rem;
 }

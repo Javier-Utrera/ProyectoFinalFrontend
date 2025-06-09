@@ -1,22 +1,14 @@
 <section class="profile-page py-5">
   <div class="container">
-
-    <!-- Título -->
-
-
-    <!-- Mensaje global -->
-    <app-mensaje-alerta [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo" class="mb-4">
-    </app-mensaje-alerta>
-
     <!-- Cargando -->
     @if (cargando) {
     <div class="status-message" role="status">
-      <div class="spinner-border"></div>
+      <app-libro-carga></app-libro-carga>
       <span class="visually-hidden">Cargando perfil…</span>
     </div>
     } @else {
 
-    <h2 class="page-title mb-4">Perfil de {{ usuario.username }}</h2>
+    <!-- <h2 class="page-title mb-4">Perfil de {{ usuario.username }}</h2> -->
 
     <!-- Modo vista -->
     @if (!modoEdicion) {
@@ -24,7 +16,7 @@
       <!-- Datos -->
       <div class="user-data">
         @if (usuario.avatar) {
-        <img [src]="usuario.avatar" alt="Avatar de {{ usuario.username }}" class="avatar img-thumbnail mb-3" />
+        <img class="img-thumbnail mb-3" [src]="usuario.avatar | cloudinaryOpt:400:400" width="400" height="400" alt="Avatar" />
         }
         <p><strong>Usuario:</strong> {{ usuario.username }}</p>
 
@@ -73,22 +65,14 @@
             {{ usuario.suscripcion?.tipo === 'PREMIUM' ? 'Premium' : 'Gratuita' }}
           </p>
 
-          <!-- @if(isOwner && usuario.suscripcion?.tipo === 'FREE'){
-
-          } -->
           <div *ngIf="isOwner && usuario.suscripcion?.tipo === 'FREE'">
-            <app-boton-paypal
-              (pagoAprobado)="onPaypalAprobado($event)"
-              (errorPago)="mensajeGlobal.mostrar('Error al pagar', 'danger')">
+            <app-boton-paypal (pagoAprobado)="onPaypalAprobado($event)"
+              (errorPago)="msj.mostrar('Error al pagar', 'danger')">
             </app-boton-paypal>
           </div>
 
           <div *ngIf="facturaPdfUrl" class="mt-3">
-            <a 
-              class="btn btn-outline-primary" 
-              [href]="facturaPdfUrl" 
-              target="_blank" 
-              rel="noopener">
+            <a class="btn btn-outline-primary" [href]="facturaPdfUrl" target="_blank" rel="noopener">
               Descargar mi factura (PDF)
             </a>
           </div>
@@ -130,88 +114,81 @@
     } @else {
     <!-- Modo edición (solo propietario) -->
     <form [formGroup]="formulario" (ngSubmit)="guardarCambios()" class="edit-form-card mb-5" novalidate>
-      <h3 class="section-subtitle mb-4">
-        Editar perfil
-      </h3>
-
+      <h3 class="section-subtitle mb-4">Editar perfil</h3>
+    
       <!-- Avatar -->
       <div class="mb-3">
         <label for="avatar" class="form-label">Avatar</label>
         <input id="avatar" type="file" class="form-control" (change)="onFileChange($event)" accept="image/*" />
       </div>
-
+    
       <!-- Biografía -->
       <div class="mb-3">
-        <label for="biografia" class="form-label">
-          Biografía
-        </label>
+        <label for="biografia" class="form-label">Biografía</label>
         <textarea id="biografia" class="form-control" formControlName="biografia" rows="3"></textarea>
-        @if (
-        formulario.get('biografia')?.invalid &&
-        formulario.get('biografia')?.touched
-        ) {
-        <div class="text-danger">
+        <div class="text-danger" *ngIf="formulario.get('biografia')?.errors?.['maxlength']">
           Máximo 500 caracteres.
         </div>
-        }
+        <div class="text-danger" *ngIf="formulario.get('biografia')?.errors?.['caracteresInvalidos']">
+          Solo se permiten letras, números, espacios y estos símbolos: . , ; : ! ? ¡ ¿ " ' - ( )<br>
+          También puedes usar saltos de línea.
+        </div>
       </div>
-
+    
       <!-- Fecha de nacimiento -->
       <div class="mb-3">
         <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
         <input id="fecha_nacimiento" type="date" class="form-control" formControlName="fecha_nacimiento" />
-        @if (
-        formulario.get('fecha_nacimiento')?.errors
-        ?.['fechaFutura']
-        ) {
-        <div class="text-danger">
+        <div class="text-danger" *ngIf="formulario.get('fecha_nacimiento')?.errors?.['fechaFutura']">
           La fecha no puede ser futura.
         </div>
-        }
       </div>
-
+    
       <!-- País -->
       <div class="mb-3">
         <label for="pais" class="form-label">País</label>
         <input id="pais" type="text" class="form-control" formControlName="pais" />
-        @if (
-        formulario.get('pais')?.errors?.['pattern'] &&
-        formulario.get('pais')?.touched
-        ) {
-        <div class="text-danger">
-          Solo letras y espacios.
+        <div class="text-danger" *ngIf="formulario.get('pais')?.errors?.['caracteresInvalidos']">
+          Solo se permiten letras y espacios.
         </div>
-        }
       </div>
-
+    
       <!-- Ciudad -->
       <div class="mb-3">
         <label for="ciudad" class="form-label">Ciudad</label>
         <input id="ciudad" type="text" class="form-control" formControlName="ciudad" />
-        @if (
-        formulario.get('ciudad')?.errors?.['pattern'] &&
-        formulario.get('ciudad')?.touched
-        ) {
-        <div class="text-danger">
-          Solo letras y espacios.
+        <div class="text-danger" *ngIf="formulario.get('ciudad')?.errors?.['caracteresInvalidos']">
+          Solo se permiten letras y espacios.
         </div>
-        }
       </div>
-
+    
       <!-- Géneros favoritos -->
       <div class="mb-4">
         <label for="generos" class="form-label">Géneros favoritos</label>
-        <ng-select id="generos" [items]="generosDisponibles" [multiple]="true" [closeOnSelect]="false"
-          [searchable]="true" formControlName="generos_favoritos" placeholder="Selecciona géneros"
-          class="w-100"></ng-select>
+        <ng-select
+          id="generos"
+          [items]="generosDisponibles"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [searchable]="true"
+          formControlName="generos_favoritos"
+          placeholder="Selecciona géneros"
+          class="w-100">
+        </ng-select>
+        <div class="text-danger" *ngIf="formulario.get('generos_favoritos')?.errors?.['caracteresInvalidos']">
+          Solo se permiten letras, comas y espacios.
+        </div>
+        <div class="text-danger" *ngIf="formulario.get('generos_favoritos')?.errors?.['formatoIncorrecto']">
+          Los géneros deben estar separados por comas y no pueden estar vacíos.
+        </div>
       </div>
-
+    
       <!-- Botones -->
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success me-2" [disabled]="formulario.invalid">
+        <button type="submit" class="btn btn-primary me-2" [disabled]="formulario.invalid">
           Guardar
         </button>
-        <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">
+        <button type="button" class="btn btn-danger me-2" (click)="cancelarEdicion()">
           Cancelar
         </button>
       </div>

@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, HostBinding } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Modal } from 'bootstrap';
+import { MensajeGlobalService, ModalConfig } from '../../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-mensaje-alerta',
@@ -6,11 +9,42 @@ import { Component, Input } from '@angular/core';
   templateUrl: './mensaje-alerta.component.html',
   styleUrl: './mensaje-alerta.component.css'
 })
-export class MensajeAlertaComponent {
-  @Input() mensaje: string | null = null;
-  @Input() tipo: 'success' | 'danger' | 'info' | 'warning' = 'info';
+export class MensajeAlertaComponent implements OnInit, OnDestroy {
+  @ViewChild('modal', { static: true }) modalEl!: ElementRef<HTMLDivElement>;
+  private bsModal!: Modal;
+  private sub!: Subscription;
+  config: ModalConfig | null = null;
 
-  cerrar(): void {
-    this.mensaje = null;
+  constructor(private msj: MensajeGlobalService) {}
+
+  ngOnInit() {
+    // Sin backdrop, sin oscurecer fondo
+    this.bsModal = new Modal(this.modalEl.nativeElement, { backdrop: false, keyboard: false });
+
+    this.sub = this.msj.modalState$.subscribe(cfg => {
+      if (!cfg?.isConfirm) return;   // Solo confirmaciones
+      this.config = cfg;
+      this.bsModal.show();
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+    this.bsModal.dispose();
+  }
+
+  cerrar() { this.bsModal.hide(); }
+  aceptar() {
+    this.config?.resolver?.(true);
+    this.bsModal.hide();
+  }
+  cancelar() {
+    this.config?.resolver?.(false);
+    this.bsModal.hide();
+  }
+
+  /** Añade la clase 'confirm' al host si es confirmación */
+  @HostBinding('class.confirm') get isConfirm() {
+    return this.config?.isConfirm === true;
   }
 }

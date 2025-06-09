@@ -1,32 +1,44 @@
-@import "bootstrap-icons/font/bootstrap-icons.css";
+ng-select .ng-dropdown-panel {
+  background-color: #fff !important;
+  padding: 10px;
+}
+
 
 /*───────────────────────────────────────────────────────────*/
 /* 1) VARIABLES GLOBALES                                    */
 /*───────────────────────────────────────────────────────────*/
 :root {
   /* Paleta base */
-  --beige:       #F5E4C3; /* fondo principal */
-  --marfil:      #FAF3E0; /* tonos claros */
-  --cafe:        #8C6A55; /* tonos oscuros/texto */
-  --terracota:   #D7816A; /* acciones destructivas */
-  --salvia:      #A3B18A; /* acciones positivas */
-  --pastel-azul: #A3C4F3; /* color rompedor secundario */
+  --beige: #F5E4C3;
+  /* fondo principal */
+  --marfil: #FAF3E0;
+  /* tonos claros */
+  --marfil-white: #fffdf7;
+  /* tonos muy claros */
+  --cafe: #8C6A55;
+  /* tonos oscuros/texto */
+  --terracota: #D7816A;
+  /* acciones destructivas */
+  --salvia: #A3B18A;
+  /* acciones positivas */
+  --pastel-azul: #A3C4F3;
+  /* color rompedor secundario */
 
   /* Hover/Active */
-  --gristopo-hover:    #EAE4E0;
-  --gristopo-active:   #F2EDE9;
-  --terracota-hover:   #EEC8BF;
-  --terracota-active:  #F2B9A6;
-  --salvia-hover:      #CFD8CE;
-  --salvia-active:     #B8C7B8;
+  --gristopo-hover: #EAE4E0;
+  --gristopo-active: #F2EDE9;
+  --terracota-hover: #EEC8BF;
+  --terracota-active: #F2B9A6;
+  --salvia-hover: #CFD8CE;
+  --salvia-active: #B8C7B8;
   --pastel-azul-hover: #86A7E0;
-  --pastel-azul-active:#698ACD;
+  --pastel-azul-active: #698ACD;
 
   /* Radios y sombras */
-  --radius-sm:   0.25rem;
-  --radius-md:   0.5rem;
-  --shadow-sm:   0 1px 4px rgba(0,0,0,0.05);
-  --shadow-md:   0 2px 6px rgba(0,0,0,0.05);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.05);
 
   /* Tipografía */
   --fs-1: 2.25rem;
@@ -47,110 +59,443 @@
 /*───────────────────────────────────────────────────────────*/
 /* 2) RESET & LAYOUT                                        */
 /*───────────────────────────────────────────────────────────*/
-*, *::before, *::after { box-sizing: border-box; }
-html, body, app-root { height: 100%; margin: 0; scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+app-root {
+  height: 100%;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
 body {
   font: var(--fs-5)/1.6 'Rubik', sans-serif;
   color: var(--cafe);
   background-color: var(--beige);
 }
-.app-container { display: flex; flex-direction: column; min-height: 100vh; }
-.contenido-principal { flex: 1; }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contenido-principal {
+  flex: 1;
+}
 
 /*───────────────────────────────────────────────────────────*/
 /* 3) TIPOGRAFÍA                                            */
 /*───────────────────────────────────────────────────────────*/
-h1,h2,h3,h4,h5,h6 { font-family: 'Playfair Display', serif; margin-bottom: var(--sp-3); }
-h1 { font-size: var(--fs-1); }
-h2 { font-size: var(--fs-2); }
-h3 { font-size: var(--fs-3); margin-bottom: var(--sp-2); }
-h4 { font-size: var(--fs-4); margin-bottom: var(--sp-2); }
-h5 { font-size: var(--fs-5); margin-bottom: var(--sp-2); }
-h6 { font-size: var(--fs-6); margin-bottom: var(--sp-2); }
-p { margin-bottom: var(--sp-3); }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: var(--sp-3);
+}
+
+h1 {
+  font-size: var(--fs-1);
+}
+
+h2 {
+  font-size: var(--fs-2);
+}
+
+h3 {
+  font-size: var(--fs-3);
+  margin-bottom: var(--sp-2);
+}
+
+h4 {
+  font-size: var(--fs-4);
+  margin-bottom: var(--sp-2);
+}
+
+h5 {
+  font-size: var(--fs-5);
+  margin-bottom: var(--sp-2);
+}
+
+h6 {
+  font-size: var(--fs-6);
+  margin-bottom: var(--sp-2);
+}
+
+p {
+  margin-bottom: var(--sp-3);
+}
 
 /* Contraste de texto sobre fondos fuertes */
-.text-on-terracota   { color: var(--marfil); }
-.text-on-salvia      { color: var(--marfil); }
-.text-on-pastel-azul { color: var(--cafe); }
+.text-on-terracota {
+  color: var(--marfil);
+}
+
+.text-on-salvia {
+  color: var(--marfil);
+}
+
+.text-on-pastel-azul {
+  color: var(--cafe);
+}
 
 /*───────────────────────────────────────────────────────────*/
 /* 4) UTILIDADES                                            */
 /*───────────────────────────────────────────────────────────*/
-.m-0            { margin: 0; }
-.mt-1           { margin-top: var(--sp-1); }
-.mt-2           { margin-top: var(--sp-2); }
-.d-flex         { display: flex; }
-.justify-between{ justify-content: space-between; }
-.items-center   { align-items: center; }
-.text-center    { text-align: center; }
-.text-muted     { color: var(--gristopo); }
+.m-0 {
+  margin: 0;
+}
+
+.mt-1 {
+  margin-top: var(--sp-1);
+}
+
+.mt-2 {
+  margin-top: var(--sp-2);
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--gristopo);
+}
 
 /*───────────────────────────────────────────────────────────*/
 /* 5) COMPONENTES BASE                                      */
 /*───────────────────────────────────────────────────────────*/
-.btn { display: inline-block; font-weight: 500; line-height: 1.2; user-select: none;
-  border: 1px solid transparent; border-radius: var(--radius-sm);
-  padding: var(--sp-2) var(--sp-3); font-size: var(--fs-6);
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  line-height: 1.2;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-6);
   transition: background-color .2s, border-color .2s, color .2s;
 }
+
 /* Variantes de botones */
-.btn-primary   { background: var(--salvia);      border-color: var(--salvia);      color: var(--marfil); }
-.btn-secondary { background: var(--pastel-azul); border-color: var(--pastel-azul); color: var(--cafe); }
-.btn-danger    { background: var(--terracota);   border-color: var(--terracota);   color: var(--marfil); }
-.btn-info      { background: var(--marfil);      border-color: var(--marfil);      color: var(--cafe); }
+.btn-primary {
+  background: var(--salvia);
+  border-color: var(--salvia);
+  color: var(--marfil-white);
+}
+
+.btn-secondary {
+  background: var(--pastel-azul);
+  border-color: var(--pastel-azul);
+  color: var(--cafe);
+}
+
+.btn-danger {
+  background: var(--terracota);
+  border-color: var(--terracota);
+  color: var(--marfil-white);
+}
+
+.btn-info {
+  background: var(--marfil);
+  border-color: var(--marfil);
+  color: var(--cafe);
+}
 
 /* Hover & Active */
-.btn-primary:hover   { background: var(--salvia-hover); }
-.btn-primary:active  { background: var(--salvia-active); }
-.btn-secondary:hover { background: var(--pastel-azul-hover); }
-.btn-secondary:active{ background: var(--pastel-azul-active); }
-.btn-danger:hover    { background: var(--terracota-hover); }
-.btn-danger:active   { background: var(--terracota-active); }
-.btn-info:hover      { background: var(--gristopo-hover); }
-.btn-info:active     { background: var(--gristopo-active); }
-
-.card { background: var(--marfil); border: none; border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm); padding: var(--sp-3); margin-bottom: var(--sp-4);
+.btn-primary:hover {
+  background: var(--salvia-hover);
 }
 
-.form-control { width: 100%; padding: var(--sp-2) var(--sp-3);
-  font-size: var(--fs-6); border: 1px solid var(--gristopo); border-radius: var(--radius-sm);
-  background: #fff; color: var(--cafe); transition: border-color .2s;
+.btn-primary:active {
+  background: var(--salvia-active);
 }
-.form-control:focus { border-color: var(--salvia); outline: none;
-  box-shadow: 0 0 0 .2rem rgba(163,177,138,.25); }
+
+.btn-secondary:hover {
+  background: var(--pastel-azul-hover);
+}
+
+.btn-secondary:active {
+  background: var(--pastel-azul-active);
+}
+
+.btn-danger:hover {
+  background: var(--terracota-hover);
+}
+
+.btn-danger:active {
+  background: var(--terracota-active);
+}
+
+.btn-info:hover {
+  background: var(--gristopo-hover);
+}
+
+.btn-info:active {
+  background: var(--gristopo-active);
+}
+
+.card {
+  background: var(--marfil-white);
+  border: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.form-control {
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-6);
+  border: 1px solid var(--gristopo);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--cafe);
+  transition: border-color .2s;
+}
+
+.form-control:focus {
+  border-color: var(--salvia);
+  outline: none;
+  box-shadow: 0 0 0 .2rem rgba(163, 177, 138, .25);
+}
 
 /*───────────────────────────────────────────────────────────*/
 /* 6) NAVBAR                                                */
 /*───────────────────────────────────────────────────────────*/
-.navbar.custom-navbar { background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
-  border-bottom:1px solid var(--gristopo); box-shadow: var(--shadow-sm);
-  position: sticky; top:0; z-index:2000; padding:var(--sp-2) var(--sp-3);
+.navbar.custom-navbar {
+  background: rgba(255, 255, 255, .85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gristopo);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  padding: var(--sp-2) var(--sp-3);
 }
-.navbar.custom-navbar .nav-link { transition: color .2s; }
-.navbar.custom-navbar .nav-link:hover { color: var(--pastel-azul); }
+
+.navbar.custom-navbar .nav-link {
+  transition: color .2s;
+}
+
+.navbar.custom-navbar .nav-link:hover {
+  color: var(--pastel-azul);
+}
 
 /* Admin */
-#navbar-admin { background: linear-gradient(135deg,#f8d7da 0%,#f2b8b8 100%);
-  border-bottom:4px solid var(--terracota); }
-#navbar-admin .navbar-brand::after { content:"ADMIN"; background:var(--terracota);
-  color:#fff; border-radius:var(--radius-sm); padding:var(--sp-1) var(--sp-2); }
+#navbar-admin {
+  background: linear-gradient(135deg, #f8d7da 0%, #f2b8b8 100%);
+  border-bottom: 4px solid var(--terracota);
+}
+
+#navbar-admin .navbar-brand::after {
+  content: "ADMIN";
+  background: var(--terracota);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: var(--sp-1) var(--sp-2);
+}
 
 /* Moderador */
-#navbar-moderador { background: linear-gradient(135deg,#d1ecf1 0%,#a3dbe9 100%);
-  border-bottom:4px solid var(--salvia); }
-#navbar-moderador .navbar-brand::after { content:"MOD"; background:var(--salvia);
-  color:#fff; border-radius:var(--radius-sm); padding:var(--sp-1) var(--sp-2); }
+#navbar-moderador {
+  background: linear-gradient(135deg, #d1ecf1 0%, #a3dbe9 100%);
+  border-bottom: 4px solid var(--salvia);
+}
+
+#navbar-moderador .navbar-brand::after {
+  content: "MOD";
+  background: var(--salvia);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: var(--sp-1) var(--sp-2);
+}
 
 /*───────────────────────────────────────────────────────────*/
 /* 7) CONTENEDOR FLUIDO                                     */
 /*───────────────────────────────────────────────────────────*/
-.container { width:100%; padding:0 var(--sp-3); margin:0 auto; }
-@media(min-width:576px){ .container{ max-width:540px; } }
-@media(min-width:768px){ .container{ max-width:720px; } }
-@media(min-width:992px){ .container{ max-width:960px; } }
-@media(min-width:1200px){ .container{ max-width:1140px; } }
+.container {
+  width: 100%;
+  padding: 0 var(--sp-3);
+  margin: 0 auto;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@media(min-width:576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media(min-width:768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media(min-width:992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media(min-width:1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ──────────────────────────────────────────────────────────── */
+/* 8) TOASTS (Push Notifications) – UNIFICADO Y MEJORADO       */
+/* ──────────────────────────────────────────────────────────── */
+
+/* 8.1) Variables de colores pastel y degradados */
+:root {
+  --toast-danger-bg:   #fd9fa7;
+  --toast-danger-bg2:  #f48b99;
+  --toast-warning-bg:  #fae18f;
+  --toast-warning-bg2: #f6d55c;
+  --toast-info-bg:     var(--pastel-azul);
+  --toast-info-bg2:    #86A7E0;
+  --toast-success-bg:  var(--salvia);
+  --toast-success-bg2: #8ca27a;
+}
+
+/* 8.2) Contenedor y estilos base */
+html body .toast-container {
+  position: fixed;
+  bottom: 0;
+  padding: var(--sp-3);
+  z-index: 3000;
+}
+html body .toast-container.start-0 { left: 1rem; }
+html body .toast-container.end-0   { right: 1rem; }
+
+html body .toast-container .toast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  min-width: clamp(240px, 25vw, 400px);
+  padding: var(--sp-3) var(--sp-4);
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html body .toast-container .toast + .toast {
+  margin-top: var(--sp-3);
+}
+html body .toast-container .toast .toast-body {
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.4;
+  padding: 0 var(--sp-2);
+}
+html body .toast-container .toast .btn-close {
+  margin-left: auto;
+}
+
+/* 8.3) Gradientes según tipo */
+html body .toast-container .toast.text-bg-danger {
+  background-image: linear-gradient(135deg, var(--toast-danger-bg), var(--toast-danger-bg2));
+  color: var(--cafe);
+}
+html body .toast-container .toast.text-bg-warning {
+  background-image: linear-gradient(135deg, var(--toast-warning-bg), var(--toast-warning-bg2));
+  color: var(--cafe);
+}
+html body .toast-container .toast.text-bg-info {
+  background-image: linear-gradient(135deg, var(--toast-info-bg), var(--toast-info-bg2));
+  color: var(--cafe);
+}
+html body .toast-container .toast.text-bg-success {
+  background-image: linear-gradient(135deg, var(--toast-success-bg), var(--toast-success-bg2));
+  color: var(--marfil);
+}
+
+/* 8.4) Keyframes de entrada */
+@keyframes fadeInRight { from { opacity: 0; transform: translateX(100%);} to { opacity: 1; transform: translateX(0);} }
+@keyframes fadeInLeft  { from { opacity: 0; transform: translateX(-100%);} to { opacity: 1; transform: translateX(0);} }
+
+/* 8.5) Keyframes de salida reducida en desktop */
+@keyframes fadeOutRight { from { opacity: 1; transform: translateX(0);} to { opacity: 0; transform: translateX(30%);} }
+@keyframes fadeOutLeft  { from { opacity: 1; transform: translateX(0);} to { opacity: 0; transform: translateX(-30%);} }
+
+/* 8.6) Keyframes de salida mínima en móvil */
+@keyframes fadeOutMobileSmall {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(10px); }
+}
+
+/* 8.7) Animaciones por defecto (4s total: 0.5s in, 3s stay, 0.5s out) */
+html body .toast-container.end-0 .toast {
+  animation: fadeInRight  0.5s ease-out,
+             fadeOutRight 0.5s ease-in 3.5s;
+}
+html body .toast-container.start-0 .toast {
+  animation: fadeInLeft  0.5s ease-out,
+             fadeOutLeft 0.5s ease-in 3.5s;
+}
+
+/* 8.8) Responsive (móvil <576px): ancho completo + salida de 10px */
+@media (max-width: 576px) {
+  html body .toast-container {
+    left: 0 !important;
+    right: 0 !important;
+    padding: var(--sp-2);
+  }
+  html body .toast-container .toast {
+    width: 100%;
+    min-width: auto;
+    border-radius: 0;
+  }
+  html body .toast-container.end-0 .toast {
+    animation: fadeInRight         0.5s ease-out,
+               fadeOutMobileSmall  0.5s ease-in 3.5s !important;
+  }
+  html body .toast-container.start-0 .toast {
+    animation: fadeInLeft          0.5s ease-out,
+               fadeOutMobileSmall  0.5s ease-in 3.5s !important;
+  }
+}
+
+/* 8.9) Responsive tablets (577px–992px): ancho intermedio */
+@media (min-width: 577px) and (max-width: 992px) {
+  html body .toast-container .toast {
+    min-width: clamp(280px, 40vw, 360px);
+  }
+}

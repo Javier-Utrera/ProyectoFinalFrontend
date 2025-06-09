@@ -1,16 +1,19 @@
+// src/app/pages/mis-relatos/mis-relatos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
+import { MensajeGlobalService } from '../../../servicios/mensaje-global/mensaje-global.service';
 import { RelatoCardComponent } from "../../../componentes/relatocard/relatocard.component";
 import { PaginatedResponse, Relato } from '../../../servicios/api-servicios/api.models';
 import { BuscadorComponent } from "../../../componentes/buscador/buscador.component";
+import { LibroCargaComponent } from "../../../componentes/comunes/libro-carga/libro-carga.component";
 
 @Component({
   selector: 'app-mis-relatos',
-  imports: [CommonModule, RelatoCardComponent, BuscadorComponent],
+  imports: [CommonModule, RelatoCardComponent, BuscadorComponent, LibroCargaComponent],
   templateUrl: './mis-relatos.component.html',
-  styleUrl: './mis-relatos.component.css'
+  styleUrls: ['./mis-relatos.component.css']
 })
 export class MisRelatosComponent implements OnInit {
   relatos: Relato[] = [];
@@ -18,14 +21,15 @@ export class MisRelatosComponent implements OnInit {
   loading = true;
 
   page = 1;
-  private readonly itemsPerPage = 5;
+  private readonly itemsPerPage = 6;
   filtrosActivo: any = {};
 
   constructor(
     private api: ApiService,
+    private msj: MensajeGlobalService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -58,7 +62,6 @@ export class MisRelatosComponent implements OnInit {
           this.loading = false;
         },
         error: () => {
-          console.error('Error al obtener mis relatos');
           this.loading = false;
         }
       });
@@ -73,40 +76,37 @@ export class MisRelatosComponent implements OnInit {
   }
 
   marcarListo(id: number): void {
-    this.api.marcarRelatoListo(id).subscribe({
-      next: res => {
-        console.log(res.mensaje);
-        this.loadMisRelatos(); // recargar
-      },
-      error: err => {
-        console.error('Error al marcar como listo:', err);
-      }
-    });
-  }
-
-  eliminarRelato(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este relato?')) {
-      this.api.eliminarRelato(id).subscribe({
-        next: res => {
-          console.log(res.mensaje);
-          this.loadMisRelatos(); // recargar
-        },
-        error: err => {
-          console.error('Error al eliminar:', err);
+    this.api.marcarRelatoListo(id)
+      .subscribe({
+        next: () => this.loadMisRelatos(),
+        error: () => {
         }
       });
-    }
+  }
+
+  async eliminarRelato(id: number): Promise<void> {
+    const confirmado = await this.msj.confirmar('¿Estás seguro de que quieres eliminar este relato?');
+    if (!confirmado) return;
+
+    this.api.eliminarRelato(id)
+      .subscribe({
+        next: () => this.loadMisRelatos(),
+        error: () => {
+        }
+      });
   }
 
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.total / this.itemsPerPage));
   }
+
   prevPage(): void {
     if (this.page > 1) {
       this.page--;
       this.loadMisRelatos();
     }
   }
+
   nextPage(): void {
     if (this.page < this.totalPages) {
       this.page++;
@@ -114,4 +114,3 @@ export class MisRelatosComponent implements OnInit {
     }
   }
 }
-

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { EditorComponent } from '../editor/editor.component';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { Router } from '@angular/router';
+import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
+import { LibroCargaComponent } from "../comunes/libro-carga/libro-carga.component";
 
 @Component({
   selector: 'app-editor-fragmento',
-  standalone: true,
-  imports: [CommonModule, EditorComponent],
+  imports: [CommonModule, EditorComponent, LibroCargaComponent],
   templateUrl: './editor-fragmento.component.html',
   styleUrls: ['./editor-fragmento.component.css']
 })
@@ -15,13 +16,14 @@ export class EditorFragmentoComponent implements OnInit {
   @Input() relatoId!: number;
   @Output() fragmentoListo = new EventEmitter<void>();
 
-  contenidoHtml: string = '';
+  contenidoHtml = '';
   orden!: number;
-  listo: boolean = false;
-  cargando: boolean = true;
+  listo = false;
+  cargando = true;
 
   constructor(
     private api: ApiService,
+    private msj: MensajeGlobalService,
     private router: Router
   ) {}
 
@@ -34,7 +36,6 @@ export class EditorFragmentoComponent implements OnInit {
         this.cargando = false;
       },
       error: () => {
-        console.error('Error al cargar el fragmento');
         this.router.navigate(['/mis-relatos']);
       }
     });
@@ -42,19 +43,23 @@ export class EditorFragmentoComponent implements OnInit {
 
   guardarBorrador(): void {
     this.api.updateMiFragmento(this.relatoId, this.contenidoHtml).subscribe({
-      next: () => alert('Borrador guardado correctamente'),
-      error: err => console.error('Error guardando borrador', err)
+      next: () => {},
+      error: () => {}
     });
   }
 
   marcarListo(): void {
-    this.api.markFragmentReady(this.relatoId).subscribe({
+    this.api.updateMiFragmento(this.relatoId, this.contenidoHtml, true).subscribe({
       next: () => {
-        this.listo = true;
-        alert('Fragmento marcado como listo');
-        this.fragmentoListo.emit();
+        this.api.markFragmentReady(this.relatoId).subscribe({
+          next: () => {
+            this.listo = true;
+            this.fragmentoListo.emit();
+          },
+          error: () => {}
+        });
       },
-      error: err => console.error('Error marcando listo', err)
+      error: () => {}
     });
   }
 }

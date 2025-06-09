@@ -1,0 +1,64 @@
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* Métricas un poco más grandes */
+  .metrics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .metric-square {
+    width: 160px;
+    height: 160px;
+    border-radius: 0.5rem;
+  }
+  .metric-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  .metric-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  
+  /* Doughnut: círculos perfectos y grandes */
+  .chart-circle {
+    width: 360px;
+    height: 360px !important;
+  }
+  
+  /* Lineas */
+  .chart-line {
+    width: 100%;
+    height: 280px !important;
+  }
+  
+  /* Barras */
+  .chart-bar {
+    width: 100%;
+    height: 320px !important;
+  }
+  
+  /* Radar */
+  .chart-radar {
+    width: 380px;
+    height: 380px !important;
+  }
+  
+  /* Cabeceras de card */
+  c-card-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+  
+  /* Sombra suave */
+  c-card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+    border: none;
+  }
+  

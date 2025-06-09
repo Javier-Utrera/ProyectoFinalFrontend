@@ -1,10 +1,14 @@
-@import 'ckeditor5/ckeditor5.css';
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @media print {
 	body {
 		margin: 0 !important;
 	}
+}
+
+#crearRelato {
+	background: none;
+	padding: var(--sp-5);
 }
 
 .main-container {

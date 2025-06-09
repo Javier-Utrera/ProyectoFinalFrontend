@@ -5,8 +5,7 @@
 
 /* ─── Formulario principal ────────────────────────────────────────────────── */
 .buscar-form {
-    /* Opcional: fondo blanco y ligero sombreado para resaltar la búsqueda */
-    background-color: var(--beige);
+    background-color: var(--marfil-white);
     padding: var(--sp-4);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
@@ -40,6 +39,7 @@
 .btn-shadow {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s, box-shadow 0.2s;
+    background-color: var(--pastel-azul);
 }
 
 .btn-shadow:hover {

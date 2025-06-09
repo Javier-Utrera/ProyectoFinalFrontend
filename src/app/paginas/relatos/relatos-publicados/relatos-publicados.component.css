@@ -34,9 +34,11 @@
 /* Grid responsivo de tarjetas */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  /* Cada columna tendrá como mínimo 280px y crecerá hasta llenar el espacio disponible */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--sp-4);
-  justify-content: center;
+  /* Centra el contenido de cada celda */
+  justify-items: center;
 }
 
 /* Ajuste para spinner */

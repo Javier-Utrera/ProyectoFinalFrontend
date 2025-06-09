@@ -29,7 +29,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* capa oscura al 30% */
+  background: #3a2c23b6;
   z-index: 1;
   pointer-events: none;
 }
@@ -119,7 +119,8 @@
 .relato-title {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
-  color: #fff;       /* Blanco para contraste sobre la imagen + overlay */
+  color: #fff;
+  /* Blanco para contraste sobre la imagen + overlay */
   overflow: hidden;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -128,12 +129,14 @@
 /* ─── Meta (lista con idioma, género, estado, fecha) ─────────────────────────── */
 .relato-meta li {
   font-size: var(--fs-6);
-  color: #f0f0f0;    /* Texto claro sobre capa oscura */
+  color: #f0f0f0;
+  /* Texto claro sobre capa oscura */
   margin-bottom: var(--sp-1);
 }
 
 .relato-meta .fecha {
   margin-top: var(--sp-2);
+  color: var(--marfil);
 }
 
 /* ─── Descripción con line‐clamp: máximo 3 líneas ─────────────────────────────── */
@@ -145,7 +148,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: var(--fs-5);
-  color: #f0f0f0;    /* Texto claro sobre capa oscura */
+  color: #f0f0f0;
+  /* Texto claro sobre capa oscura */
   line-height: 1.6;
   margin: 0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
@@ -155,23 +159,35 @@
 .relato-stats {
   margin: var(--sp-3) 0;
   position: relative;
-  z-index: 2;        /* para que quede sobre la imagen */
+  z-index: 2;
+  /* para que quede sobre la imagen */
 }
 
 /* ─── Acciones (botones) ─────────────────────────────────────────────────────── */
 .relato-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-2);
   margin-top: auto;
   position: relative;
   z-index: 2;
 }
 
+/* Grupo de acciones de administrador */
+.admin-actions {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+/* Estilo común a todos los botones */
 .relato-actions .btn {
   font-size: var(--fs-6);
   padding: var(--sp-1) var(--sp-3);
 }
+
 
 /* ─── Hover para botones ──────────────────────────────────────────────────────── */
 .btn-outline-primary:hover {

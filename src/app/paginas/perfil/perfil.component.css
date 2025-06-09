@@ -18,11 +18,6 @@
      margin-bottom: var(--sp-4);
    }
 
-   /* Mensaje global */
-   profile-page app-mensaje-alerta {
-     margin-bottom: var(--sp-4);
-   }
-
    /* Estado de carga */
    .profile-page p {
      text-align: center;
@@ -94,6 +89,7 @@
      MODO EDICIÓN
      ========================== */
 
+
    /* Formulario como tarjeta */
    .edit-form-card {
      background-color: #fff;
@@ -124,31 +120,6 @@
      margin-top: var(--sp-1);
    }
 
-   /* Botones de acción */
-   .edit-form-card .btn-success {
-     background-color: var(--salvia);
-     border-color: var(--salvia);
-     color: var(--marfil);
-     margin-right: var(--sp-2);
-     transition: background-color 0.2s, transform 0.1s;
-   }
-
-   .edit-form-card .btn-success:hover {
-     background-color: var(--salvia-hover);
-     transform: translateY(-1px);
-   }
-
-   .edit-form-card .btn-secondary {
-     background-color: var(--gristopo);
-     border-color: var(--gristopo);
-     color: var(--marfil);
-     transition: background-color 0.2s, transform 0.1s;
-   }
-
-   .edit-form-card .btn-secondary:hover {
-     background-color: var(--gristopo-hover);
-     transform: translateY(-1px);
-   }
 
    /* Botones agrupados a la derecha */
    .edit-form-card .d-flex.justify-content-end {

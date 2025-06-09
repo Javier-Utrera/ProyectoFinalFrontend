@@ -114,3 +114,45 @@ export interface PaginatedResponse<T> {
   previous: string | null;
   results: T[];
 }
+
+export interface DashboardStats {
+  usuarios: {
+    total: number;
+    nuevos_7d: number;
+    por_rol: {
+      administrador: number;
+      moderador: number;
+      cliente: number;
+    };
+  };
+  relatos: {
+    total: number;
+    por_estado: {
+      [estado: string]: number;
+    };
+  };
+  participaciones: number;
+  comentarios: {
+    total: number;
+    votos_comentarios: number;
+  };
+  votos_relatos: {
+    total: number;
+    promedio_puntuacion: number;
+  };
+  amistades: {
+    [estado: string]: number;
+  };
+  suscripciones: {
+    activas: number;
+    por_tipo: {
+      [tipo: string]: number;
+    };
+  };
+  facturas: {
+    ult_mes: { cantidad: number; ingreso: number };
+    total:   { cantidad: number; ingreso: number };
+  };
+  mensajes: number;
+  estadisticas: number;
+}

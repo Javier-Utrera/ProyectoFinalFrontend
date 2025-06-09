@@ -1,0 +1,30 @@
+<div
+  class="toast-container position-fixed p-3 bottom-0"
+  [class.start-0]="containerPos === 'start-0'"
+  [class.end-0]="containerPos === 'end-0'"
+>
+  @for (t of toasts; track t.id) {
+    <div
+      class="toast show align-items-center mb-2"
+      [class.text-bg-success]="t.tipo === 'success'"
+      [class.text-bg-info]   ="t.tipo === 'info'"
+      [class.text-bg-danger] ="t.tipo === 'danger'"
+      [class.text-bg-warning]="t.tipo === 'warning'"
+      role="alert"
+      (click)="remove(t.id)"
+    >
+      <div class="d-flex">
+        <div class="toast-body" [innerHTML]="t.mensaje"></div>
+
+        @if (t.tipo === 'danger' || t.tipo === 'warning') {
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            aria-label="Close"
+            (click)="remove(t.id); $event.stopPropagation()"
+          ></button>
+        }
+      </div>
+    </div>
+  }
+</div>

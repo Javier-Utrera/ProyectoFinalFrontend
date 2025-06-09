@@ -105,7 +105,7 @@
   align-self: flex-start;
   background-color: var(--salvia);
   border-color: var(--salvia);
-  color: var(--marfil);
+  color: var(--marfil-white);
   transition: background-color 0.2s, transform 0.1s;
   margin-top: 1rem;
 }

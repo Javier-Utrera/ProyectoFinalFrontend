@@ -1,21 +1,14 @@
 <div class="estadisticas-relato small">
-
   @if (cargando) {
   <p>Cargando estadísticas…</p>
   } @else if (error) {
   <p class="text-danger">{{ error }}</p>
   } @else if (estadistica) {
   <div class="d-flex flex-wrap justify-content-between align-items-center">
-    <div class="me-3">
-      <strong>Colaboradores:</strong> {{ estadistica.num_colaboradores }}
-    </div>
-    <div class="me-3">
-      <strong>Comentarios:</strong> {{ estadistica.num_comentarios }}
-    </div>
-    <div class="me-3">
-      <strong>Palabras:</strong> {{ estadistica.total_palabras }}
-    </div>
-    <div class="me-3 d-flex align-items-center">
+    <div class="estadistica me-3"><strong>Colaboradores:</strong> {{ estadistica.num_colaboradores }}</div>
+    <div class="estadistica me-3"><strong>Comentarios:</strong> {{ estadistica.num_comentarios }}</div>
+    <div class="estadistica me-3"><strong>Palabras:</strong> {{ estadistica.total_palabras }}</div>
+    <div class="estadistica me-3 d-flex align-items-center">
       <strong class="me-1">Media:</strong>
       @switch(true) {
       @case(estadistica.promedio_votos >= 4) {

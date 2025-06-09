@@ -1,11 +1,9 @@
-<!-- Ranking de Relatos -->
 <section class="ranking-relatos py-5">
   <div class="container">
     <h2 class="page-title text-center mb-4">
       <i class="bi bi-trophy-fill text-warning me-2"></i>
       Ranking de Relatos
     </h2>
-
     @if (cargando) {
     <div class="status-message text-center">
       <div class="spinner-border text-primary"></div>
@@ -24,18 +22,30 @@
     @else {
     <ol class="list-ranking">
       @for (stat of estadisticas; let i = $index; track stat.relato) {
-      <li class="rank-item d-flex flex-column">
-        <div class="header d-flex align-items-center">
+      <li class="rank-item">
+        <div class="relato-header">
           <span class="rank-pos">#{{ i + 1 }}</span>
-          <h5 class="rank-title">{{ stat.titulo }}</h5>
+          <span class="rank-title" [title]="stat.titulo">{{ stat.titulo }}</span>
         </div>
-        <ul class="rank-metrics list-unstyled">
-          <li><i class="bi bi-star-fill text-warning"></i> {{ stat.promedio_votos | number:'1.1-1' }}</li>
-          <li><i class="bi bi-chat-dots-fill text-secondary"></i> {{ stat.num_comentarios }}</li>
-          <li><i class="bi bi-people-fill text-info"></i> {{ stat.num_colaboradores }}</li>
-        </ul>
+        <div class="relato-metrics">
+          <div class="relato-metric">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span class="metric-value">{{ stat.promedio_votos | number:'1.1-1' }}</span>
+            <span class="metric-label">Votos</span>
+          </div>
+          <div class="relato-metric">
+            <i class="bi bi-chat-dots-fill text-secondary"></i>
+            <span class="metric-value">{{ stat.num_comentarios }}</span>
+            <span class="metric-label">Comentarios</span>
+          </div>
+          <div class="relato-metric">
+            <i class="bi bi-people-fill text-info"></i>
+            <span class="metric-value">{{ stat.num_colaboradores }}</span>
+            <span class="metric-label">Autores</span>
+          </div>
+        </div>
         <a [routerLink]="['/relato', stat.relato]" [queryParams]="{ origen: 'publicado' }"
-          class="btn btn-sm btn-outline-primary align-self-center mt-auto">
+          class="btn btn-sm btn-outline-primary ver-relato">
           <i class="bi bi-eye-fill me-1"></i>Ver relato
         </a>
       </li>
@@ -52,7 +62,6 @@
       <i class="bi bi-people-fill text-info me-2"></i>
       Ranking de Usuarios
     </h2>
-
     <!-- Filtros -->
     <div class="btn-group mb-4 justify-content-center">
       <button class="btn btn-outline-primary" [class.active]="filtroUsuarios==='relatos'"
@@ -67,7 +76,6 @@
         <i class="bi bi-type me-1"></i>Palabras
       </button>
     </div>
-
     @if (cargandoUsuarios) {
     <div class="status-message text-center">
       <div class="spinner-border text-info"></div>
@@ -86,29 +94,43 @@
     @else {
     <ol class="list-ranking users-list">
       @for (u of usuarios; let i = $index; track u.id) {
-      <li class="rank-item">
-        <div class="rank-info d-flex align-items-center">
-          <span class="rank-pos me-3">#{{ i + 1 }}</span>
-          <img *ngIf="u.avatar_url" [src]="u.avatar_url" class="avatar rounded-circle me-3" width="40" height="40" />
-          <span class="user-name me-4">{{ u.username }}</span>
-          <ul class="metrics list-unstyled d-flex align-items-center mb-0">
-            <li class="me-3"><i class="bi bi-file-earmark-text"></i> {{ u.total_relatos_publicados }}</li>
-            <li class="me-3"><i class="bi bi-hand-thumbs-up"></i> {{ u.total_votos_recibidos }}</li>
-            <li><i class="bi bi-type"></i> {{ u.total_palabras_escritas }}</li>
-          </ul>
-        </div>
-        <div class="rank-actions d-flex align-items-center">
-          <a [routerLink]="['/relatos-publicados']" [queryParams]="{ autor: u.username, page: 1 }"
-            class="btn btn-primary btn-sm me-2">
-            <i class="bi bi-journal-text"></i>
-          </a>
-          @if (authenticated && u.id !== currentUserId) {
-          <app-user-link [user]="u" [asButton]="true"
-            [label]="friendIds.includes(u.id) ? 'Ver perfil' : 'Agregar amigo'">
-          </app-user-link>
-          }
-        </div>
-      </li>
+        <li class="rank-item">
+          <div class="usuario-header">
+            <span class="rank-pos">#{{ i + 1 }}</span>
+            <img *ngIf="u.avatar_url" [src]="u.avatar_url" class="avatar" width="40" height="40" />
+            <span class="user-name" [title]="u.username">{{ u.username }}</span>
+          </div>
+          <div class="usuario-metrics">
+            <div class="usuario-metric">
+              <i class="bi bi-file-earmark-text"></i>
+              <span class="metric-value">{{ u.total_relatos_publicados }}</span>
+              <span class="metric-label">Relatos</span>
+            </div>
+            <div class="usuario-metric">
+              <i class="bi bi-hand-thumbs-up"></i>
+              <span class="metric-value">{{ u.total_votos_recibidos }}</span>
+              <span class="metric-label">Votos</span>
+            </div>
+            <div class="usuario-metric">
+              <i class="bi bi-type"></i>
+              <span class="metric-value">{{ u.total_palabras_escritas }}</span>
+              <span class="metric-label">Palabras</span>
+            </div>
+          </div>
+          <div class="usuario-actions">
+            <a [routerLink]="['/relatos-publicados']" [queryParams]="{ autor: u.username, page: 1 }"
+              class="btn btn-primary btn-sm">
+              <i class="bi bi-journal-text"></i>
+            </a>
+            @if (authenticated && u.id !== currentUserId) {
+              <app-user-link [user]="u" [asButton]="true"
+                [label]="friendIds.includes(u.id) ? 'Ver perfil' : 'Agregar amigo'">
+              </app-user-link>
+            }
+            <!-- FILLER invisible para cuadrar (solo si hay un solo botón, por ejemplo) -->
+            <span class="actions-filler" *ngIf="!(authenticated && u.id !== currentUserId)"></span>
+          </div>
+        </li>
       }
     </ol>
     }

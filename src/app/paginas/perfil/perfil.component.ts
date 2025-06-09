@@ -1,9 +1,12 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
   Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
   ReactiveFormsModule
 } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -14,36 +17,32 @@ import { AutenticacionService } from '../../servicios/api-autenticacion/autentic
 import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 import { Usuario } from '../../servicios/api-servicios/api.models';
 
-import { MensajeAlertaComponent } from '../../componentes/comunes/mensaje-alerta/mensaje-alerta.component';
-import { BotonPaypalComponent } from "../../componentes/comunes/boton-paypal/boton-paypal.component";
-
-declare var paypal: any;
+import { BotonPaypalComponent } from '../../componentes/comunes/boton-paypal/boton-paypal.component';
+import { LibroCargaComponent } from "../../componentes/comunes/libro-carga/libro-carga.component";
+import { CloudinaryOptPipe } from '../../cloudinary-opt.pipe';
 
 @Component({
   selector: 'app-perfil',
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     NgSelectModule,
-    MensajeAlertaComponent,
-    BotonPaypalComponent
-],
+    BotonPaypalComponent,
+    LibroCargaComponent,
+    ReactiveFormsModule,
+    CloudinaryOptPipe
+  ],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-
   usuario!: Usuario;
-  private currentUser?: Usuario;
+  currentUser?: Usuario;
   isOwner = false;
 
-  error = '';
   cargando = true;
-
   modoEdicion = false;
   formulario!: FormGroup;
   selectedFile: File | null = null;
-
   facturaPdfUrl: string | null = null;
 
   generosDisponibles: string[] = [
@@ -58,34 +57,12 @@ export class PerfilComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    public mensajeGlobal: MensajeGlobalService
+    public msj: MensajeGlobalService
   ) { }
-
-
-  onPaypalAprobado(event: { orderID: string }) {
-    this.api.capturarYCrearSuscripcion({ orderID: event.orderID }).subscribe({
-      next: (res) => {
-        this.mensajeGlobal.mostrar('¡Pago realizado con éxito!', 'success');
-  
-        // Si el backend trae la URL del PDF, la guardamos en facturaPdfUrl
-        if (res.factura && res.factura.pdf_url) {
-          this.facturaPdfUrl = res.factura.pdf_url;
-        }
-  
-        // Refrescamos el perfil para actualizar el estado de suscripción
-        this.ngOnInit();
-      },
-      error: (err) => {
-        this.mensajeGlobal.mostrar('No se pudo activar la suscripción', 'danger');
-      }
-    });
-  }
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     const targetId = idParam ? +idParam : undefined;
-   
-    
 
     if (this.auth.obtenerToken()) {
       this.api.obtenerPerfil().subscribe({
@@ -95,6 +72,7 @@ export class PerfilComponent implements OnInit {
           this.fetchTarget(targetId);
         },
         error: () => {
+          this.msj.mostrar('No se pudo cargar tu sesión', 'danger');
           this.router.navigate(['/']);
         }
       });
@@ -104,27 +82,94 @@ export class PerfilComponent implements OnInit {
   }
 
   private fetchTarget(userId?: number): void {
-    this.api.obtenerPerfil(userId).subscribe({
-      next: perfil => {
-        this.usuario = perfil;
-        console.log('Perfil cargado:', this.usuario);
-        this.cargando = false;
-      },
-      error: err => {
-        this.error = err.error?.error || 'No se pudo cargar el perfil';
-        this.cargando = false;
-        if (err.status === 403 || err.status === 404) {
+    this.api.obtenerPerfil(userId)
+      .subscribe({
+        next: perfil => {
+          this.usuario = perfil;
+          this.cargando = false;
+        },
+        error: () => {
           this.router.navigate(['/']);
         }
-      }
-    });
+      });
   }
+
+  activarEdicion(): void {
+    if (!this.isOwner) return;
+    this.inicializarFormulario();
+    this.modoEdicion = true;
+  }
+
+  cancelarEdicion(): void {
+    this.modoEdicion = false;
+  }
+
+  // ========== VALIDADORES PERSONALIZADOS ==========
+
+  // Valida letras, números, espacios y ciertos símbolos para biografía
+  private biografiaValidator(): ValidatorFn {
+    // Permitidos: letras, números, espacios, . , ; : ! ? ¡ ¿ " ' - ( ) y saltos de línea
+    const regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ0-9 .,;:!?¡¿"'\-\(\)\n\r]*$/;
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      if (valor && !regex.test(valor)) {
+        return { caracteresInvalidos: true };
+      }
+      return null;
+    };
+  }
+
+  // País y ciudad: solo letras y espacios
+  private soloLetrasEspaciosValidator(): ValidatorFn {
+    const regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$/;
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      if (valor && !regex.test(valor)) {
+        return { caracteresInvalidos: true };
+      }
+      return null;
+    };
+  }
+
+  // Géneros favoritos: solo letras, comas, espacios y formato correcto
+  private generosFavoritosValidator(): ValidatorFn {
+    const regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ ,]+$/;
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      if (!valor || valor.length === 0) return null;
+      const joined = Array.isArray(valor) ? valor.join(',') : valor;
+      if (!regex.test(joined)) {
+        return { caracteresInvalidos: true };
+      }
+      // No permitir dobles comas ni géneros vacíos
+      const generos = joined.split(',').map((g: string) => g.trim());
+      if (generos.some((g: string) => !g)) {
+        return { formatoIncorrecto: true };
+      }
+      return null;
+    };
+  }
+
+  // Fecha de nacimiento: no futura
+  private fechaNoFuturaValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+      const hoy = new Date();
+      const val = new Date(control.value);
+      return val > hoy ? { fechaFutura: true } : null;
+    };
+  }
+
+  // ========== FIN VALIDADORES PERSONALIZADOS ==========
 
   private inicializarFormulario(): void {
     this.formulario = this.fb.group({
       biografia: [
         this.usuario.biografia || '',
-        [Validators.maxLength(500)]
+        [
+          Validators.maxLength(500),
+          this.biografiaValidator()
+        ]
       ],
       fecha_nacimiento: [
         this.usuario.fecha_nacimiento || '',
@@ -132,14 +177,17 @@ export class PerfilComponent implements OnInit {
       ],
       pais: [
         this.usuario.pais || '',
-        [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
+        [this.soloLetrasEspaciosValidator()]
       ],
       ciudad: [
         this.usuario.ciudad || '',
-        [Validators.pattern('^[A-Za-záéíóúÁÉÍÓÚñÑ ]*$')]
+        [this.soloLetrasEspaciosValidator()]
       ],
       generos_favoritos: [
-        this.generosIniciales()
+        this.usuario.generos_favoritos
+          ? this.usuario.generos_favoritos.split(',').map(g => g.trim())
+          : [],
+        [this.generosFavoritosValidator()]
       ],
       avatar: [null]
     });
@@ -147,97 +195,54 @@ export class PerfilComponent implements OnInit {
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
+    if (!input.files?.length) return;
     this.selectedFile = input.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
-      this.usuario.avatar = reader.result as string;
-    };
+    reader.onload = () => this.usuario.avatar = reader.result as string;
     reader.readAsDataURL(this.selectedFile);
   }
 
-  private generosIniciales(): string[] {
-    return this.usuario.generos_favoritos
-      ? this.usuario.generos_favoritos.split(',').map(g => g.trim())
-      : [];
-  }
-
-  private fechaNoFuturaValidator() {
-    return (control: any) => {
-      const hoy = new Date();
-      const valor = new Date(control.value);
-      return valor > hoy ? { fechaFutura: true } : null;
-    };
-  }
-
-  activarEdicion(): void {
-    if (!this.isOwner) {
-      return;
-    }
-    this.inicializarFormulario();
-    this.modoEdicion = true;
-  }
-
-  cancelarEdicion(): void {
-    this.modoEdicion = false;
-    this.inicializarFormulario();
-  }
-
   guardarCambios(): void {
-    if (!this.isOwner || this.formulario.invalid) {
-      this.formulario.markAllAsTouched();
-      return;
-    }
+    if (!this.isOwner) return;
+    this.formulario.markAllAsTouched();
+    if (this.formulario.invalid) return;
 
-    const formData = new FormData();
-    const {
-      biografia,
-      fecha_nacimiento,
-      pais,
-      ciudad,
-      generos_favoritos
-    } = this.formulario.value;
-
-    if (biografia) {
-      formData.append('biografia', biografia);
-    }
-    if (fecha_nacimiento) {
-      formData.append('fecha_nacimiento', fecha_nacimiento);
-    }
-    if (pais) {
-      formData.append('pais', pais);
-    }
-    if (ciudad) {
-      formData.append('ciudad', ciudad);
-    }
-    if (generos_favoritos?.length) {
-      formData.append('generos_favoritos', generos_favoritos.join(', '));
-    }
-    if (this.selectedFile) {
-      formData.append('avatar', this.selectedFile);
-    }
-
-    this.api.actualizarPerfil(formData).subscribe({
-      next: res => {
-        this.modoEdicion = false;
-        this.ngOnInit();
-        this.mensajeGlobal.mostrar(
-          res.mensaje || 'Perfil actualizado.',
-          'success'
-        );
-      },
-      error: err => {
-        this.mensajeGlobal.mostrar(
-          err.error?.error || 'Error al actualizar perfil',
-          'danger'
+    const data = new FormData();
+    Object.entries(this.formulario.value).forEach(([key, val]) => {
+      if (val && key !== 'avatar') {
+        data.append(key,
+          Array.isArray(val) ? val.join(', ') : val.toString()
         );
       }
     });
+    if (this.selectedFile) {
+      data.append('avatar', this.selectedFile);
+    }
+
+    this.api.actualizarPerfil(data)
+      .subscribe({
+        next: () => {
+          this.modoEdicion = false;
+          this.fetchTarget();
+        },
+        error: () => {
+        }
+      });
+  }
+
+  onPaypalAprobado(event: { orderID: string }) {
+    this.api.capturarYCrearSuscripcion({ orderID: event.orderID })
+      .subscribe({
+        next: res => {
+          this.msj.mostrar('¡Pago realizado con éxito!', 'success');
+          if (res.factura?.pdf_url) {
+            this.facturaPdfUrl = res.factura.pdf_url;
+          }
+          this.ngOnInit();
+        },
+        error: () => {
+          this.msj.mostrar('No se pudo activar la suscripción', 'danger');
+        }
+      });
   }
 }
-function ngAfterViewInit() {
-  throw new Error('Function not implemented.');
-}
-

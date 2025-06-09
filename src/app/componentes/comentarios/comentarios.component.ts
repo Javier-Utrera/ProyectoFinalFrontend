@@ -14,12 +14,13 @@ import { ApiService } from '../../servicios/api-servicios/api.service';
 import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { UserLinkComponent } from "../user-link/user-link.component";
+import { CloudinaryOptPipe } from "../../cloudinary-opt.pipe";
 
 
 @Component({
   selector: 'app-comentarios',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, UserLinkComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, UserLinkComponent, CloudinaryOptPipe],
   templateUrl: './comentarios.component.html',
   styleUrls: ['./comentarios.component.css']
 })
@@ -63,7 +64,6 @@ export class ComentariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mensajeGlobal.limpiar();
     this.loadComentarios();
 
     if (this.isAuth) {
@@ -77,6 +77,10 @@ export class ComentariosComponent implements OnInit {
         error: () => { }
       });
     }
+  }
+
+  esAutorDelComentario(c: Comentario): boolean {
+    return c.usuario.id === this.currentUserId;
   }
 
   /** True si hay token */
@@ -144,7 +148,7 @@ export class ComentariosComponent implements OnInit {
         this.mensajeGlobal.mostrar('Comentario enviado', 'success');
       },
       error: err => {
-        this.mensajeGlobal.mostrar(err.error?.error || 'Error al enviar', 'danger');
+
       }
     });
   }
@@ -206,10 +210,8 @@ export class ComentariosComponent implements OnInit {
         this.comentariosAmigos = this.comentariosAmigos.filter(x => x.id !== c.id);
         this.comentariosOtros = this.comentariosOtros.filter(x => x.id !== c.id);
         this.hasComentado = false;
-        this.mensajeGlobal.mostrar('Comentario eliminado', 'success');
       },
       error: err => {
-        this.mensajeGlobal.mostrar(err.error?.error || 'Error al eliminar', 'danger');
       }
     });
   }
@@ -217,7 +219,12 @@ export class ComentariosComponent implements OnInit {
   /** Vota positivo o quita voto positivo */
   votarComentario(c: Comentario): void {
     if (!this.isAuth) { this.goToLogin(); return; }
-
+  
+    if (this.esAutorDelComentario(c)) {
+      this.mensajeGlobal.mostrar('No puedes votar tu propio comentario.', 'warning');
+      return;
+    }
+  
     if (c.mi_voto === 1) {
       this.api.eliminarVotoComentario(this.relatoId, c.id).subscribe(updated => {
         c.votos = updated.votos;
@@ -234,9 +241,15 @@ export class ComentariosComponent implements OnInit {
   }
 
   /** Vota negativo o quita voto negativo */
+
   votarAbajoComentario(c: Comentario): void {
     if (!this.isAuth) { this.goToLogin(); return; }
-
+  
+    if (this.esAutorDelComentario(c)) {
+      this.mensajeGlobal.mostrar('No puedes votar tu propio comentario.', 'warning');
+      return;
+    }
+  
     if (c.mi_voto === -1) {
       this.api.eliminarVotoComentario(this.relatoId, c.id).subscribe(updated => {
         c.votos = updated.votos;

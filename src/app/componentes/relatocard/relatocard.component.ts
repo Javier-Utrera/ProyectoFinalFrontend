@@ -6,6 +6,7 @@ import { Relato } from '../../servicios/api-servicios/api.models';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { Router } from '@angular/router';
+import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
 
 @Component({
   selector: 'app-relatocard',
@@ -33,7 +34,8 @@ export class RelatoCardComponent {
   constructor(
     public auth: AutenticacionService,
     private api: ApiService,
-    private router: Router
+    private router: Router,
+    private msj: MensajeGlobalService
   ) { }
 
   get imagenFondo(): string {
@@ -59,24 +61,23 @@ export class RelatoCardComponent {
 
   /** Devuelve true si podemos eliminar este relato */
   get puedeBorrar(): boolean {
-    // admin o moderador
     if (this.auth.hasRole(1, 3)) return true;
-    // o si soy único autor
     if (this.origen === 'mis-relatos' && this.relato.autores.length === 1) {
       return this.relato.autores[0] === this.auth.currentUser?.id;
     }
     return false;
   }
 
-  borrar(): void {
-    if (!confirm('¿Seguro que quieres eliminar este relato?')) return;
+  async borrar(): Promise<void> {
+    const ok = await this.msj.confirmar('¿Seguro que quieres eliminar este relato?');
+    if (!ok) return;
+
     this.api.eliminarRelato(this.relato.id).subscribe({
       next: () => {
-        alert('Relato borrado');
-        // recarga o navega como necesites
         this.router.navigate(['/mis-relatos']);
       },
-      error: err => alert('Error al borrar: ' + err.error?.error || err.message)
+      error: () => {
+      }
     });
   }
 }

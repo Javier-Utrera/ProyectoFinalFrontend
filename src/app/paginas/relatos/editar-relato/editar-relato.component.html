@@ -3,7 +3,11 @@
     <h2 class="page-title mb-4">Datos del Relato</h2>
 
     @if (cargandoMetas) {
-    <p class="text-center">Cargando metadatos...</p>
+    <div class="status-message text-center">
+      <p>Cargando metadatos...</p>
+      <app-libro-carga></app-libro-carga>
+    </div>
+
     } @else {
     @if (esCreador || esModAdmin) {
     <form [formGroup]="formularioMetas" (ngSubmit)="onSubmitMetas()" class="p-4 mb-4">
@@ -60,7 +64,7 @@
     </section>
     }
 
-    @if (esCreador || esModAdmin) {
+    @if (esCreador || esColaborador) {
     <div class="mb-4">
       <app-editor-fragmento [relatoId]="relatoId" (fragmentoListo)="onFragmentoListo()">
       </app-editor-fragmento>
@@ -84,7 +88,7 @@
     </div>
     }
 
-    @if (esColaborador || esCreador || esModAdmin) {
+    @if (esColaborador || esCreador) {
     <button class="chat-toggle-btn" (click)="toggleChat()" [attr.aria-expanded]="chatExpanded" [attr.aria-label]="
         chatExpanded ? 'Cerrar chat' : 'Abrir chat'
       ">

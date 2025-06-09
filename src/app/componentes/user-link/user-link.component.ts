@@ -14,9 +14,9 @@ import { Usuario } from '../../servicios/api-servicios/api.models';
 })
 export class UserLinkComponent implements OnInit {
   @Input() user!: Usuario;
-  @Input() label?: string;   
+  @Input() label?: string;
   @Input() linkClass = '';
-  @Input() asButton = false; 
+  @Input() asButton = false;
 
   friendIds: number[] = [];
   currentUserId: number | null = null;
@@ -25,8 +25,8 @@ export class UserLinkComponent implements OnInit {
     private auth: AutenticacionService,
     private router: Router,
     private api: ApiService,
-    private mensajeGlobal: MensajeGlobalService
-  ) {}
+    private msj: MensajeGlobalService
+  ) { }
 
   get isAuth(): boolean {
     return !!this.auth.obtenerToken();
@@ -45,33 +45,38 @@ export class UserLinkComponent implements OnInit {
     });
   }
 
-  onClick(event: MouseEvent): void {
+  async onClick(event: MouseEvent): Promise<void> {
     event.preventDefault();
+
     if (!this.isAuth) {
       this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
       return;
     }
 
-    // si pincho en mi mismo o ya somos amigos
-    const isSelf = this.user.id === this.currentUserId;
+    const isSelf   = this.user.id === this.currentUserId;
     const isFriend = this.friendIds.includes(this.user.id);
+
     if (isSelf || isFriend) {
       this.router.navigate(['/perfil', this.user.id]);
       return;
     }
 
-    // si no somos amigos le mando colociturd
-    if (confirm(`Para ver el perfil de "${this.user.username}" debes enviarle una solicitud. ¿Continuar?`)) {
-      this.api.enviarSolicitudAmistad(this.user.id).subscribe({
-        next: () => {
-          this.friendIds.push(this.user.id);
-          this.mensajeGlobal.mostrar('Solicitud de amistad enviada', 'success');
-        },
-        error: err => {
-          this.mensajeGlobal.mostrar(err.error?.error || 'Error al enviar solicitud', 'danger');
-        }
-      });
-    }
+    // Confirmación con el modal unificado
+    const ok = await this.msj.confirmar(
+      `Para ver el perfil de "${this.user.username}" debes enviarle una solicitud. ¿Continuar?`
+    );
+    if (!ok) return;
+
+    // Llamada al servicio: él mismo mostrará el toast de éxito o error
+    this.api.enviarSolicitudAmistad(this.user.id).subscribe({
+      next: () => {
+        // Actualizamos localmente para no volver a enviar
+        this.friendIds.push(this.user.id);
+      },
+      error: () => {
+        // El toast de error ya lo muestra handleError()
+      }
+    });
   }
 
   /** Clase dinámica para el botón */

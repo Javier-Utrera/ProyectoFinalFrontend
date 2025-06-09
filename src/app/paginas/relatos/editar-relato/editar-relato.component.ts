@@ -3,29 +3,32 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../servicios/api-servicios/api.service';
 import { EditorFragmentoComponent } from '../../../componentes/editor-fragmento/editor-fragmento.component';
-import { forkJoin, Subject, takeUntil } from 'rxjs';
+import { filter, forkJoin, Subject, take, takeUntil } from 'rxjs';
 import { ParticipacionRelato, Relato } from '../../../servicios/api-servicios/api.models';
 import { AutenticacionService } from '../../../servicios/api-autenticacion/autenticacion.service';
 import { CommonModule } from '@angular/common';
-import { EditorComponent } from "../../../componentes/editor/editor.component";
-import { ChatComponent } from "../../../componentes/chat/chat.component";
+import { EditorComponent } from '../../../componentes/editor/editor.component';
+import { ChatComponent } from '../../../componentes/chat/chat.component';
+import { LibroCargaComponent } from "../../../componentes/comunes/libro-carga/libro-carga.component";
 
 @Component({
   selector: 'app-editar-relato',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     EditorFragmentoComponent,
     EditorComponent,
-    ChatComponent
-  ],
+    ChatComponent,
+    LibroCargaComponent
+],
   templateUrl: './editar-relato.component.html',
   styleUrls: ['./editar-relato.component.css']
 })
 export class EditarRelatoComponent implements OnInit, OnDestroy {
   relatoId!: number;
   relato!: Relato;
-  contenidoFinal: string = '';
+  contenidoFinal = '';
 
   formularioMetas!: FormGroup;
   formularioFinal!: FormGroup;
@@ -50,21 +53,19 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private auth: AutenticacionService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    // 1) Leer el parámetro “id” de la ruta
     this.relatoId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // 2) Suscribirse a currentUser$ para esperar a que el usuario se cargue desde el token
     this.auth.currentUser$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(usuario => {
-        if (usuario) {
-          this.inicializarDatos();
-        } else {
-          console.log('Esperando a que se cargue el usuario...');
-        }
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(usuario => !!usuario),
+        take(1)
+      )
+      .subscribe(() => {
+        this.inicializarDatos();
       });
   }
 
@@ -73,15 +74,9 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  /**
-   * Una vez que hay usuario en memoria, hacemos forkJoin de opciones y relato,
-   * luego determinamos roles y construimos formularios.
-   */
   private inicializarDatos(): void {
-    // 3) Verificar si el usuario es moderador/administrador
     this.verificarAutorizacion();
 
-    // 4) Llamar simultáneamente a getOpcionesRelato() y getRelatoPorId()
     forkJoin({
       opciones: this.apiService.getOpcionesRelato(),
       relato: this.apiService.getRelatoPorId(this.relatoId)
@@ -89,57 +84,38 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ opciones, relato }) => {
-          // 5) Transformar opciones (idiomas y géneros)
           this.idiomas = opciones.idiomas.map(([v, l]) => ({ value: v, label: l }));
           this.generos = opciones.generos.map(([v, l]) => ({ value: v, label: l }));
 
-          // 6) Asignar el objeto Relato
           this.relato = relato;
-
-          // 7) Determinar roles (creador/colaborador) basándonos en participaciones
           this.determineRoles();
-
-          // 8) Construir formularios (sólo si el usuario es creador o moderador)
           this.buildForms();
 
-          // 9) Marcar como cargado (para que la plantilla deje de mostrar spinner)
           this.cargandoMetas = false;
           this.cargandoFinal = false;
         },
-        error: (err) => {
-          console.error('forkJoin ERROR:', err);
+        error: () => {
           this.cargandoMetas = false;
-          // Redirigir o mostrar mensaje de error
           this.router.navigate(['/mis-relatos']);
         }
       });
   }
 
-  /**
-   * Marca esModAdmin = true si el usuario tiene rol 1 (administrador) o 3 (moderador).
-   */
   private verificarAutorizacion(): void {
     this.esModAdmin = this.auth.hasRole(1, 3);
   }
 
-  /**
-   * Determina esCreador y esColaborador en base a las participaciones numéricas.
-   */
   private determineRoles(): void {
     const usuarioActual = this.auth.currentUser!;
-    // 1) ¿Es creador? (participación con orden = 1)
-    const pCreador = this.relato.participaciones
-      .find((p: ParticipacionRelato) => p.orden === 1);
-    this.esCreador = !!pCreador && (pCreador.usuario === usuarioActual.id);
-
-    // 2) ¿Es colaborador? (aparece en cualquier participación)
-    this.esColaborador = this.relato.participaciones
-      .some((p: ParticipacionRelato) => p.usuario === usuarioActual.id);
+    const pCreador = this.relato.participaciones.find(
+      (p: ParticipacionRelato) => p.orden === 1
+    );
+    this.esCreador = !!pCreador && pCreador.usuario === usuarioActual.id;
+    this.esColaborador = this.relato.participaciones.some(
+      (p: ParticipacionRelato) => p.usuario === usuarioActual.id
+    );
   }
 
-  /**
-   * Construye los FormGroup sólo si el usuario es creador o moderador.
-   */
   private buildForms(): void {
     if (this.esCreador || this.esModAdmin) {
       this.formularioMetas = this.fb.group({
@@ -160,26 +136,47 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
 
   onSubmitMetas(): void {
     this.enviadoMetas = true;
-    if (this.formularioMetas.invalid) return;
+    if (this.formularioMetas.invalid) {
+      return;
+    }
 
-    this.apiService.editarRelato(this.relatoId, this.formularioMetas.value)
+    this.apiService
+      .editarRelato(this.relatoId, this.formularioMetas.value)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => alert('Metadatos guardados correctamente'));
+      .subscribe({
+        next: () => {
+          this.enviadoMetas = false;
+        },
+        error: () => {
+          this.enviadoMetas = false;
+        }
+      });
   }
 
   onSubmitFinal(): void {
     this.enviadoFinal = true;
-    if (this.formularioFinal.invalid) return;
+    if (this.formularioFinal.invalid) {
+      return;
+    }
 
     this.formularioFinal.patchValue({ contenido: this.contenidoFinal });
-    this.apiService.editarRelatoFinal(this.relatoId, this.formularioFinal.value)
+    this.apiService
+      .editarRelatoFinal(this.relatoId, this.formularioFinal.value)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => alert('Contenido final guardado correctamente'));
+      .subscribe({
+        next: () => {
+          this.enviadoFinal = false;
+        },
+        error: () => {
+          this.enviadoFinal = false;
+        }
+      });
   }
 
   onFragmentoListo(): void {
     this.router.navigate(['/mis-relatos']);
   }
+
   chatExpanded = false;
   toggleChat(): void {
     this.chatExpanded = !this.chatExpanded;

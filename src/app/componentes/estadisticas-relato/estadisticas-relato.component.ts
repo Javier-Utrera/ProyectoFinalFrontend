@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from '../../servicios/api-servicios/api.service';
 import { Estadistica } from '../../servicios/api-servicios/api.models';
 import { CommonModule } from '@angular/common';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-estadisticas-relato',
@@ -23,15 +24,20 @@ export class EstadisticasRelatoComponent implements OnInit {
 
   private cargarEstadisticas(): void {
     this.cargando = true;
-    this.api.getEstadisticasRelato(this.relatoId).subscribe({
-      next: data => {
-        this.estadistica = data;
+    this.api.getEstadisticasRelatoSilent(this.relatoId)
+      .pipe(
+        catchError(err => {
+          this.error = 'No se pudieron cargar las estadísticas.';
+          this.cargando = false;
+          return of(null);
+        })
+      )
+      .subscribe(data => {
         this.cargando = false;
-      },
-      error: () => {
-        this.error = 'No se pudieron cargar las estadísticas.';
-        this.cargando = false;
-      }
-    });
+        if (data) {
+          this.estadistica = data;
+          this.error = '';
+        }
+      });
   }
 }

@@ -2,10 +2,9 @@
   <div class="container">
     <h3 class="section-subtitle mb-4">Amigos</h3>
 
-    <!-- Estado de carga / vacío -->
     @if (cargando) {
     <div class="status-message" role="status">
-      <div class="spinner-border" role="status"></div>
+      <app-libro-carga></app-libro-carga>
       <span class="visually-hidden">Cargando amigos…</span>
     </div>
     } @else if (amigos.length === 0) {
@@ -13,7 +12,6 @@
       <p>No tienes amigos todavía.</p>
     </div>
     } @else {
-    <!-- Lista de amigos -->
     <ul class="list-group" role="list">
       @for (amigo of amigos; track amigo.id) {
       <li class="list-group-item d-flex align-items-center justify-content-between" role="listitem">
@@ -21,12 +19,14 @@
           @if (amigo.avatar) {
           <img [src]="amigo.avatar" alt="Avatar de {{ amigo.username }}" class="rounded-circle" width="50"
             height="50" />
+          } @else {
+          <i class="bi bi-person-circle fs-2 text-muted me-3"></i>
           }
           <div class="user-details">
-            <strong class="username">{{ amigo.username }}</strong><br />
-            <small class="text-muted">
-              {{ amigo.ciudad }}, {{ amigo.pais }}
-            </small>
+            <app-user-link [user]="amigo" [linkClass]="'fw-bold text-decoration-none'">
+              {{ amigo.username }}
+            </app-user-link><br />
+            <small class="text-muted">{{ amigo.ciudad }}, {{ amigo.pais }}</small>
           </div>
         </div>
         <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarAmigo(amigo.id)">

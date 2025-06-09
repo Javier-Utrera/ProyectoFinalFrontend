@@ -8,7 +8,8 @@
     --primary-d:  #758064;
     --white: hsl(var(--hue),10%,100%);
     --white-d: hsl(var(--hue),10%,45%);
-    display: block;
+    display: inline-block;
+	margin: 0 auto;
   }
   
   /* Reseteo mínimo */
@@ -75,14 +76,6 @@
   .book__pg--3 { animation-name: pg3; }
   .book__pg--4 { animation-name: pg4; }
   .book__pg--5 { animation-name: pg5; }
-
-/* Dark theme */
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bg: hsl(var(--hue),10%,30%);
-		--fg: hsl(var(--hue),10%,90%);
-	}
-}
 
 /* Animations */
 @keyframes cover {

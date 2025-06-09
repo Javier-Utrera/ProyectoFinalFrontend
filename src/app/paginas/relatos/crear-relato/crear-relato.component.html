@@ -1,9 +1,9 @@
-<!-- crear-relato.component.html -->
-<h2>Crear nuevo relato</h2>
 
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="card p-4 mt-3">
+
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()" id="crearRelato" class="card mt-3">
   <!-- Título -->
   <div class="mb-3">
+    <h2>Crear nuevo relato</h2>
     <label class="form-label">Título</label>
     <input type="text" class="form-control" formControlName="titulo" />
     @if (formulario.get('titulo')?.invalid && enviado) {

@@ -3,6 +3,7 @@
 
     @if (cargando) {
     <p class="text-center text-muted">Cargando relato…</p>
+    <app-libro-carga></app-libro-carga>
     }
     @else if (!relato) {
     <p class="text-center text-danger">No se pudo cargar el relato.</p>
@@ -45,13 +46,16 @@
       </button>
     </div>
 
-    <!-- Alertas generales -->
-    <app-mensaje-alerta class="mb-4" [mensaje]="mensajeGlobal.mensaje" [tipo]="mensajeGlobal.tipo"></app-mensaje-alerta>
-
     <!-- Puntuación -->
-    <div class="mb-5 text-center">
-      <app-puntuacion [relatoId]="relato.id"></app-puntuacion>
-    </div>
+    @if (!esColaborador) {
+      <div class="mb-5 text-center">
+        <app-puntuacion [relatoId]="relato.id"></app-puntuacion>
+      </div>
+    } @else {
+      <div class="mb-5 text-center text-muted">
+        <p>No puedes votar relatos en los que participas.</p>
+      </div>
+    }
 
     <!-- Comentarios -->
     <app-comentarios [relatoId]="relato.id"></app-comentarios>
