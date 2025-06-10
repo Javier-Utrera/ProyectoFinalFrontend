@@ -1,14 +1,15 @@
-/*── Sección y contenedor ───────────────────────────────────*/
+/* Sección y contenedor */
 .buscador-usuarios {
   padding: var(--sp-5) 0;
 }
+
 .buscador-usuarios .container {
   max-width: 600px;
   margin: 0 auto;
   padding: 0 var(--sp-3);
 }
 
-/*── Título de sección ──────────────────────────────────────*/
+/* Título de sección */
 .section-subtitle {
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
@@ -17,7 +18,7 @@
   margin-bottom: var(--sp-4);
 }
 
-/*── Formulario de búsqueda ─────────────────────────────────*/
+/* Formulario de búsqueda */
 .form-card {
   background-color: var(--beige);
   border: 1px solid var(--gristopo);
@@ -25,32 +26,39 @@
   box-shadow: var(--shadow-sm);
   padding: var(--sp-4);
 }
+
 .form-card .form-control {
   border-radius: var(--radius-sm);
   padding: var(--sp-2);
 }
+
 .form-card .text-danger {
   font-size: var(--fs-6);
   margin-top: var(--sp-1);
 }
+
 .form-card .btn-primary {
   background-color: var(--salvia);
   border-color: var(--salvia);
   color: var(--marfil);
-  transition: background-color .2s, transform .1s;
+  transition: background-color 0.2s, transform 0.1s;
 }
+
 .form-card .btn-primary:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
 }
+
 .form-card .btn-primary:not(:disabled):hover {
   background-color: var(--salvia-hover);
   transform: translateY(-1px);
 }
+
 .form-card .btn-primary:not(:disabled):active {
   background-color: var(--salvia-active);
 }
 
-/*── Estado de búsqueda ────────────────────────────────────*/
+/* Estado de búsqueda */
 .status-message {
   display: flex;
   flex-direction: column;
@@ -58,18 +66,20 @@
   gap: var(--sp-2);
   margin-bottom: var(--sp-4);
 }
+
 .status-message .spinner-border {
   color: var(--salvia);
   width: 3rem;
   height: 3rem;
 }
 
-/*── Resultados ────────────────────────────────────────────*/
+/* Resultados */
 .resultados-list {
   margin-top: var(--sp-3);
   padding: 0;
   list-style: none;
 }
+
 .user-result {
   background-color: var(--marfil);
   display: flex;
@@ -78,13 +88,14 @@
   border: 1px solid var(--gristopo);
   border-radius: var(--radius-sm);
   margin-bottom: var(--sp-2);
-  transition: background-color .2s;
+  transition: background-color 0.2s;
 }
+
 .user-result:hover {
   background-color: var(--beige);
 }
 
-/* Avatar del resultado */
+/* Avatar */
 .result-avatar {
   width: 48px;
   height: 48px;
@@ -92,7 +103,7 @@
   border: 2px solid var(--marfil);
 }
 
-/* Info de usuario */
+/* Info usuario */
 .user-info {
   font-size: var(--fs-6);
   color: var(--cafe);
@@ -106,17 +117,19 @@
   color: var(--marfil);
   font-size: var(--fs-6);
   padding: var(--sp-1) var(--sp-3);
-  transition: background-color .2s, transform .1s;
+  transition: background-color 0.2s, transform 0.1s;
 }
+
 .user-result .btn-success:hover {
   background-color: var(--salvia-hover);
   transform: translateY(-1px);
 }
+
 .user-result .btn-success:active {
   background-color: var(--salvia-active);
 }
 
-/*── Responsive ────────────────────────────────────────────*/
+/* Responsive */
 @media (max-width: 576px) {
   .user-result {
     flex-direction: column;

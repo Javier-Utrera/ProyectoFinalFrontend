@@ -26,7 +26,17 @@
             <app-user-link [user]="amigo" [linkClass]="'fw-bold text-decoration-none'">
               {{ amigo.username }}
             </app-user-link><br />
-            <small class="text-muted">{{ amigo.ciudad }}, {{ amigo.pais }}</small>
+            <small class="text-muted">
+              @if (amigo.ciudad) {
+                {{ amigo.ciudad }}
+              }
+              @if (amigo.ciudad && amigo.pais) {
+                , 
+              }
+              @if (amigo.pais) {
+                {{ amigo.pais }}
+              }
+            </small>
           </div>
         </div>
         <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarAmigo(amigo.id)">

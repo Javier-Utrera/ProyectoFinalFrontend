@@ -5,19 +5,25 @@
     <form [formGroup]="formulario" (ngSubmit)="buscar()" class="card form-card shadow-sm mb-4" novalidate>
       <div class="mb-3">
         <label for="termino" class="form-label">Nombre de usuario</label>
-        <input id="termino" type="text" formControlName="termino" class="form-control" placeholder="Introduce un nombre"
-          aria-describedby="terminoHelp" />
+        <input
+          id="termino"
+          type="text"
+          formControlName="termino"
+          class="form-control"
+          placeholder="Introduce un nombre"
+          aria-describedby="terminoHelp"
+        />
 
         @if (termino?.invalid && termino?.touched) {
-        @if (termino?.errors?.['required']) {
-        <div class="text-danger">Este campo es obligatorio.</div>
-        }
-        @if (termino?.errors?.['minlength']) {
-        <div class="text-danger">Debe tener al menos 3 caracteres.</div>
-        }
-        @if (termino?.errors?.['pattern']) {
-        <div class="text-danger">Solo letras, números y . + - _ permitidos.</div>
-        }
+          @if (termino?.errors?.['required']) {
+            <div class="text-danger">Este campo es obligatorio.</div>
+          }
+          @if (termino?.errors?.['minlength']) {
+            <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+          }
+          @if (termino?.errors?.['pattern']) {
+            <div class="text-danger">Solo letras, números y . + - _ permitidos.</div>
+          }
         }
       </div>
 
@@ -29,34 +35,49 @@
     </form>
 
     @if (buscando) {
-    <div class="status-message text-center mb-4" role="status">
-      <app-libro-carga></app-libro-carga>
-      <span class="visually-hidden">Buscando usuarios…</span>
-    </div>
+      <div class="status-message text-center mb-4" role="status">
+        <app-libro-carga></app-libro-carga>
+        <span class="visually-hidden">Buscando usuarios…</span>
+      </div>
     } @else if (mensajeNoEncontrado) {
-    <p class="text-center text-muted mb-4">{{ mensajeNoEncontrado }}</p>
+      <p class="text-center text-muted mb-4">{{ mensajeNoEncontrado }}</p>
     }
 
     @if (resultados.length > 0) {
-    <ul class="list-group resultados-list">
-      @for (usuario of resultados; track usuario.id) {
-      <li class="list-group-item user-result d-flex align-items-center">
-        @if (usuario.avatar) {
-        <img [src]="usuario.avatar | cloudinaryOpt:48:48" alt="{{ usuario.username }}"
-          class="result-avatar rounded-circle me-3" width="48" height="48" />
-        } @else {
-        <i class="bi bi-person-circle fs-2 text-muted me-3"></i>
+      <ul class="list-group resultados-list">
+        @for (usuario of resultados; track usuario.id) {
+          <li class="list-group-item user-result d-flex align-items-center">
+            @if (usuario.avatar) {
+              <img
+                [src]="usuario.avatar | cloudinaryOpt:48:48"
+                alt="{{ usuario.username }}"
+                class="result-avatar rounded-circle me-3"
+                width="48"
+                height="48"
+              />
+            } @else {
+              <i class="bi bi-person-circle fs-2 text-muted me-3"></i>
+            }
+            <div class="user-info flex-grow-1">
+              <strong>{{ usuario.username }}</strong><br />
+              <small class="text-muted">
+                @if (usuario.pais) {
+                  {{ usuario.pais }}
+                }
+                @if (usuario.pais && usuario.ciudad) {
+                  — 
+                }
+                @if (usuario.ciudad) {
+                  {{ usuario.ciudad }}
+                }
+              </small>
+            </div>
+            <button type="button" class="btn btn-success btn-sm" (click)="enviarSolicitud(usuario.id)">
+              <i class="bi bi-person-plus-fill me-1"></i>Solicitar
+            </button>
+          </li>
         }
-        <div class="user-info flex-grow-1">
-          <strong>{{ usuario.username }}</strong><br />
-          <small class="text-muted">{{ usuario.pais }} — {{ usuario.ciudad }}</small>
-        </div>
-        <button type="button" class="btn btn-success btn-sm" (click)="enviarSolicitud(usuario.id)">
-          <i class="bi bi-person-plus-fill me-1"></i>Solicitar
-        </button>
-      </li>
-      }
-    </ul>
+      </ul>
     }
   </div>
 </section>

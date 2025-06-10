@@ -29,8 +29,17 @@
           <div class="user-details">
             <strong class="username">{{ s.de_usuario.username }}</strong><br />
             <small class="location text-muted">
-              {{ s.de_usuario.ciudad }}, {{ s.de_usuario.pais }}
+              @if (s.de_usuario.ciudad) {
+                {{ s.de_usuario.ciudad }}
+              }
+              @if (s.de_usuario.ciudad && s.de_usuario.pais) {
+                , 
+              }
+              @if (s.de_usuario.pais) {
+                {{ s.de_usuario.pais }}
+              }
             </small>
+            
           </div>
         </div>
         <div class="actions-group d-flex gap-2">

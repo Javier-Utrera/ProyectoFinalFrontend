@@ -1,71 +1,192 @@
-/*───────────────────────────────────────────────────────────*/
-/* 1) Contenedor general                                     */
-/*───────────────────────────────────────────────────────────*/
 .app-gestor-amistades {
     background-color: var(--marfil);
-    padding: var(--sp-4);
-    border: 1px solid var(--gristopo);
+    padding: 2rem;
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+    max-width: 900px;
+    margin: 3rem auto;
+    font-family: 'Rubik', sans-serif;
+    position: relative;
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 2) Pestañas (nav tabs)                                    */
-/*───────────────────────────────────────────────────────────*/
+/* Hamburguesa */
+.hamburger-btn {
+    display: none;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.hamburger-btn span {
+    display: block;
+    height: 3px;
+    background-color: var(--cafe);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn span.open:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger-btn span.open:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn span.open:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Pestañas */
 .app-gestor-amistades .nav-tabs {
-    border-bottom: 2px solid var(--gristopo);
-    margin-bottom: var(--sp-4);
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    background-color: #f7f4ec;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    box-shadow: inset 0 -2px 0 #d4c9a0;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    max-height: 1000px;
+    /* visible por defecto */
+}
+
+.app-gestor-amistades .nav-tabs.show {
+    max-height: 1000px;
+}
+
+/* Cuando el menú está cerrado (sin .show) - móvil */
+.app-gestor-amistades .nav-tabs:not(.show) {
+    max-height: 60px;
+    overflow: visible;
+    position: relative;
+    padding-left: 1rem;
+    padding-right: 4rem;
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+/* Ocultar todas las pestañas excepto la activa */
+.app-gestor-amistades .nav-tabs:not(.show) .nav-item {
+    flex: 0 0 0;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Mostrar solo el <li> activo con más espacio */
+.app-gestor-amistades .nav-tabs:not(.show) .nav-item.active-item {
+    display: flex;
+    max-width: none;
+    min-width: 180px;
+    opacity: 1;
+    overflow: visible;
+    margin-right: 1rem;
+    justify-content: center;
+}
+
+/* Mostrar botón activo correctamente */
+.app-gestor-amistades .nav-tabs:not(.show) .nav-item.active-item .nav-link.active {
+    padding-left: 0;
+    padding-right: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    color: var(--salvia);
+    border-bottom-color: var(--salvia);
+    cursor: pointer;
+}
+
+/* Forzar pestañas visibles en desktop siempre */
+@media (min-width: 577px) {
+    .app-gestor-amistades .nav-tabs {
+        max-height: 1000px !important;
+        overflow: visible !important;
+        justify-content: center !important;
+    }
+
+    /* Mostrar todas las pestañas normalmente */
+    .app-gestor-amistades .nav-tabs:not(.show) .nav-item {
+        flex: initial;
+        max-width: none;
+        opacity: 1;
+        overflow: visible;
+    }
+
+    .app-gestor-amistades .nav-tabs:not(.show) .nav-item .nav-link.active {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+    }
 }
 
 .app-gestor-amistades .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
     color: var(--cafe);
-    font-family: 'Rubik', sans-serif;
-    padding: var(--sp-2) var(--sp-3);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    transition: background-color .2s, color .2s;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    background-color: transparent;
 }
 
 .app-gestor-amistades .nav-link:hover {
-    background-color: var(--beige);
-}
-
-.app-gestor-amistades .nav-link.active {
-    background-color: #fff;
-    border-color: var(--gristopo) var(--gristopo) #fff;
     color: var(--salvia);
 }
 
-/*───────────────────────────────────────────────────────────*/
-/* 3) Contenido de pestañas                                  */
-/*───────────────────────────────────────────────────────────*/
+.app-gestor-amistades .nav-link.active {
+    border-bottom-color: var(--salvia);
+    color: var(--salvia);
+    font-weight: 600;
+}
+
+/* Contenido pestañas */
 .app-gestor-amistades .tab-content {
     background-color: #fff;
-    border: 1px solid var(--gristopo);
-    border-top: none;
+    padding: 2rem;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
-    padding: var(--sp-4);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    min-height: 320px;
 }
 
-.app-gestor-amistades .tab-pane {
-    display: block;
-    /* siempre visible la activa */
-}
-
-/*───────────────────────────────────────────────────────────*/
-/* 4) Responsive                                             */
-/*───────────────────────────────────────────────────────────*/
+/* Responsive */
 @media (max-width: 576px) {
+    .hamburger-btn {
+        display: flex;
+    }
+
     .app-gestor-amistades .nav-tabs {
-        flex-wrap: wrap;
+        flex-direction: column;
+        max-height: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .app-gestor-amistades .nav-item {
-        flex: 1 1 50%;
-        text-align: center;
+        width: 100%;
     }
 
     .app-gestor-amistades .nav-link {
-        margin-bottom: var(--sp-1);
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        width: 100%;
+        text-align: left;
     }
 }

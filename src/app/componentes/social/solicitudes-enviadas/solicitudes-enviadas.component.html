@@ -27,7 +27,15 @@
         <div class="user-details">
           <strong class="username">{{ solicitud.a_usuario.username }}</strong><br />
           <small class="location text-muted">
-            {{ solicitud.a_usuario.ciudad }}, {{ solicitud.a_usuario.pais }}
+            @if (solicitud.a_usuario.ciudad) {
+              {{ solicitud.a_usuario.ciudad }}
+            }
+            @if (solicitud.a_usuario.ciudad && solicitud.a_usuario.pais) {
+              , 
+            }
+            @if (solicitud.a_usuario.pais) {
+              {{ solicitud.a_usuario.pais }}
+            }
           </small>
         </div>
       </li>

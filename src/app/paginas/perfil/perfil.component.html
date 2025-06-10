@@ -71,10 +71,10 @@
             </app-boton-paypal>
           </div>
 
-          <div *ngIf="facturaPdfUrl" class="mt-3">
-            <a class="btn btn-outline-primary" [href]="facturaPdfUrl" target="_blank" rel="noopener">
+          <div *ngIf="facturaPdfUrl" class="d-flex justify-content-center mt-3">
+            <button class="btn btn-secondary me-2" (click)="descargarFactura()">
               Descargar mi factura (PDF)
-            </a>
+            </button>
           </div>
 
 

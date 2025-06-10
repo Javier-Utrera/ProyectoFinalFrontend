@@ -245,4 +245,30 @@ export class PerfilComponent implements OnInit {
         }
       });
   }
+
+  descargarFactura(): void {
+    if (!this.facturaPdfUrl) return;
+  
+    // Extraer el nombre base del archivo (último segmento de la URL)
+    const partes = this.facturaPdfUrl.split('/');
+    const nombreArchivoBase = partes[partes.length - 1];
+    const nombreArchivoConExtension = `${nombreArchivoBase}.pdf`;
+  
+    fetch(this.facturaPdfUrl)
+      .then(response => {
+        if (!response.ok) throw new Error('Error al descargar el PDF');
+        return response.blob();
+      })
+      .then(blob => {
+        const urlBlob = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = urlBlob;
+        link.download = nombreArchivoConExtension;  // nombre + .pdf
+        link.click();
+        window.URL.revokeObjectURL(urlBlob);
+      })
+      .catch(() => {
+        this.msj.mostrar('Error al descargar la factura', 'danger');
+      });
+  }
 }
