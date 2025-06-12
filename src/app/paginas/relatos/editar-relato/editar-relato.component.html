@@ -15,8 +15,12 @@
       <div class="mb-3">
         <label>Título</label>
         <input formControlName="titulo" class="form-control" />
-        @if (enviadoMetas && formularioMetas.get('titulo')?.invalid) {
-        <div class="text-danger">Mínimo 3 caracteres.</div>
+        @if ((formularioMetas.get('titulo')?.touched || enviadoMetas) && formularioMetas.get('titulo')?.errors?.['required']) {
+          <div class="text-danger">El título es obligatorio.</div>
+        } @else if ((formularioMetas.get('titulo')?.touched || enviadoMetas) && formularioMetas.get('titulo')?.errors?.['minlength']) {
+          <div class="text-danger">Mínimo 3 caracteres.</div>
+        } @else if ((formularioMetas.get('titulo')?.touched || enviadoMetas) && formularioMetas.get('titulo')?.errors?.['maxlength']) {
+          <div class="text-danger">Máximo 100 caracteres.</div>
         }
       </div>
       <!-- Descripción -->
@@ -66,8 +70,12 @@
 
     @if (esCreador || esColaborador) {
     <div class="mb-4">
-      <app-editor-fragmento [relatoId]="relatoId" (fragmentoListo)="onFragmentoListo()">
-      </app-editor-fragmento>
+      <app-editor-fragmento
+      [relatoId]="relatoId"
+      [relato]="relato"
+      (fragmentoListo)="onFragmentoListo()"
+    >
+    </app-editor-fragmento>
     </div>
     }
 

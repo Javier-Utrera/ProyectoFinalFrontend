@@ -1,13 +1,15 @@
-
-
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()" id="crearRelato" class="card mt-3">
   <!-- Título -->
   <div class="mb-3">
     <h2>Crear nuevo relato</h2>
     <label class="form-label">Título</label>
     <input type="text" class="form-control" formControlName="titulo" />
-    @if (formulario.get('titulo')?.invalid && enviado) {
-    <div class="text-danger">Debe tener al menos 3 caracteres.</div>
+    @if ((formulario.get('titulo')?.touched || enviado) && formulario.get('titulo')?.errors?.['minlength']) {
+      <div class="text-danger">El título debe tener al menos 3 caracteres.</div>
+    } @else if ((formulario.get('titulo')?.touched || enviado) && formulario.get('titulo')?.errors?.['maxlength']) {
+      <div class="text-danger">El título no puede superar los 100 caracteres.</div>
+    } @else if ((formulario.get('titulo')?.touched || enviado) && formulario.get('titulo')?.errors?.['required']) {
+      <div class="text-danger">El título es obligatorio.</div>
     }
   </div>
 
@@ -15,14 +17,19 @@
   <div class="mb-3">
     <label class="form-label">Descripción</label>
     <textarea class="form-control" formControlName="descripcion" rows="3"></textarea>
-    @if (formulario.get('descripcion')?.invalid && enviado) {
-    <div class="text-danger">Debe tener al menos 10 caracteres.</div>
+    @if ((formulario.get('descripcion')?.touched || enviado) && formulario.get('descripcion')?.errors?.['required']) {
+      <div class="text-danger">La descripción es obligatoria.</div>
+    } @else if ((formulario.get('descripcion')?.touched || enviado) && formulario.get('descripcion')?.errors?.['minlength']) {
+      <div class="text-danger">Debe tener al menos 10 caracteres.</div>
     }
   </div>
 
   <!-- Contenido -->
   <div class="mb-3">
     <label class="form-label">Contenido (opcional)</label>
+    <small class="form-text text-muted">
+      Este texto será lo primero que aparezca en el relato, antes de los fragmentos de los colaboradores.
+    </small>
     <app-editor [(model)]="contenidoHtml"></app-editor>
   </div>
 
@@ -35,8 +42,8 @@
       <option [value]="i.value">{{ i.label }}</option>
       }
     </select>
-    @if (formulario.get('idioma')?.invalid && enviado) {
-    <div class="text-danger">Este campo es obligatorio.</div>
+    @if ((formulario.get('idioma')?.touched || enviado) && formulario.get('idioma')?.errors?.['required']) {
+      <div class="text-danger">Este campo es obligatorio.</div>
     }
   </div>
 
@@ -55,8 +62,8 @@
   <div class="mb-3">
     <label class="form-label">Número de escritores</label>
     <input type="number" class="form-control" formControlName="num_escritores" min="1" max="4" />
-    @if (formulario.get('num_escritores')?.invalid && enviado) {
-    <div class="text-danger">Debe ser entre 1 y 4 escritores.</div>
+    @if ((formulario.get('num_escritores')?.touched || enviado) && formulario.get('num_escritores')?.invalid) {
+      <div class="text-danger">Debe ser entre 1 y 4 escritores.</div>
     }
   </div>
 

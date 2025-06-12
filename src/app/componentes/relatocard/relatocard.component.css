@@ -120,11 +120,16 @@
   font-family: 'Playfair Display', serif;
   font-size: var(--fs-3);
   color: #fff;
-  /* Blanco para contraste sobre la imagen + overlay */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  white-space: nowrap;
+  text-overflow: ellipsis;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  line-height: 1.2;
+  min-height: calc(1.2em * 2);
 }
+
 
 /* ─── Meta (lista con idioma, género, estado, fecha) ─────────────────────────── */
 .relato-meta li {
@@ -142,17 +147,16 @@
 /* ─── Descripción con line‐clamp: máximo 3 líneas ─────────────────────────────── */
 .description-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 3;              /* máximo 3 líneas */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: var(--fs-5);
   color: #f0f0f0;
-  /* Texto claro sobre capa oscura */
   line-height: 1.6;
   margin: 0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  min-height: calc(1.6em * 3);        /* asegura altura fija */
 }
 
 /* ─── Estadísticas ───────────────────────────────────────────────────────────── */
@@ -215,8 +219,17 @@
   .relato-card {
     max-width: 100%;
   }
+  .relato-title {
+    -webkit-line-clamp: 3;
+    min-height: calc(1.2em * 3);
+  }
 
   .relato-actions {
     justify-content: center;
+  }
+
+  .description-clamp {
+    -webkit-line-clamp: 4;
+    min-height: calc(1.6em * 4);
   }
 }

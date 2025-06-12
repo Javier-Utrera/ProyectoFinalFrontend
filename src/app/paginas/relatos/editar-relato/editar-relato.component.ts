@@ -119,7 +119,7 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
   private buildForms(): void {
     if (this.esCreador || this.esModAdmin) {
       this.formularioMetas = this.fb.group({
-        titulo: [this.relato.titulo, [Validators.required, Validators.minLength(3)]],
+        titulo: [this.relato.titulo, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
         descripcion: [this.relato.descripcion, [Validators.required, Validators.minLength(10)]],
         idioma: [this.relato.idioma, [Validators.required]],
         generos: [this.relato.generos]
@@ -129,7 +129,7 @@ export class EditarRelatoComponent implements OnInit, OnDestroy {
     if (this.esModAdmin) {
       this.contenidoFinal = this.relato.contenido || '';
       this.formularioFinal = this.fb.group({
-        contenido: [this.contenidoFinal, [Validators.required, Validators.minLength(10)]]
+        contenido: [this.contenidoFinal]
       });
     }
   }

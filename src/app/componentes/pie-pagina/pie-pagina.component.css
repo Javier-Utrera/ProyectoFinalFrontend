@@ -1,46 +1,44 @@
 .custom-footer {
   background-color: var(--cafe);
   color: var(--marfil);
-  padding: var(--sp-5) 0 var(--sp-4);
-  font-size: var(--fs-6);
+  font-size: 0.95rem;
+  padding: 3rem 0;
 }
 
 .custom-footer h5 {
   font-family: 'Playfair Display', serif;
-  font-size: var(--fs-4);
-  margin-bottom: var(--sp-2);
+  font-size: 1.2rem;
   color: var(--marfil);
+  margin-bottom: 1rem;
 }
 
 .custom-footer p,
 .custom-footer li {
   color: var(--marfil);
-  margin-bottom: var(--sp-2);
+  margin-bottom: 0.5rem;
 }
 
-.custom-footer a {
-  color: var(--terracota);
+.footer-links a {
+  color: var(--marfil);
   text-decoration: none;
-  transition: color 0.2s;
+  display: block;
+  transition: color 0.2s ease;
 }
-
-.custom-footer a:hover {
-  color: var(--salvia);
+.footer-links a:hover {
+  color: var(--terracota);
+  text-decoration: underline;
 }
 
 /* Newsletter */
-.newsletter-form .input-group {
-  display: flex;
-}
 .newsletter-form .form-control {
   border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  border: 1px solid #ccc;
 }
 .newsletter-form .btn-secondary {
   background-color: var(--pastel-azul);
-  border-color: var(--pastel-azul);
+  border: none;
   color: var(--cafe);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  transition: background-color 0.2s;
 }
 .newsletter-form .btn-secondary:hover {
   background-color: var(--pastel-azul-hover);
@@ -54,30 +52,29 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Footer bottom */
+/* Footer inferior */
 .footer-bottom {
-  border-top: 1px solid var(--salvia);
-  padding-top: var(--sp-2);
+  color: var(--marfil);
 }
 
 .social-links a {
-  margin-left: var(--sp-3);
-  font-size: 1.25rem;
   color: var(--marfil);
-  transition: color 0.2s;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  transition: color 0.2s ease;
 }
 .social-links a:hover {
   color: var(--terracota);
 }
 
-/* Responsive tweaks */
+/* Responsive */
 @media (max-width: 576px) {
   .footer-bottom {
     flex-direction: column;
-    gap: var(--sp-2);
+    gap: 0.5rem;
     text-align: center;
   }
   .social-links {
-    margin-top: var(--sp-2);
+    margin-top: 0.5rem;
   }
 }

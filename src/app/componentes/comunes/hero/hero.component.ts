@@ -12,7 +12,7 @@ export class HeroComponent implements AfterViewInit {
 
   constructor(private readonly renderer: Renderer2) {}
 
-  ngAfterViewInit(): void { /* TODO document why this method 'ngAfterViewInit' is empty */ }
+  ngAfterViewInit(): void { }
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

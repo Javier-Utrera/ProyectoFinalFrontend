@@ -375,7 +375,7 @@ body {
 }
 
 /* ──────────────────────────────────────────────────────────── */
-/* 8) TOASTS (Push Notifications) – UNIFICADO Y MEJORADO       */
+/* 8) TOASTS (Push Notifications)                               */
 /* ──────────────────────────────────────────────────────────── */
 
 /* 8.1) Variables de colores pastel y degradados */
@@ -399,6 +399,8 @@ html body .toast-container {
 }
 html body .toast-container.start-0 { left: 1rem; }
 html body .toast-container.end-0   { right: 1rem; }
+
+html body .toast-container.top-0 { top: 1rem; } 
 
 html body .toast-container .toast {
   display: flex;

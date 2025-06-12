@@ -44,51 +44,88 @@
         </div>
 
         <!-- Password1 -->
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
           <label for="password1" class="form-label">Contraseña</label>
-          <input id="password1" type="password" formControlName="password1" class="form-control"
-            (keydown)="onKeyEvent($event)" (keyup)="onKeyEvent($event)" />
+          <input
+            id="password1"
+            [type]="mostrarPassword1 ? 'text' : 'password'"
+            formControlName="password1"
+            class="form-control"
+            (keydown)="onKeyEvent($event)"
+            (keyup)="onKeyEvent($event)"
+          />
+          <i
+            class="bi"
+            [ngClass]="mostrarPassword1 ? 'bi-eye-slash' : 'bi-eye'"
+            (click)="mostrarPassword1 = !mostrarPassword1"
+            style="position: absolute; right: 10px; top: 38px; cursor: pointer;"
+          ></i>
+        
+          <!-- CapsLock -->
           @if (capsLockOn) {
-          <div class="text-warning mt-1">Atención: CapsLock activado</div>
+            <div class="text-warning mt-1">Atención: CapsLock activado</div>
           }
+        
+          <!-- Errores -->
           @if (
-          formulario.get('password1')?.invalid &&
-          formulario.get('password1')?.touched &&
-          !erroresBack['password1']
+            formulario.get('password1')?.invalid &&
+            formulario.get('password1')?.touched &&
+            !erroresBack['password1']
           ) {
-          <div class="text-danger mt-1">La contraseña es obligatoria</div>
+            <div class="text-danger mt-1">La contraseña es obligatoria</div>
           }
           @if (erroresBack['password1'] || erroresBack['password']) {
-          <div class="text-danger mt-1">
-            {{ erroresBack['password1'] || erroresBack['password'] }}
-          </div>
+            <div class="text-danger mt-1">
+              {{ erroresBack['password1'] || erroresBack['password'] }}
+            </div>
           }
+        
+          <!-- Ayuda visible -->
+          <ul class="form-text mt-1 mb-0 ps-3 small">
+            <li>Al menos 8 caracteres</li>
+            <li>Una letra mayúscula</li>
+            <li>Una letra minúscula</li>
+            <li>Un número</li>
+          </ul>
         </div>
 
         <!-- Password2 -->
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
           <label for="password2" class="form-label">Confirmar contraseña</label>
-          <input id="password2" type="password" formControlName="password2" class="form-control" />
+          <input
+            id="password2"
+            [type]="mostrarPassword2 ? 'text' : 'password'"
+            formControlName="password2"
+            class="form-control"
+          />
+          <i
+            class="bi"
+            [ngClass]="mostrarPassword2 ? 'bi-eye-slash' : 'bi-eye'"
+            (click)="mostrarPassword2 = !mostrarPassword2"
+            style="position: absolute; right: 10px; top: 38px; cursor: pointer;"
+          ></i>
           @if (
-          formulario.errors?.['passwordMismatch'] &&
-          formulario.get('password2')?.touched &&
-          !erroresBack['password2']
+            formulario.errors?.['passwordMismatch'] &&
+            formulario.get('password2')?.touched &&
+            !erroresBack['password2']
           ) {
-          <div class="text-danger mt-1">Las contraseñas no coinciden</div>
+            <div class="text-danger mt-1">Las contraseñas no coinciden</div>
           }
           @if (
-          formulario.get('password2')?.invalid &&
-          formulario.get('password2')?.touched &&
-          !erroresBack['password2']
+            formulario.get('password2')?.invalid &&
+            formulario.get('password2')?.touched &&
+            !erroresBack['password2']
           ) {
-          <div class="text-danger mt-1">Debes confirmar la contraseña</div>
+            <div class="text-danger mt-1">Debes confirmar la contraseña</div>
           }
           @if (erroresBack['password2']) {
-          <div class="text-danger mt-1">{{ erroresBack['password2'] }}</div>
+            <div class="text-danger mt-1">{{ erroresBack['password2'] }}</div>
           }
         </div>
 
-        <button type="submit" class="btn btn-submit w-100">Registrarse</button>
+        <button type="submit" class="btn btn-submit w-100" [disabled]="formulario.invalid">
+          Registrarse
+        </button>
       </form>
     </div>
   </div>

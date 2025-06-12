@@ -7,8 +7,21 @@
 }
 
 #crearRelato {
-	background: none;
-	padding: var(--sp-5);
+	background-color: var(--marfil);
+	padding: var(--sp-4);
+	border-radius: var(--radius-md);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem; /* Espaciado entre campos */
+	max-width: 720px;
+	margin: 0 auto;
+}
+#crearRelato input,
+#crearRelato select,
+#crearRelato textarea {
+  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
 }
 
 .main-container {
@@ -85,3 +98,18 @@
 	margin-left: 72px;
 	margin-right: 72px;
 }
+
+@media (max-width: 640px) {
+	#crearRelato {
+	  padding: var(--sp-3);
+	  gap: 1rem;
+	  max-width: 100%;
+	}
+  
+	#crearRelato input,
+	#crearRelato select,
+	#crearRelato textarea {
+	  font-size: 0.95rem;
+	  padding: 0.5rem 0.6rem;
+	}
+  }

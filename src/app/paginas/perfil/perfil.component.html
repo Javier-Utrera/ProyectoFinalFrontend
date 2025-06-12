@@ -79,7 +79,7 @@
 
 
           <p *ngIf="usuario.suscripcion">
-            <strong>Caduca:</strong>
+            <strong>Caducidad:</strong>
             <!-- Si es FREE con fecha_fin null, mostramos “N/A”-->
             {{ usuario.suscripcion.fecha_fin
             ? (usuario.suscripcion.fecha_fin | date:'shortDate')

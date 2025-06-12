@@ -1,43 +1,61 @@
-<footer class="footer custom-footer">
+<footer class="custom-footer mt-5">
   <div class="container">
-    <div class="row gy-4">
-      <!-- Sobre nosotros -->
+    <div class="row g-4 align-items-start">
+      <!-- Logo y descripción -->
       <div class="col-12 col-md-4">
-        <h5>Sobre BookRoom</h5>
+        <h5><i class="bi bi-book-half me-2"></i>Sobre BookRoom</h5>
         <p>
-          BookRoom es el rincón de paz para escritores y lectores:
-          crea, descubre y comparte relatos de todo el mundo.
+          El rincón ideal para escritores y lectores. Comparte relatos, descubre nuevas voces y conecta con otros creadores.
         </p>
       </div>
 
-      <!-- Contacto / Newsletter -->
+      <!-- Enlaces rápidos -->
+      <div class="col-6 col-md-2">
+        <h5><i class="bi bi-link-45deg me-2"></i>Enlaces</h5>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/relatos-publicados">Explorar relatos</a></li>
+          <li><a routerLink="/crear-relato">Crear relato</a></li>
+          <li><a routerLink="/ranking">Ranking</a></li>
+          <li><a routerLink="/perfil">Perfil</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
       <div class="col-6 col-md-3">
-        <h5>Suscríbete</h5>
+        <h5><i class="bi bi-envelope-paper-fill me-2"></i>Suscríbete</h5>
+        <p>Recibe novedades y relatos destacados.</p>
         <form class="newsletter-form" (submit)="$event.preventDefault()">
           <div class="input-group">
-            <input type="email" class="form-control" placeholder="Tu correo" aria-label="Correo para newsletter">
-            <button class="btn btn-secondary" type="submit">Enviar</button>
+            <input type="email" class="form-control" placeholder="Tu correo" aria-label="Correo" />
+            <button class="btn btn-secondary" type="submit"><i class="bi bi-send-fill"></i></button>
           </div>
         </form>
       </div>
 
       <!-- Mapa -->
       <div class="col-12 col-md-3">
-        <h5>Nos encontramos en</h5>
-        <!-- <div class="map-wrapper">
-          <iframe width="100%" height="200" style="border:0" loading="lazy" allowfullscreen
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.012345678901!2d-5.784321!3d37.154321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126abcd1234%3A0xabcdef1234567890!2sUtrera%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1683800000000!5m2!1ses!2ses"
-            aria-label="Mapa de ubicación"></iframe>
-        </div> -->
+        <h5><i class="bi bi-geo-alt-fill me-2"></i>Ubicación</h5>
+        <div class="map-wrapper">
+          <iframe
+          width="100%"
+          height="200"
+          style="border:0;"
+          loading="lazy"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.259066122881!2d-5.784541184853241!3d37.18520197987298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126cf04a48bd07%3A0x9e2e4cb8f145943e!2sUtrera%2C%20Sevilla!5e0!3m2!1ses!2ses!4v1683892098351!5m2!1ses!2ses"
+          allowfullscreen
+          aria-label="Mapa de ubicación"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        </div>
       </div>
     </div>
 
-    <div class="footer-bottom d-flex justify-between items-center mt-4">
-      <small>&copy; 2025 The Book Room. Todos los derechos reservados.</small>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center mt-4 pt-3 border-top">
+      <small class="text-white-50">&copy; 2025 <strong>The Book Room</strong>. Todos los derechos reservados.</small>
       <div class="social-links">
-        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
-        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-twitter"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
       </div>
     </div>
   </div>

@@ -28,7 +28,7 @@ export class CrearRelatoComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = this.fb.group({
-      titulo: ['', [Validators.required, Validators.minLength(3)]],
+      titulo: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(100)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
       contenido: [''],
       idioma: ['', Validators.required],

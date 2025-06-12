@@ -10,11 +10,12 @@ import {
 import { Router } from '@angular/router';
 import { AutenticacionService } from '../../servicios/api-autenticacion/autenticacion.service';
 import { MensajeGlobalService } from '../../servicios/mensaje-global/mensaje-global.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,NgClass],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
@@ -22,6 +23,8 @@ export class RegistroComponent implements OnInit {
   formulario!: FormGroup;
   erroresBack: Record<string, string> = {};
   capsLockOn = false;
+  mostrarPassword1 = false;
+  mostrarPassword2 = false;
 
   constructor(
     private fb: FormBuilder,
